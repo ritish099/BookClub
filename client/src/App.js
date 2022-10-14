@@ -4,7 +4,7 @@ import Footer from './components/Footer';
 function App() {
   return (
     <ChakraProvider>
-        <Footer/>
+      <Footer />
     </ChakraProvider>
   );
 }
