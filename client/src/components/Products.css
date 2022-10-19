@@ -1,0 +1,27 @@
+*{
+    margin:0;
+    padding:0;
+}
+.Heading{
+    min-height: 100h;
+    min-width: 100h;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: bold;
+}
+.Catalogue{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.box{
+    margin: 20px;
+    padding: 10px;
+}
+.BigDiv{
+    background-color:#e6cef0;
+}
+/*#e6cef0;*/
