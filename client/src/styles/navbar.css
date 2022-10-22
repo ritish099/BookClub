@@ -1,0 +1,119 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+header{
+    width: 100%;
+    height: 70px;
+    background-color: #17142e;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+}
+header .logo{
+    font-size: 28px;
+    font-weight: bold;
+    color: #fefefe;
+    margin: 0 45px;
+}
+header .logo span{
+    background: linear-gradient(purple,orange);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  font-weight: bolder;
+}
+header .hamburger{
+    display: none;
+
+}
+header .nav-bar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+    padding-right: 10px;
+}
+header .nav-bar input{
+    display: block;
+    background: linear-gradient(#17142e,#17142e) padding-box,
+              linear-gradient(45deg, purple,orange) border-box;
+    border: 1.5px solid transparent;
+    border-radius: 2.5rem;
+    color: white;
+    font-weight: lighter;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    margin: auto 4px;
+    width: 100%;
+}
+
+header .nav-bar button{
+    display: block;
+    background: linear-gradient(#17142e,#17142e) padding-box,
+                linear-gradient(45deg, purple,orange) border-box;
+    border: 1.5px solid transparent;
+    border-radius: 2.5rem;
+    color: white;
+    font-weight: lighter;
+    font-size: 0.6rem;
+    padding: 6px 10px;
+    margin: auto 5px;
+    cursor: pointer;
+}
+
+header .nav-bar button:hover{
+    background-color: #fefefe;
+}
+
+
+@media only screen and (max-width:850px){
+    header .hamburger{
+        display: block;
+        cursor: pointer;
+    
+    }
+    header .hamburger .line{
+        width: 30px;
+        height: 2px;
+        background-color: #fefefe;
+        margin: 6px 0;
+        margin-right: 30px;
+        border-radius: 2%;
+    }
+    
+    header .nav-bar{
+        height: 0;
+        position: absolute;
+        top: 69px;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        background: #17142e;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        overflow: hidden;
+       
+    }
+    
+    header .nav-bar input{
+        width: 95%;
+        margin: 10px 0;
+        margin-top: 40px;
+
+    }
+    header .nav-bar button{
+        margin: 5px 0;
+        width: 50%;
+    }
+    header .active{
+        height: 300px;
+        opacity: 1;
+        padding-bottom: 25px;
+    }
+}
