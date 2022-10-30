@@ -3,6 +3,8 @@ import Book from "../models/Book.js";
 import config from "../../config/config.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import emailText from "../lib/emailText.js";
 
 
 const signupController = async (req, res, next) => {
@@ -60,12 +62,51 @@ const signupController = async (req, res, next) => {
             { new: true }
         );
         updateUser.save();
+        
+        const sender = config.EMAIL;
+        const subject = "bookclub verify email";
+        const body = "Thank you for signin up in bookclub\n" +
+            "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
+            req.headers.host +
+            "\/verify-email\/" +
+            newUser.email +
+            "\/" + 
+            token +
+            "\n\n" +
+            "If you did not request this, please ignore this email.\n";
+        
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            requireTLS: true,
+            auth: {
+                user: sender,
+                pass: config.EMAIL_API_KEY,
+            },
+        });
+
+        const mailOptions = {
+            from: sender,
+            to: email,
+            subject: subject,
+            text: body,
+        };
+
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                console.log(err);
+            }
+        });
     
         return res.status(200).json({
             status: true,
             message: "please verify your email",
             data: {
-                id: newUser._id
+                name: newUser.name,
+                email: newUser.email,
+                id: newUser._id,
+                token: token
             }
         });
 

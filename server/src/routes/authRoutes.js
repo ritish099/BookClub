@@ -22,10 +22,12 @@ route.post("/signup",
             .isLength({ min: 3, max: 20 })
             .withMessage("minimum 3 characters and maximum 20 characters required"),
         body("email")
+            .trim()
             .normalizeEmail()
             .isEmail()
             .withMessage("please enter valid email"),
         body("password")
+            .trim()
             .isStrongPassword()
             // .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i")
             .withMessage("please enter strong password"),
