@@ -16,6 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 import testApi from "./src/routes/testRoute.js";
+import authApi from "./src/routes/authRoutes.js";
 
 // app and middleware
 const app = express();
@@ -30,8 +31,8 @@ app.use(
     })
 );
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "80mb", extended: true }));
+app.use(express.urlencoded({ limit: "80mb", extended: true }));
 
 // data sanitization against NoSQL query injection
 app.use(
@@ -70,6 +71,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use("/test", testApi);
+app.use("/auth", authApi);
 
 // error handling middleware
 app.use(globalErrorHandler);
