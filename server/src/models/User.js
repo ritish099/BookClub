@@ -41,6 +41,10 @@ const UserSchema = new Schema({
         type: String,
         default: ""
     },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
     postedBooks: [
         {
             type: Schema.Types.ObjectId,

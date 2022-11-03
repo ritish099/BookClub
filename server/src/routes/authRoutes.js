@@ -3,7 +3,7 @@ import { body } from "express-validator";
 
 const route = express.Router();
 
-import { signupController } from "../controllers/authController.js";
+import { signupController, confirmEmailController } from "../controllers/authController.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
 route.post("/signup",
@@ -38,5 +38,7 @@ route.post("/signup",
     errorHandler,
     signupController
 );
+
+route.get("/verify-email/:email/:token", errorHandler, confirmEmailController);
 
 export default route;

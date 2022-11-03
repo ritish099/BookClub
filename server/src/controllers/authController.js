@@ -47,7 +47,7 @@ const signupController = async (req, res, next) => {
             location: location,
             postedBooks: []
         });
-        
+
         const payload = {
             email: newUser.email,
             id: newUser._id
@@ -62,19 +62,20 @@ const signupController = async (req, res, next) => {
             { new: true }
         );
         updateUser.save();
-        
+
         const sender = config.EMAIL;
         const subject = "bookclub verify email";
         const body = "Thank you for signin up in bookclub\n" +
             "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
             req.headers.host +
+            "\/auth" +
             "\/verify-email\/" +
             newUser.email +
-            "\/" + 
+            "\/" +
             token +
             "\n\n" +
             "If you did not request this, please ignore this email.\n";
-        
+
         const transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
             port: 587,
@@ -98,7 +99,7 @@ const signupController = async (req, res, next) => {
                 console.log(err);
             }
         });
-    
+
         return res.status(200).json({
             status: true,
             message: "please verify your email",
@@ -115,4 +116,48 @@ const signupController = async (req, res, next) => {
     }
 };
 
-export { signupController };
+const confirmEmailController = async (req, res, next) => {
+    try {
+        req.params.token = verifyEmailToken;
+        req.params.email = email;
+        const existingUser = await User.findOne({ verifyEmailToken, email });
+        
+        if (!verifyEmailToken) {
+            return res.status(400).json({
+                status: false,
+                message: "verification link may be expired",
+                data: ""
+            });
+        }
+
+        if (!existingUser) {
+            return res.status(400).json({
+                status: false,
+                message: "user not found",
+                data: ""
+            });
+        }
+
+        if (existingUser.isVerified) {
+            return res.status(400).json({
+                status: true,
+                message: "user has already verified",
+                data: ""
+            });
+        }
+
+        existingUser.isVerified = true;
+        existingUser.verifyEmailTokenExpires = null;
+        await existingUser.save();
+        return res.status(200).json({
+            status: true,
+            message: "your account has been verified",
+            data: ""
+        });
+
+    } catch (err) {
+        next();
+    };
+};
+
+export { signupController, confirmEmailController };
