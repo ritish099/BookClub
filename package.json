@@ -1,0 +1,24 @@
+{
+  "name": "bookclub",
+  "version": "1.0.0",
+  "description": "mern app",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd server && npm start",
+    "react-dev": "cd client && npm start",
+    "test": "cd server && npm test",
+    "preinstall": "cd server && npm install",
+    "install": "cd client && npm install",
+    "build": "cd client && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ritish099/Final-Year-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ritish099/Final-Year-Project/issues"
+  },
+  "homepage": "https://github.com/ritish099/Final-Year-Project#readme"
+}
