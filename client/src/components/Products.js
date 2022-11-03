@@ -5,9 +5,19 @@ import ImageCarousel from "./ImageCarousel";
 
 
 const Products = () => {
+
   const [Products,setProducts] = useState([]);
   return (
     <div className="BigDiv">
+        <div className="Heading">
+            <h1>Top Deals!</h1>
+        </div>
+        <div className="Heading">
+            <h1>Top Deals!</h1>
+        </div>
+        <div className="Heading">
+            <h1>Top Deals!</h1>
+        </div>
         <div className="Heading">
             <h1>Top Deals!</h1>
         </div>
