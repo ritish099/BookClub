@@ -39,6 +39,6 @@ route.post("/signup",
     signupController
 );
 
-route.get("/verify-email/:email/:token", errorHandler, confirmEmailController);
+route.get("/verify-email/:id/:token", errorHandler, confirmEmailController);
 
 export default route;

@@ -1,10 +1,8 @@
 import User from "../models/User.js";
-import Book from "../models/Book.js";
 import config from "../../config/config.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer";
-import emailText from "../lib/emailText.js";
+import sendEmail from '../utils/sendEmail.js';
 
 
 const signupController = async (req, res, next) => {
@@ -63,42 +61,10 @@ const signupController = async (req, res, next) => {
         );
         updateUser.save();
 
-        const sender = config.EMAIL;
-        const subject = "bookclub verify email";
-        const body = "Thank you for signin up in bookclub\n" +
-            "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
-            req.headers.host +
-            "\/auth" +
-            "\/verify-email\/" +
-            newUser.email +
-            "\/" +
-            token +
-            "\n\n" +
-            "If you did not request this, please ignore this email.\n";
-
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            requireTLS: true,
-            auth: {
-                user: sender,
-                pass: config.EMAIL_API_KEY,
-            },
-        });
-
-        const mailOptions = {
-            from: sender,
-            to: email,
-            subject: subject,
-            text: body,
-        };
-
-        transporter.sendMail(mailOptions, (err, info) => {
-            if (err) {
-                console.log(err);
-            }
-        });
+        const subject = "bookclub email verification";
+        const userId = newUser._id;
+        const url = "http://" + req.headers.host + "/auth" + "/verify-email/" + userId + "/" + token;
+        await sendEmail(email, subject, url);
 
         return res.status(200).json({
             status: true,
@@ -118,17 +84,18 @@ const signupController = async (req, res, next) => {
 
 const confirmEmailController = async (req, res, next) => {
     try {
-        req.params.token = verifyEmailToken;
-        req.params.email = email;
-        const existingUser = await User.findOne({ verifyEmailToken, email });
-        
-        if (!verifyEmailToken) {
+        const verifyEmailToken = req.params.token;
+        const verifyUserId = req.params.id;
+
+        if (!verifyEmailToken || !verifyUserId) {
             return res.status(400).json({
                 status: false,
-                message: "verification link may be expired",
+                message: "verification link invalid",
                 data: ""
             });
         }
+
+        const existingUser = await User.findOne({ _id: verifyUserId, verifyEmailToken: req.params.token });
 
         if (!existingUser) {
             return res.status(400).json({
@@ -149,6 +116,7 @@ const confirmEmailController = async (req, res, next) => {
         existingUser.isVerified = true;
         existingUser.verifyEmailTokenExpires = null;
         await existingUser.save();
+
         return res.status(200).json({
             status: true,
             message: "your account has been verified",
