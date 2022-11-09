@@ -3,6 +3,7 @@ import config from "../../config/config.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import sendEmail from '../utils/sendEmail.js';
+import sendVerifyEmail from '../utils/sendVerifyEmail.js';
 
 
 const signupController = async (req, res, next) => {
@@ -116,6 +117,9 @@ const confirmEmailController = async (req, res, next) => {
         existingUser.isVerified = true;
         existingUser.verifyEmailTokenExpires = null;
         await existingUser.save();
+
+        const subject = "email account verified";
+        await sendVerifyEmail(existingUser.email, subject);
 
         return res.status(200).json({
             status: true,
