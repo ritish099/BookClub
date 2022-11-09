@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import sendEmail from '../utils/sendEmail.js';
 import sendVerifyEmail from '../utils/sendVerifyEmail.js';
+import resetPasswordEmail from "../utils/resetPasswordEmail.js";
 
 
 const signupController = async (req, res, next) => {
@@ -132,4 +133,148 @@ const confirmEmailController = async (req, res, next) => {
     };
 };
 
-export { signupController, confirmEmailController };
+const validateUser = async (req, res, next) => {
+    try {
+        const newToken = req.body.token;
+        const oldUser = await User.findOne({
+            verifyEmailToken: newToken
+        });
+
+        const payload = {
+            profile: oldUser,
+            id: oldUser._id
+        };
+        const token = jwt.sign(payload, config.JWT_ACTIVATE, {
+            expiresIn: "4h"
+        });
+
+        return res.status(200).json({
+            status: true,
+            message: "user login by verifying email",
+            data: {
+                profile: {
+                    name: oldUser.name,
+                    email: oldUser.email,
+                    id: oldUser._id
+                },
+                token
+            }
+        });
+
+    } catch (err) {
+        next(err);
+    }
+};
+
+const checkValidUser = async (req, res, next) => {
+    try {
+
+    } catch (err) {
+        next(err);
+    }
+};
+
+const loginController = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        const alreadyUser = await User.findOne({
+            email: email
+        });
+
+        if (!alreadyUser) {
+            return res.status(400).json({
+                status: false,
+                message: "user does not exist",
+                data: ""
+            })
+        }
+
+        const isPasswordIncorrect = await bcrypt.compare(
+            password,
+            alreadyUser.password
+        );
+        if (!isPasswordIncorrect) {
+            return res.status(406).json({
+                status: false,
+                message: "invalid password",
+                data: ""
+            });
+        }
+
+        const payload = {
+            profile: alreadyUser,
+            id: alreadyUser._id
+        };
+        const token = jwt.sign(payload, config.JWT_ACTIVATE, {
+            expiresIn: "7d"
+        });
+
+        return res.status(200).json({
+            status: true,
+            message: "successfully logged in",
+            data: {
+                profile: {
+                    name: alreadyUser.name,
+                    email: alreadyUser.email,
+                    id: alreadyUser._id
+                },
+                token
+            }
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+const resetPasswordController = async (req, res, next) => {
+    try {
+        const email = req.body.email;
+        
+        const oldUser = await User.findOne({
+            email: email
+        });
+
+        if (!oldUser) {
+            return res.status(400).json({
+                status: false,
+                message: "user not found",
+                data: ""
+            });
+        }
+
+        const payload = {
+            email: email
+        };
+        const token = jwt.sign(payload, config.JWT_ACTIVATE, {
+            expiresIn: "300000"
+        });
+
+        const updatedUser = await User.findOneAndUpdate(
+            { email: email },
+            { resetPasswordToken: token, resetPasswordExpires: Date.now() + 300000 },
+            { new: true }
+        );
+        updatedUser.save();
+
+        const subject = "bookclub password reset";
+        const url = "http://" + req.headers.host + "/auth" + "/reset-password/" + token;
+        await resetPasswordEmail(email, subject, url);
+        
+        return res.status(200).json({
+            status: true,
+            message: "reset password email sent",
+            data: ""
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+export {
+    signupController,
+    confirmEmailController,
+    loginController,
+    validateUser,
+    checkValidUser,
+    resetPasswordController
+};

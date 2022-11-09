@@ -3,7 +3,14 @@ import { body } from "express-validator";
 
 const route = express.Router();
 
-import { signupController, confirmEmailController } from "../controllers/authController.js";
+import {
+    signupController,
+    confirmEmailController,
+    loginController,
+    validateUser,
+    checkValidUser,
+    resetPasswordController
+} from "../controllers/authController.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
 route.post("/signup",
@@ -40,5 +47,34 @@ route.post("/signup",
 );
 
 route.get("/verify-email/:id/:token", errorHandler, confirmEmailController);
+
+route.post("/login",
+    [
+        body("email")
+            .normalizeEmail()
+            .isEmail()
+            .withMessage("please enter valid email"),
+        body("password")
+            .isStrongPassword()
+            .withMessage("invalid password")
+    ],
+    errorHandler,
+    loginController
+);
+
+route.post("/validate-user", errorHandler, validateUser);
+
+route.post("/token-check", checkValidUser);
+
+route.post("/reset-password",
+    [
+        body("email")
+            .normalizeEmail()
+            .isEmail()
+            .withMessage("please enter valid email")
+    ],
+    errorHandler,
+    resetPasswordController
+)
 
 export default route;
