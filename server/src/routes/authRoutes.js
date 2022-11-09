@@ -7,8 +7,9 @@ import {
     signupController,
     confirmEmailController,
     loginController,
-    validateUser,
-    checkValidUser,
+    validateUserController,
+    checkValidUserController,
+    sendResetPasswordEmailController,
     resetPasswordController
 } from "../controllers/authController.js";
 import { errorHandler } from "../utils/errorHandler.js";
@@ -62,16 +63,28 @@ route.post("/login",
     loginController
 );
 
-route.post("/validate-user", errorHandler, validateUser);
+route.post("/validate-user", errorHandler, validateUserController);
 
-route.post("/token-check", checkValidUser);
+route.post("/token-check", errorHandler, checkValidUserController);
 
-route.post("/reset-password",
+route.post("/forget-password",
     [
         body("email")
             .normalizeEmail()
             .isEmail()
             .withMessage("please enter valid email")
+    ],
+    errorHandler,
+    sendResetPasswordEmailController
+);
+
+route.post("/reset-password",
+    [
+        body("password")
+            .trim()
+            .isStrongPassword()
+            // .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i")
+            .withMessage("please enter strong password")
     ],
     errorHandler,
     resetPasswordController

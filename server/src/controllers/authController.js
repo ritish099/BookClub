@@ -133,7 +133,7 @@ const confirmEmailController = async (req, res, next) => {
     };
 };
 
-const validateUser = async (req, res, next) => {
+const validateUserController = async (req, res, next) => {
     try {
         const newToken = req.body.token;
         const oldUser = await User.findOne({
@@ -166,9 +166,26 @@ const validateUser = async (req, res, next) => {
     }
 };
 
-const checkValidUser = async (req, res, next) => {
+const checkValidUserController = async (req, res, next) => {
     try {
+        const foundUser = await User.findOne({
+            resetPasswordToken: req.body.token,
+            resetPasswordExpires: { $gt: Date.now() }
+        });
 
+        if (!foundUser) {
+            return res.status(400).json({
+                status: false,
+                message: "password token invalid",
+                data: ""
+            });
+        }
+
+        return res.status(200).json({
+            status: true,
+            message: "user token validated",
+            data: ""
+        });
     } catch (err) {
         next(err);
     }
@@ -226,7 +243,7 @@ const loginController = async (req, res, next) => {
     }
 };
 
-const resetPasswordController = async (req, res, next) => {
+const sendResetPasswordEmailController = async (req, res, next) => {
     try {
         const email = req.body.email;
         
@@ -270,11 +287,51 @@ const resetPasswordController = async (req, res, next) => {
     }
 };
 
+const resetPasswordController = async (req, res, next) => {
+    try {
+
+        console.log(req.body)
+        const foundUser = await User.findOne({
+            resetPasswordToken: req.body.token,
+            resetPasswordExpires: { $gt: Date.now() }
+        });
+
+        if (!foundUser) {
+            return res.status(400).json({
+                status: false,
+                message: "reset password token invalid",
+                data: ""
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const updateUser = await User.findOneAndUpdate(
+            { email: foundUser.email },
+            {
+                resetPasswordToken: "",
+                resetPasswordExpires: "",
+                password: hashedPassword
+            },
+            { new: true }
+        );
+        updateUser.save();
+
+        return res.status(200).json({
+            status: true,
+            message: "password reset successfully",
+            data: ""
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 export {
     signupController,
     confirmEmailController,
     loginController,
-    validateUser,
-    checkValidUser,
+    validateUserController,
+    checkValidUserController,
+    sendResetPasswordEmailController,
     resetPasswordController
 };
