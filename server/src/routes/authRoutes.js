@@ -49,7 +49,7 @@ route.post("/signup",
     signupController
 );
 
-route.post("/verify-email/:id/:token", errorHandler, confirmEmailController);
+route.get("/verify-email/:id/:token", errorHandler, confirmEmailController);
 
 route.post("/login",
     [
