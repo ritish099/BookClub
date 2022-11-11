@@ -12,6 +12,15 @@ import {
     sendResetPasswordEmailController,
     resetPasswordController
 } from "../controllers/authController.js";
+import {
+    signupController,
+    confirmEmailController,
+    loginController,
+    validateUserController,
+    checkValidUserController,
+    sendResetPasswordEmailController,
+    resetPasswordController
+} from "../controllers/authController.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
 route.post("/signup",
