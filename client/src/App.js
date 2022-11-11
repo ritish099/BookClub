@@ -7,13 +7,13 @@ import Navbar from './components/Navbar';
 function App() {
   return (
     <>
-     <Navbar></Navbar>
-     <ChakraProvider>
-      <Products />
-      <Footer />
-    </ChakraProvider>
+      <Navbar></Navbar>
+      <ChakraProvider>
+        <Products />
+        <Footer />
+      </ChakraProvider>
     </>
-    
+
   );
 }
 

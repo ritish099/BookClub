@@ -3,7 +3,15 @@ import { body } from "express-validator";
 
 const route = express.Router();
 
-import { signupController, confirmEmailController } from "../controllers/authController.js";
+import {
+    signupController,
+    confirmEmailController,
+    loginController,
+    validateUserController,
+    checkValidUserController,
+    sendResetPasswordEmailController,
+    resetPasswordController
+} from "../controllers/authController.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
 route.post("/signup",
@@ -28,17 +36,62 @@ route.post("/signup",
             .withMessage("please enter valid email"),
         body("password")
             .trim()
-            .isStrongPassword()
-            // .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i")
-            .withMessage("please enter strong password"),
+            .isStrongPassword().withMessage("please enter strong password")
+            .exists({ checkFalsy: true }).withMessage('You must type a password'),
+        body("confirmPassword")
+            .exists({ checkFalsy: true }).withMessage("You must type a confirmation password")
+            .custom((value, { req }) => value === req.body.password).withMessage("The passwords do not match"),
         body("location")
             .isLength({ min: 3, max: 20 })
-            .withMessage("minimum 3 characters and maximum 20 characters required"),
+            .withMessage("minimum 3 characters and maximum 20 characters required")
     ],
     errorHandler,
     signupController
 );
 
-route.get("/verify-email/:email/:token", errorHandler, confirmEmailController);
+route.post("/verify-email/:id/:token", errorHandler, confirmEmailController);
+
+route.post("/login",
+    [
+        body("email")
+            .normalizeEmail()
+            .isEmail()
+            .withMessage("please enter valid email"),
+        body("password")
+            .isStrongPassword()
+            .withMessage("invalid password")
+    ],
+    errorHandler,
+    loginController
+);
+
+route.post("/validate-user", errorHandler, validateUserController);
+
+route.post("/token-check", errorHandler, checkValidUserController);
+
+route.post("/forget-password",
+    [
+        body("email")
+            .normalizeEmail()
+            .isEmail()
+            .withMessage("please enter valid email")
+    ],
+    errorHandler,
+    sendResetPasswordEmailController
+);
+
+route.post("/reset-password/:token",
+    [
+        body("password")
+            .trim()
+            .isStrongPassword().withMessage("please enter strong password")
+            .exists({ checkFalsy: true }).withMessage('You must type a password'),
+        body("confirmPassword")
+            .exists({ checkFalsy: true }).withMessage("You must type a confirmation password")
+            .custom((value, { req }) => value === req.body.password).withMessage("The passwords do not match")
+    ],
+    errorHandler,
+    resetPasswordController
+)
 
 export default route;
