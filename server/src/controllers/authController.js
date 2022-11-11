@@ -2,21 +2,15 @@ import User from "../models/User.js";
 import config from "../../config/config.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import sendEmail from '../utils/sendEmail.js';
-import sendVerifyEmail from '../utils/sendVerifyEmail.js';
+import verifiedEmail from "../utils/VerifiedEmail.js";
+import verifyEmail from "../utils/verifyEmail.js";
 import resetPasswordEmail from "../utils/resetPasswordEmail.js";
+import resetPasswordSuccessEmail from "../utils/resetPasswordSuccessEmail.js";
 
 
 const signupController = async (req, res, next) => {
     try {
         const { userName, firstName, lastName, email, password, confirmPassword, location } = req.body;
-        if (password !== confirmPassword) {
-            return res.status(401).json({
-                status: false,
-                message: "confirm password does not match",
-                data: ""
-            });
-        }
 
         const existingUser = await User.findOne({ email: email });
         if (existingUser) {
@@ -66,7 +60,7 @@ const signupController = async (req, res, next) => {
         const subject = "bookclub email verification";
         const userId = newUser._id;
         const url = "http://" + req.headers.host + "/auth" + "/verify-email/" + userId + "/" + token;
-        await sendEmail(email, subject, url);
+        await verifyEmail(email, subject, url);
 
         return res.status(200).json({
             status: true,
@@ -116,11 +110,11 @@ const confirmEmailController = async (req, res, next) => {
         }
 
         existingUser.isVerified = true;
-        existingUser.verifyEmailTokenExpires = null;
+        existingUser.verifyEmailTokenExpires = "";
         await existingUser.save();
 
         const subject = "email account verified";
-        await sendVerifyEmail(existingUser.email, subject);
+        await verifiedEmail(existingUser.email, subject);
 
         return res.status(200).json({
             status: true,
@@ -183,7 +177,7 @@ const checkValidUserController = async (req, res, next) => {
 
         return res.status(200).json({
             status: true,
-            message: "user token validated",
+            message: "user token validated successfully",
             data: ""
         });
     } catch (err) {
@@ -290,9 +284,9 @@ const sendResetPasswordEmailController = async (req, res, next) => {
 const resetPasswordController = async (req, res, next) => {
     try {
 
-        console.log(req.body)
+        const token = req.params.token;
         const foundUser = await User.findOne({
-            resetPasswordToken: req.body.token,
+            resetPasswordToken: token,
             resetPasswordExpires: { $gt: Date.now() }
         });
 
@@ -315,6 +309,9 @@ const resetPasswordController = async (req, res, next) => {
             { new: true }
         );
         updateUser.save();
+
+        const subject = "password reset successfully";
+        await resetPasswordSuccessEmail(updateUser.email, subject);
 
         return res.status(200).json({
             status: true,

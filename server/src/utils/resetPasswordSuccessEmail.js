@@ -1,9 +1,9 @@
 import config from "../../config/config.js";
 import nodemailer from "nodemailer";
-import emailText from '../lib/emailText.js';
+import resetPasswordSuccessText from "../lib/resetPasswordSuccessText.js";
 
-const sendEmail = async (email, subject, url) => {
-    const text = emailText(url);
+const resetPasswordSuccessEmail = async (email, subject) => {
+    const text = resetPasswordSuccessText();
     try {
         const transporter = nodemailer.createTransport({
             host: config.HOST,
@@ -32,4 +32,4 @@ const sendEmail = async (email, subject, url) => {
     }
 };
 
-export default sendEmail;
+export default resetPasswordSuccessEmail;

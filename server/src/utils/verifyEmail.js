@@ -1,9 +1,9 @@
 import config from "../../config/config.js";
 import nodemailer from "nodemailer";
-import verifiedEmailText from "../lib/verifiedEmailText.js";
+import verifyEmailText from "../lib/verifyEmailText.js";
 
-const sendEmail = async (email, subject) => {
-    const text = verifiedEmailText();
+const verifyEmail = async (email, subject, url) => {
+    const text = verifyEmailText(url);
     try {
         const transporter = nodemailer.createTransport({
             host: config.HOST,
@@ -32,4 +32,4 @@ const sendEmail = async (email, subject) => {
     }
 };
 
-export default sendEmail;
+export default verifyEmail;
