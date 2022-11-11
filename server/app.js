@@ -17,6 +17,7 @@ const __dirname = dirname(__filename);
 
 import testApi from "./src/routes/testRoute.js";
 import authApi from "./src/routes/authRoutes.js";
+import bookApi from "./src/routes/bookRoutes.js";
 
 // app and middleware
 const app = express();
@@ -72,6 +73,7 @@ app.use(limiter);
 
 app.use("/test", testApi);
 app.use("/auth", authApi);
+app.use("/book", bookApi);
 
 // error handling middleware
 app.use(globalErrorHandler);
