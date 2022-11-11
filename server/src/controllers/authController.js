@@ -10,7 +10,7 @@ import resetPasswordSuccessEmail from "../utils/resetPasswordSuccessEmail.js";
 
 const signupController = async (req, res, next) => {
     try {
-        const { userName, firstName, lastName, email, password, confirmPassword, location } = req.body;
+        const { userName, firstName, lastName, email, password, location } = req.body;
 
         const existingUser = await User.findOne({ email: email });
         if (existingUser) {
