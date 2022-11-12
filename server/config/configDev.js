@@ -17,6 +17,8 @@ const configDev = {
     PASSWORD: process.env.DEV_PASSWORD,
     JWT_ACTIVATE: process.env.DEV_JWT_ACTIVATE,
     EMAIL_API_KEY: process.env.DEV_EMAIL_API_KEY,
+    HOST: process.env.DEV_HOST,
+    SERVICE: process.env.DEV_SERVICE
 };
 
 export default configDev;

@@ -51,7 +51,6 @@ const BookSchema = new Schema({
     },
     edition: {
         type: String,
-        required: true
     },
     description: {
         type: String
