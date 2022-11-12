@@ -1,19 +1,15 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import Footer from './components/Footer';
-import Products from './components/Products';
-import Navbar from './components/Navbar';
+import {ChakraProvider} from "@chakra-ui/react";
 
+import router from "./router/routes";
+import {RouterProvider} from "react-router-dom";
 
 function App() {
   return (
     <>
-      <Navbar></Navbar>
       <ChakraProvider>
-        <Products />
-        <Footer />
+        <RouterProvider router={router}></RouterProvider>
       </ChakraProvider>
     </>
-
   );
 }
 

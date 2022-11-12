@@ -22,12 +22,13 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-    
 }
 .box{
-    margin: 20px;
-    padding: 10px;
-    
+    margin: 30px;
+}
+
+.review-box{
+    margin-top: 10px;
 }
 
 
