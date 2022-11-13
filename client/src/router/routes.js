@@ -5,6 +5,7 @@ import Signup from "../components/Signup";
 import Error from "../components/Error";
 import SidebarWithHeader from "../components/Sidebar";
 import Favorites from "../components/Favorites";
+import BookUpload from "../components/BookUpload";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/upload",
+    element: <BookUpload />,
     errorElement: <Error />,
   },
 ]);
