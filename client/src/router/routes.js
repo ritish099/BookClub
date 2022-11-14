@@ -16,6 +16,11 @@ const router = createBrowserRouter([
     errorElement: <Error />,
   },
   {
+    path: "/profile",
+    element: <SidebarWithHeader children={<Profile />} />,
+    errorElement: <Error />,
+  },
+  {
     path: "fav",
     element: <SidebarWithHeader children={<Favorites />} />,
     errorElement: <Error />,
@@ -30,6 +35,11 @@ const router = createBrowserRouter([
     element: <Signup />,
     errorElement: <Error />,
   },
+  {
+    path: "/upload",
+    element: <SidebarWithHeader children={<BookUpload />} />,
+    errorElement: <Error />
+  }
 ]);
 
 export default router;
