@@ -132,12 +132,14 @@ const confirmEmailController = async (req, res, next) => {
       res.redirect(redirectUrl);
     }
 
+    if (!existingUser.isVerified) {
+      const subject = "email account verified";
+      await verifiedEmail(existingUser.email, subject);
+    }
+
     existingUser.isVerified = true;
     existingUser.verifyEmailTokenExpires = "";
     await existingUser.save();
-
-    const subject = "email account verified";
-    await verifiedEmail(existingUser.email, subject);
 
     // return res.status(200).json({
     //   status: true,
