@@ -50,7 +50,7 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   {name: "Home", icon: FiHome, route: "/"},
   {name: "Favourites", icon: FiStar, route: "/fav"},
-  {name: "Sell", icon: MdSell, route: "/sell"},
+  {name: "Upload", icon: MdSell, route: "/upload"},
   {name: "Profile", icon: CgProfile, route: "/profile"},
 ];
 

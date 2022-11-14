@@ -7,6 +7,7 @@ import SidebarWithHeader from "../components/Sidebar";
 import Favorites from "../components/Favorites";
 import EmailVerified from '../components/EmailVerified';
 import Profile from "../components/Profile";
+import BookUpload from "../components/BookUpload";
 
 const router = createBrowserRouter([
   {
@@ -27,16 +28,6 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
-    errorElement: <Error />,
-  },
-  {
-    path: "/verify/:message",
-    element: <EmailVerified />,
-    errorElement: <Error />,
-  },
-  {
-    path: "/profile",
-    element: <SidebarWithHeader children={<Profile />} />,
     errorElement: <Error />,
   },
 ]);
