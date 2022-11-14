@@ -19,7 +19,7 @@ const configProd = {
     EMAIL_API_KEY: process.env.PROD_EMAIL_API_KEY,
     HOST: process.env.PROD_HOST,
     SERVICE: process.env.PROD_SERVICE,
-    FRONTEND_URL: process.env.PROD_FRONTEND_URL
+    FRONTEND_URL: process.env.PROD_FRONTEND_URL,
 };
 
 export default configProd;
