@@ -11,12 +11,49 @@ import {
   useColorModeValue,
   FormErrorMessage,
   FormHelperText,
+  useToast
 } from "@chakra-ui/react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Field, Form, Formik} from "formik";
 import LoginSchema from "../schema/LoginSchema";
+import { useState } from 'react';
+import userSignIn from "../utils/userSignIn";
 
-export default function SignupCard() {
+export default function SigninCard() {
+  let navigate = useNavigate();
+
+  const [signInSuccess, setSignInSuccess] = useState({
+    success: false,
+    message: ''
+  })
+
+  const [signInError, setSignInError] = useState({
+    error: false,
+    message: ''
+  })
+
+  const toast = useToast();
+
+  if (signInSuccess.success) {
+    toast({
+      title: "Sucessfully logged in",
+      status: "success",
+      position: "bottom-left",
+      duration: 9000,
+      isClosable: true,
+    });
+  }
+
+  if (signInError.error) {
+    toast({
+      title: signInError.message,
+      status: "error",
+      position: "bottom-left",
+      duration: 9000,
+      isClosable: true,
+    });
+  }
+
   return (
     <Flex
       minH={"100vh"}
@@ -47,12 +84,7 @@ export default function SignupCard() {
               email: "",
               password: "",
             }}
-            onSubmit={(values, actions) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                actions.setSubmitting(false);
-              }, 1000);
-            }}
+            onSubmit={(values, actions) => userSignIn(values, actions, setSignInSuccess, setSignInError, navigate)}
           >
             {(props) => (
               <Form autoComplete="false">

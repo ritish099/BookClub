@@ -90,11 +90,16 @@ const confirmEmailController = async (req, res, next) => {
     const verifyUserId = req.params.id;
 
     if (!verifyEmailToken || !verifyUserId) {
-      return res.status(400).json({
-        status: false,
-        message: "verification link invalid",
-        data: "",
-      });
+      // return res.status(400).json({
+      //   status: false,
+      //   message: "verification link invalid",
+      //   data: "",
+      // });
+
+      const redirectUrl = `${
+        process.env.FRONTEND_URL
+      }/verify/${"verification link invalid"}`;
+      res.redirect(redirectUrl);
     }
 
     const existingUser = await User.findOne({
@@ -103,19 +108,29 @@ const confirmEmailController = async (req, res, next) => {
     });
 
     if (!existingUser) {
-      return res.status(400).json({
-        status: false,
-        message: "user not found",
-        data: "",
-      });
+      // return res.status(400).json({
+      //   status: false,
+      //   message: "user not found",
+      //   data: "",
+      // });
+
+      const redirectUrl = `${
+        process.env.FRONTEND_URL
+      }/verify/${"user not found"}`;
+      res.redirect(redirectUrl);
     }
 
     if (existingUser.isVerified) {
-      return res.status(400).json({
-        status: true,
-        message: "user has already verified",
-        data: "",
-      });
+      // return res.status(400).json({
+      //   status: true,
+      //   message: "user has already verified",
+      //   data: "",
+      // });
+
+      const redirectUrl = `${
+        process.env.FRONTEND_URL
+      }/verify/${"user has already verified"}`;
+      res.redirect(redirectUrl);
     }
 
     existingUser.isVerified = true;
@@ -125,11 +140,13 @@ const confirmEmailController = async (req, res, next) => {
     const subject = "email account verified";
     await verifiedEmail(existingUser.email, subject);
 
-    return res.status(200).json({
-      status: true,
-      message: "your account has been verified",
-      data: "",
-    });
+    // return res.status(200).json({
+    //   status: true,
+    //   message: "your account has been verified",
+    //   data: "",
+    // });
+    const redirectUrl = `${process.env.FRONTEND_URL}/verify/${'your account has been verified'}`;
+    res.redirect(redirectUrl);
   } catch (err) {
     next();
   }

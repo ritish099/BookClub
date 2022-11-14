@@ -51,7 +51,7 @@ const LinkItems: Array<LinkItemProps> = [
   {name: "Home", icon: FiHome, route: "/"},
   {name: "Favourites", icon: FiStar, route: "/fav"},
   {name: "Sell", icon: MdSell, route: "/sell"},
-  {name: "Profile", icon: CgProfile, route: "/profile/:id"},
+  {name: "Profile", icon: CgProfile, route: "/profile"},
 ];
 
 export default function SidebarWithHeader({children}: {children: ReactNode}) {
@@ -242,7 +242,7 @@ const MobileNav = ({onOpen, ...rest}: MobileProps) => {
             </Button>
           </RouterLink>
 
-          <RouterLink to="/sign">
+          <RouterLink to="/signin">
             <Button colorScheme="teal" variant="outline">
               Sign in
             </Button>

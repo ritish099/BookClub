@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const userSignUp = (data, actions, setSignupSuccess, setSignupError) => {
-  const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}/auth/signup`;
+  const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}auth/signup`;
   console.log(url);
   axios
     .post(url, data)

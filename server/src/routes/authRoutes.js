@@ -52,15 +52,15 @@ route.post("/signup",
 route.get("/verify-email/:id/:token", errorHandler, confirmEmailController);
 
 route.post("/login",
-    [
-        body("email")
-            .normalizeEmail()
-            .isEmail()
-            .withMessage("please enter valid email"),
-        body("password")
-            .isStrongPassword()
-            .withMessage("invalid password")
-    ],
+    // [
+    //     body("email")
+    //         .normalizeEmail()
+    //         .isEmail()
+    //         .withMessage("please enter valid email"),
+    //     body("password")
+    //         .isStrongPassword()
+    //         .withMessage("invalid password")
+    // ],
     errorHandler,
     loginController
 );
