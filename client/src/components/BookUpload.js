@@ -38,7 +38,9 @@ import {
     },
   ];
   
-  export default function BookUpload() {
+export default function BookUpload() {
+    
+  const val = useBreakpointValue({ base: 'md', md: 'lg' });
     return (
       <Box position={'relative'}>
         <Container
@@ -67,7 +69,7 @@ import {
                     key={avatar.name}
                     name={avatar.name}
                     src={avatar.url}
-                    size={useBreakpointValue({ base: 'md', md: 'lg' })}
+                    size={val}
                     position={'relative'}
                     zIndex={2}
                     _before={{
