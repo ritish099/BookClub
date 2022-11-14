@@ -31,6 +31,8 @@
     "nanoid": "^4.0.0",
     "node-mailjet": "^5.1.1",
     "nodemailer": "^6.8.0",
+    "readdirp": "^3.6.0",
+    "to-regex-range": "^5.0.1",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {

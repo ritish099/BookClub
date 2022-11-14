@@ -15,36 +15,36 @@ import {
 import { errorHandler } from "../utils/errorHandler.js";
 
 route.post("/signup",
-    [
-        body("userName")
-            .trim()
-            .isAlphanumeric()
-            .isLength({ min: 3, max: 20 })
-            .withMessage("minimum 3 characters and maximum 20 characters required"),
-        body("firstName")
-            .trim()
-            .isLength({ min: 3, max: 20 })
-            .withMessage("minimum 3 characters and maximum 20 characters required"),
-        body("lastName")
-            .trim()
-            .isLength({ min: 3, max: 20 })
-            .withMessage("minimum 3 characters and maximum 20 characters required"),
-        body("email")
-            .trim()
-            .normalizeEmail()
-            .isEmail()
-            .withMessage("please enter valid email"),
-        body("password")
-            .trim()
-            .isStrongPassword().withMessage("please enter strong password")
-            .exists({ checkFalsy: true }).withMessage('You must type a password'),
-        body("confirmPassword")
-            .exists({ checkFalsy: true }).withMessage("You must type a confirmation password")
-            .custom((value, { req }) => value === req.body.password).withMessage("The passwords do not match"),
-        body("location")
-            .isLength({ min: 3, max: 20 })
-            .withMessage("minimum 3 characters and maximum 20 characters required")
-    ],
+    // [
+    //     body("userName")
+    //         .trim()
+    //         .isAlphanumeric()
+    //         .isLength({ min: 3, max: 20 })
+    //         .withMessage("minimum 3 characters and maximum 20 characters required"),
+    //     body("firstName")
+    //         .trim()
+    //         .isLength({ min: 3, max: 20 })
+    //         .withMessage("minimum 3 characters and maximum 20 characters required"),
+    //     body("lastName")
+    //         .trim()
+    //         .isLength({ min: 3, max: 20 })
+    //         .withMessage("minimum 3 characters and maximum 20 characters required"),
+    //     body("email")
+    //         .trim()
+    //         .normalizeEmail()
+    //         .isEmail()
+    //         .withMessage("please enter valid email"),
+    //     body("password")
+    //         .trim()
+    //         .isStrongPassword().withMessage("please enter strong password")
+    //         .exists({ checkFalsy: true }).withMessage('You must type a password'),
+    //     body("confirmPassword")
+    //         .exists({ checkFalsy: true }).withMessage("You must type a confirmation password")
+    //         .custom((value, { req }) => value === req.body.password).withMessage("The passwords do not match"),
+    //     body("location")
+    //         .isLength({ min: 3, max: 20 })
+    //         .withMessage("minimum 3 characters and maximum 20 characters required")
+    // ],
     errorHandler,
     signupController
 );
@@ -52,15 +52,15 @@ route.post("/signup",
 route.get("/verify-email/:id/:token", errorHandler, confirmEmailController);
 
 route.post("/login",
-    [
-        body("email")
-            .normalizeEmail()
-            .isEmail()
-            .withMessage("please enter valid email"),
-        body("password")
-            .isStrongPassword()
-            .withMessage("invalid password")
-    ],
+    // [
+    //     body("email")
+    //         .normalizeEmail()
+    //         .isEmail()
+    //         .withMessage("please enter valid email"),
+    //     body("password")
+    //         .isStrongPassword()
+    //         .withMessage("invalid password")
+    // ],
     errorHandler,
     loginController
 );

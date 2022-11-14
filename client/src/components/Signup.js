@@ -4,21 +4,49 @@ import {
   FormControl,
   FormLabel,
   Input,
-  InputGroup,
-  HStack,
-  InputRightElement,
   Stack,
   Button,
   Heading,
   Text,
+  useToast,
   useColorModeValue,
+  FormErrorMessage,
+  FormHelperText,
 } from "@chakra-ui/react";
 import {useState} from "react";
-import {ViewIcon, ViewOffIcon} from "@chakra-ui/icons";
-import { Link } from 'react-router-dom';
+import {Link} from "react-router-dom";
+import userSchema from "../schema/UserSchema";
+import {Field, Form, Formik} from "formik";
+import userSignUp from "../utils/userSignUp";
 
 export default function SignupCard() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState({
+    success: false,
+    message: "",
+  });
+  const [signupError, setSignupError] = useState({error: false, message: ""});
+  const toast = useToast();
+
+  if (signupSuccess.success) {
+    toast({
+      title: "Account succesfully created.",
+      description: "Please check your inbox to verify your email",
+      status: "success",
+      position: "bottom-left",
+      duration: 9000,
+      isClosable: true,
+    });
+  }
+
+  if (signupError.error) {
+    toast({
+      title: signupError.message,
+      status: "error",
+      position: "bottom-left",
+      duration: 9000,
+      isClosable: true,
+    });
+  }
 
   return (
     <Flex
@@ -36,66 +64,150 @@ export default function SignupCard() {
             to enjoy all of our cool features ✌️
           </Text>
         </Stack>
+
         <Box
+          alignSelf={"center"}
           rounded={"lg"}
           bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}
-          p={8}
+          p={50}
         >
-          <Stack spacing={4}>
-            <HStack>
-              <Box>
-                <FormControl id="firstName" isRequired>
-                  <FormLabel>First Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl id="lastName">
-                  <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-            </HStack>
-            <FormControl id="email" isRequired>
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" />
-            </FormControl>
-            <FormControl id="password" isRequired>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
-                <Input type={showPassword ? "text" : "password"} />
-                <InputRightElement h={"full"}>
+          <Formik
+            validationSchema={userSchema}
+            initialValues={{
+              name: "",
+              email: "",
+              username: "",
+              password: "",
+              confirmpassword: "",
+            }}
+            onSubmit={(values, actions) =>
+              userSignUp(values, actions, setSignupSuccess, setSignupError)
+            }
+          >
+            {(props) => (
+              <Form autoComplete="false">
+                <Stack py={3} px={6}>
+                  <Field name="name">
+                    {({field, form}) => (
+                      <FormControl isInvalid={form.errors.name} isRequired>
+                        <FormLabel>Name</FormLabel>
+                        <Input {...field} placeholder="Enter Name" />
+
+                        {form.errors.name ? (
+                          <FormErrorMessage w={150}>
+                            {form.errors.name}
+                          </FormErrorMessage>
+                        ) : (
+                          <FormHelperText w={150}></FormHelperText>
+                        )}
+                      </FormControl>
+                    )}
+                  </Field>
+                </Stack>
+
+                <Stack py={3} px={6}>
+                  <Field name="email">
+                    {({field, form}) => (
+                      <FormControl isInvalid={form.errors.email} isRequired>
+                        <FormLabel>Email</FormLabel>
+                        <Input {...field} placeholder="Enter Email" />
+                        {form.errors.email ? (
+                          <FormErrorMessage w={150}>
+                            {form.errors.email}
+                          </FormErrorMessage>
+                        ) : (
+                          <FormHelperText w={150}></FormHelperText>
+                        )}
+                      </FormControl>
+                    )}
+                  </Field>
+                </Stack>
+
+                <Stack py={3} px={6}>
+                  <Field name="username">
+                    {({field, form}) => (
+                      <FormControl isInvalid={form.errors.username} isRequired>
+                        <FormLabel>Username</FormLabel>
+                        <Input {...field} placeholder="Enter Username" />
+                        {form.errors.username ? (
+                          <FormErrorMessage w={150}>
+                            {form.errors.username}
+                          </FormErrorMessage>
+                        ) : (
+                          <FormHelperText w={150}></FormHelperText>
+                        )}
+                      </FormControl>
+                    )}
+                  </Field>
+                </Stack>
+
+                <Stack py={3} px={6}>
+                  <Field name="password">
+                    {({field, form}) => (
+                      <FormControl isInvalid={form.errors.password} isRequired>
+                        <FormLabel>Password</FormLabel>
+                        <Input
+                          type="password"
+                          {...field}
+                          placeholder="Enter Password"
+                        />
+                        {form.errors.password ? (
+                          <FormErrorMessage w={150}>
+                            {form.errors.password}
+                          </FormErrorMessage>
+                        ) : (
+                          <FormHelperText w={150}></FormHelperText>
+                        )}
+                      </FormControl>
+                    )}
+                  </Field>
+                </Stack>
+
+                <Stack py={3} px={6}>
+                  <Field name="confirmpassword">
+                    {({field, form}) => (
+                      <FormControl
+                        isInvalid={form.errors.confirmpassword}
+                        isRequired
+                      >
+                        <FormLabel>Confirm Password</FormLabel>
+                        <Input
+                          type="password"
+                          {...field}
+                          placeholder="Enter Password"
+                        />
+                        {form.errors.confirmpassword ? (
+                          <FormErrorMessage w={150}>
+                            {form.errors.confirmpassword}
+                          </FormErrorMessage>
+                        ) : (
+                          <FormHelperText w={150}></FormHelperText>
+                        )}
+                      </FormControl>
+                    )}
+                  </Field>
+                </Stack>
+
+                <Stack align={"center"}>
                   <Button
-                    variant={"ghost"}
-                    onClick={() =>
-                      setShowPassword((showPassword) => !showPassword)
-                    }
+                    mt={4}
+                    colorScheme="teal"
+                    isLoading={props.isSubmitting}
+                    type="submit"
                   >
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    Sign up
                   </Button>
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            <Stack spacing={10} pt={2}>
-              <Button
-                loadingText="Submitting"
-                size="lg"
-                bg={"blue.400"}
-                color={"white"}
-                _hover={{
-                  bg: "blue.500",
-                }}
-              >
-                Sign up
-              </Button>
-            </Stack>
-            <Stack pt={6}>
-              <Text align={"center"}>
-                Already a user? <Link to='/signin'>Login</Link>
-              </Text>
-            </Stack>
-          </Stack>
+                </Stack>
+
+                <Stack pt={6}>
+                  <Text align={"center"}>
+                    Already have an account? <Link to="/signin">Sign in</Link>
+                  </Text>
+                </Stack>
+              </Form>
+            )}
+          </Formik>
         </Box>
       </Stack>
     </Flex>
