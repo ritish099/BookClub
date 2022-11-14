@@ -16,6 +16,11 @@ const router = createBrowserRouter([
     errorElement: <Error />,
   },
   {
+    path: "/verify/:message",
+    element: <EmailVerified />,
+    errorElement: <Error />,
+  },
+  {
     path: "/profile",
     element: <SidebarWithHeader children={<Profile />} />,
     errorElement: <Error />,

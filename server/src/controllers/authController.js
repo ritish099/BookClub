@@ -9,8 +9,7 @@ import resetPasswordSuccessEmail from "../utils/resetPasswordSuccessEmail.js";
 
 const signupController = async (req, res, next) => {
   try {
-    const {username, name, email, password, location} = req.body;
-    const userName = username;
+    const {userName, name, email, password, location} = req.body;
 
     const existingUser = await User.findOne({email: email});
     if (existingUser) {
@@ -97,7 +96,7 @@ const confirmEmailController = async (req, res, next) => {
       // });
 
       const redirectUrl = `${
-        process.env.FRONTEND_URL
+        config.FRONTEND_URL
       }/verify/${"verification link invalid"}`;
       res.redirect(redirectUrl);
     }
@@ -115,7 +114,7 @@ const confirmEmailController = async (req, res, next) => {
       // });
 
       const redirectUrl = `${
-        process.env.FRONTEND_URL
+        config.FRONTEND_URL
       }/verify/${"user not found"}`;
       res.redirect(redirectUrl);
     }
@@ -128,7 +127,7 @@ const confirmEmailController = async (req, res, next) => {
       // });
 
       const redirectUrl = `${
-        process.env.FRONTEND_URL
+        config.FRONTEND_URL
       }/verify/${"user has already verified"}`;
       res.redirect(redirectUrl);
     }
@@ -145,7 +144,7 @@ const confirmEmailController = async (req, res, next) => {
     //   message: "your account has been verified",
     //   data: "",
     // });
-    const redirectUrl = `${process.env.FRONTEND_URL}/verify/${'your account has been verified'}`;
+    const redirectUrl = `${config.FRONTEND_URL}/verify/${'your account has been verified'}`;
     res.redirect(redirectUrl);
   } catch (err) {
     next();
