@@ -14,8 +14,12 @@ const userSignUp = (data, actions, setSignupSuccess, setSignupError) => {
     .catch((err) => {
       console.log("err", err);
       actions.setSubmitting(false);
-      setSignupSuccess({success: false, message: ""});
-      setSignupError({error: true, message: err.response.data.message});
+      setSignupSuccess({ success: false, message: "" });
+      if (err.code === "ERR_NETWORK") {
+        setSignupError({ error: true, message: "network error" });
+      } else {
+        setSignupError({ error: true, message: err.response.data.message });
+      }
     });
 };
 

@@ -77,9 +77,9 @@ export default function SignupCard() {
             initialValues={{
               name: "",
               email: "",
-              username: "",
+              userName: "",
               password: "",
-              confirmpassword: "",
+              confirmPassword: "",
             }}
             onSubmit={(values, actions) =>
               userSignUp(values, actions, setSignupSuccess, setSignupError)
@@ -125,14 +125,14 @@ export default function SignupCard() {
                 </Stack>
 
                 <Stack py={3} px={6}>
-                  <Field name="username">
+                  <Field name="userName">
                     {({field, form}) => (
-                      <FormControl isInvalid={form.errors.username} isRequired>
+                      <FormControl isInvalid={form.errors.userName} isRequired>
                         <FormLabel>Username</FormLabel>
                         <Input {...field} placeholder="Enter Username" />
-                        {form.errors.username ? (
+                        {form.errors.userName ? (
                           <FormErrorMessage w={150}>
-                            {form.errors.username}
+                            {form.errors.userName}
                           </FormErrorMessage>
                         ) : (
                           <FormHelperText w={150}></FormHelperText>
@@ -165,10 +165,10 @@ export default function SignupCard() {
                 </Stack>
 
                 <Stack py={3} px={6}>
-                  <Field name="confirmpassword">
+                  <Field name="confirmPassword">
                     {({field, form}) => (
                       <FormControl
-                        isInvalid={form.errors.confirmpassword}
+                        isInvalid={form.errors.confirmPassword}
                         isRequired
                       >
                         <FormLabel>Confirm Password</FormLabel>
@@ -177,9 +177,9 @@ export default function SignupCard() {
                           {...field}
                           placeholder="Enter Password"
                         />
-                        {form.errors.confirmpassword ? (
+                        {form.errors.confirmPassword ? (
                           <FormErrorMessage w={150}>
-                            {form.errors.confirmpassword}
+                            {form.errors.confirmPassword}
                           </FormErrorMessage>
                         ) : (
                           <FormHelperText w={150}></FormHelperText>

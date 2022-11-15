@@ -23,7 +23,7 @@ route.post("/signup",
             .withMessage("minimum 3 characters and maximum 20 characters required"),
         body("name")
             .trim()
-            .isLength({ min: 3, max: 20 })
+            .isLength({ min: 3, max: 30 })
             .withMessage("minimum 3 characters and maximum 20 characters required"),
         // body("lastName")
         //     .trim()
@@ -41,9 +41,9 @@ route.post("/signup",
         body("confirmPassword")
             .exists({ checkFalsy: true }).withMessage("You must type a confirmation password")
             .custom((value, { req }) => value === req.body.password).withMessage("The passwords do not match"),
-        body("location")
-            .isLength({ min: 3, max: 20 })
-            .withMessage("minimum 3 characters and maximum 20 characters required")
+        // body("location")
+        //     .isLength({ min: 3, max: 20 })
+        //     .withMessage("minimum 3 characters and maximum 20 characters required")
     ],
     errorHandler,
     signupController
@@ -52,15 +52,15 @@ route.post("/signup",
 route.get("/verify-email/:id/:token", errorHandler, confirmEmailController);
 
 route.post("/login",
-    // [
-    //     body("email")
-    //         .normalizeEmail()
-    //         .isEmail()
-    //         .withMessage("please enter valid email"),
-    //     body("password")
-    //         .isStrongPassword()
-    //         .withMessage("invalid password")
-    // ],
+    [
+        body("email")
+            .normalizeEmail()
+            .isEmail()
+            .withMessage("please enter valid email"),
+        body("password")
+            .isStrongPassword()
+            .withMessage("invalid password")
+    ],
     errorHandler,
     loginController
 );
