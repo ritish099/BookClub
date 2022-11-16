@@ -14,7 +14,8 @@ import {
     IconProps,
     Icon,
   } from '@chakra-ui/react';
-  
+  import {useState,useEffect} from 'react';
+  import verifySignIn from '../utils/verifySignIn';
   const avatars = [
     {
       name: 'JK Rowling',
@@ -39,10 +40,22 @@ import {
   ];
   
 export default function BookUpload() {
-    
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+  useEffect(() => {
+    verifySignIn().then((res) =>{
+        //console.log(res);
+        setisLoggedIn(res);
+    }
+    )
+  },[]);
+  
   const val = useBreakpointValue({ base: 'md', md: 'lg' });
+  const val1="44px";
+  const val2="60px";
+  const minSizes=useBreakpointValue({ base: val1, md: val2 })
     return (
-      <Box position={'relative'}>
+      isLoggedIn?
+      (<Box position={'relative'}>
         <Container
           as={SimpleGrid}
           maxW={'7xl'}
@@ -98,8 +111,8 @@ export default function BookUpload() {
                 bg={'gray.800'}
                 color={'white'}
                 rounded={'full'}
-                minWidth={useBreakpointValue({ base: '44px', md: '60px' })}
-                minHeight={useBreakpointValue({ base: '44px', md: '60px' })}
+                minWidth={minSizes}
+                minHeight={minSizes}
                 position={'relative'}
                 _before={{
                   content: '""',
@@ -240,7 +253,7 @@ export default function BookUpload() {
           left={-10}
           style={{ filter: 'blur(70px)' }}
         />
-      </Box>
+      </Box>):<>You have to be logged in to access this page</>
     );
   }
   

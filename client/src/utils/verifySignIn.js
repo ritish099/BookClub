@@ -2,7 +2,7 @@ import getFromLocalStorage from "./getFromLocalStorage";
 import axios from "axios";
 
 const verifySignIn = async () => {
-  const token = getFromLocalStorage();
+  const token = getFromLocalStorage('token');
   if (!token) {
     return false;
   }
@@ -13,6 +13,7 @@ const verifySignIn = async () => {
   try {
     const res = await axios.post(url, data);
     const message = res.data.message;
+    console.log(message);
     if (message === "User found") {
       return true;
     } else {
