@@ -7,8 +7,8 @@ const userSignIn = (data, actions, setSignInSuccess, setSignInError, navigate) =
   axios
     .post(url, data)
     .then((res) => {
-      console.log("suc", res.data.data.profile);
-      console.log('Successfully signed in')
+      //console.log("suc", res.data.data.profile);
+      //console.log('Successfully signed in')
       actions.setSubmitting(false);
       setSignInSuccess({success: true, message: ""});
       setSignInError({error: false, message: ""});
