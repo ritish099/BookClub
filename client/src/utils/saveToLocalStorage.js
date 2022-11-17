@@ -1,7 +1,5 @@
-const saveToLocalStorage = (name, token) => {
-    localStorage.clear();
+const saveToLocalStorage = (token) => {
     localStorage.setItem('token', token);
-    localStorage.setItem('name', name);
 };
 
 export default saveToLocalStorage;
