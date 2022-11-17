@@ -7,24 +7,19 @@ const userSignIn = (data, actions, setSignInSuccess, setSignInError, navigate) =
   axios
     .post(url, data)
     .then((res) => {
-      //console.log("suc", res.data.data.profile);
-      //console.log('Successfully signed in')
+      console.log("suc", res.data.data.token);
+      console.log('Successfully signed in')
       actions.setSubmitting(false);
       setSignInSuccess({success: true, message: ""});
       setSignInError({error: false, message: ""});
-      saveToLocalStorage(res.data.data.profile.name, res.data.data.token);
+      saveToLocalStorage(res.data.data.token);
       navigate("/profile")
     })
     .catch((err) => {
       console.log("err", err);
       actions.setSubmitting(false);
       setSignInSuccess({success: false, message: ""});
-
-      if (err.code === "ERR_NETWORK") {
-        setSignInError({error: true, message: "network error"});
-      } else {
-        setSignInError({error: true, message: err.response.data.message});
-      }
+      setSignInError({error: true, message: err.response.data.message});
     });
 };
 

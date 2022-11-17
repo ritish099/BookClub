@@ -38,11 +38,7 @@ import {CgProfile} from "react-icons/cg";
 import {MdSell} from "react-icons/md";
 import {IconType} from "react-icons";
 import {ReactText} from "react";
-import { Link as RouterLink, Router, useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
-import verifySignIn from "../utils/verifySignIn";
-import getFromLocalStorage from "../utils/getFromLocalStorage";
-import userSignOut from "../utils/userSignOut";
+import {Link as RouterLink, Router} from "react-router-dom";
 
 import userContext from "../context/userContext";
 
@@ -60,17 +56,6 @@ const LinkItems: Array<LinkItemProps> = [
 
 export default function SidebarWithHeader({children}: {children: ReactNode}) {
   const {isOpen, onOpen, onClose} = useDisclosure();
-  const {user, setUser} = useContext(userContext);
-
-  useEffect(() => {
-    const isLoggedIn = verifySignIn();
-    console.log(isLoggedIn);
-    if(isLoggedIn){
-      setUser({token: getFromLocalStorage('token'), name: getFromLocalStorage('name')});
-    }else{
-      setUser({token: null, name: null});
-    }
-  }, []);
 
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
@@ -177,14 +162,7 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({onOpen, ...rest}: MobileProps) => {
-  const {user, setUser} = useContext(userContext);
-  const navigate = useNavigate();
-
-  const signOut = () => {
-    userSignOut(setUser);
-    navigate('/');
-  }
-
+  const {user} = useContext(userContext);
   return (
     <Flex
       ml={{base: 0, md: 60}}
@@ -223,12 +201,11 @@ const MobileNav = ({onOpen, ...rest}: MobileProps) => {
                 transition="all 0.3s"
                 _focus={{boxShadow: "none"}}
               >
-                {/* https://images.unsplash.com/photo-1544502062-f82887f03d1c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1259&q=80 */}
                 <HStack>
                   <Avatar
                     size={"sm"}
                     src={
-                      "https://images.unsplash.com/photo-1544502062-f82887f03d1c?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                      "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
                     }
                   />
                   <VStack
@@ -237,7 +214,10 @@ const MobileNav = ({onOpen, ...rest}: MobileProps) => {
                     spacing="1px"
                     ml="2"
                   >
-                    <Text fontSize="sm">{user.name}</Text>
+                    <Text fontSize="sm">Justina Clark</Text>
+                    <Text fontSize="xs" color="gray.600">
+                      Admin
+                    </Text>
                   </VStack>
                   <Box display={{base: "none", md: "flex"}}>
                     <FiChevronDown />
@@ -245,13 +225,11 @@ const MobileNav = ({onOpen, ...rest}: MobileProps) => {
                 </HStack>
               </MenuButton>
               <MenuList>
-                <RouterLink to="/profile">
-                  <MenuItem>Profile</MenuItem>
-                </RouterLink>
-                {/* <MenuItem>Settings</MenuItem>
-                <MenuItem>Billing</MenuItem> */}
+                <MenuItem>Profile</MenuItem>
+                <MenuItem>Settings</MenuItem>
+                <MenuItem>Billing</MenuItem>
                 <MenuDivider />
-                <MenuItem onClick={signOut}>Sign out</MenuItem>
+                <MenuItem>Sign out</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
