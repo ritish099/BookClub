@@ -16,6 +16,8 @@ import {
   } from '@chakra-ui/react';
   import {useState,useEffect} from 'react';
   import verifySignIn from '../utils/verifySignIn';
+  import InfoPage from './InfoPage';
+
   const avatars = [
     {
       name: 'JK Rowling',
@@ -53,29 +55,31 @@ export default function BookUpload() {
   const val1="44px";
   const val2="60px";
   const minSizes=useBreakpointValue({ base: val1, md: val2 })
-    return (
-      isLoggedIn?
-      (<Box position={'relative'}>
+    return isLoggedIn ? (
+      <Box position={"relative"}>
         <Container
           as={SimpleGrid}
-          maxW={'7xl'}
-          columns={{ base: 1, md: 2 }}
-          spacing={{ base: 10, lg: 32 }}
-          py={{ base: 10, sm: 20, lg: 32 }}>
-          <Stack spacing={{ base: 10, md: 20 }}>
+          maxW={"7xl"}
+          columns={{base: 1, md: 2}}
+          spacing={{base: 10, lg: 32}}
+          py={{base: 10, sm: 20, lg: 32}}
+        >
+          <Stack spacing={{base: 10, md: 20}}>
             <Heading
               lineHeight={1.1}
-              fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
-              We got fiction{' '}
+              fontSize={{base: "3xl", sm: "4xl", md: "5xl", lg: "6xl"}}
+            >
+              We got fiction{" "}
               <Text
-                as={'span'}
+                as={"span"}
                 bgGradient="linear(to-r, red.400,pink.400)"
-                bgClip="text">
+                bgClip="text"
+              >
                 &
-              </Text>{' '}
+              </Text>{" "}
               non-fiction books from some of the top selling authors
             </Heading>
-            <Stack direction={'row'} spacing={4} align={'center'}>
+            <Stack direction={"row"} spacing={4} align={"center"}>
               <AvatarGroup>
                 {avatars.map((avatar) => (
                   <Avatar
@@ -83,16 +87,16 @@ export default function BookUpload() {
                     name={avatar.name}
                     src={avatar.url}
                     size={val}
-                    position={'relative'}
+                    position={"relative"}
                     zIndex={2}
                     _before={{
                       content: '""',
-                      width: 'full',
-                      height: 'full',
-                      rounded: 'full',
-                      transform: 'scale(1.125)',
-                      bgGradient: 'linear(to-bl, red.400,pink.400)',
-                      position: 'absolute',
+                      width: "full",
+                      height: "full",
+                      rounded: "full",
+                      transform: "scale(1.125)",
+                      bgGradient: "linear(to-bl, red.400,pink.400)",
+                      position: "absolute",
                       zIndex: -1,
                       top: 0,
                       left: 0,
@@ -100,147 +104,158 @@ export default function BookUpload() {
                   />
                 ))}
               </AvatarGroup>
-              <Text fontFamily={'heading'} fontSize={{ base: '4xl', md: '6xl' }}>
+              <Text fontFamily={"heading"} fontSize={{base: "4xl", md: "6xl"}}>
                 +
               </Text>
               <Flex
-                align={'center'}
-                justify={'center'}
-                fontFamily={'heading'}
-                fontSize={{ base: 'sm', md: 'lg' }}
-                bg={'gray.800'}
-                color={'white'}
-                rounded={'full'}
+                align={"center"}
+                justify={"center"}
+                fontFamily={"heading"}
+                fontSize={{base: "sm", md: "lg"}}
+                bg={"gray.800"}
+                color={"white"}
+                rounded={"full"}
                 minWidth={minSizes}
                 minHeight={minSizes}
-                position={'relative'}
+                position={"relative"}
                 _before={{
                   content: '""',
-                  width: 'full',
-                  height: 'full',
-                  rounded: 'full',
-                  transform: 'scale(1.125)',
-                  bgGradient: 'linear(to-bl, orange.400,yellow.400)',
-                  position: 'absolute',
+                  width: "full",
+                  height: "full",
+                  rounded: "full",
+                  transform: "scale(1.125)",
+                  bgGradient: "linear(to-bl, orange.400,yellow.400)",
+                  position: "absolute",
                   zIndex: -1,
                   top: 0,
                   left: 0,
-                }}>
+                }}
+              >
                 YOU
               </Flex>
             </Stack>
           </Stack>
           <Stack
-            bg={'gray.50'}
-            rounded={'xl'}
-            p={{ base: 4, sm: 6, md: 8 }}
-            spacing={{ base: 8 }}
-            maxW={{ lg: 'lg' }}>
+            bg={"gray.50"}
+            rounded={"xl"}
+            p={{base: 4, sm: 6, md: 8}}
+            spacing={{base: 8}}
+            maxW={{lg: "lg"}}
+          >
             <Stack spacing={4}>
               <Heading
-                color={'gray.800'}
+                color={"gray.800"}
                 lineHeight={1.1}
-                fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
+                fontSize={{base: "2xl", sm: "3xl", md: "4xl"}}
+              >
                 Upload your book
                 <Text
-                  as={'span'}
+                  as={"span"}
                   bgGradient="linear(to-r, red.400,pink.400)"
-                  bgClip="text">
+                  bgClip="text"
+                >
                   !
                 </Text>
               </Heading>
-              <Text color={'gray.500'} fontSize={{ base: 'sm', sm: 'md' }}>
-                We’re looking to create a community where one can upload their rightfully owned books and get paid in real time. Your contribution to the community is valuable to us
+              <Text color={"gray.500"} fontSize={{base: "sm", sm: "md"}}>
+                We’re looking to create a community where one can upload their
+                rightfully owned books and get paid in real time. Your
+                contribution to the community is valuable to us
               </Text>
             </Stack>
-            <Box as={'form'} mt={10}>
+            <Box as={"form"} mt={10}>
               <Stack spacing={4}>
                 <Input
                   placeholder="Book name"
-                  bg={'gray.100'}
+                  bg={"gray.100"}
                   border={0}
-                  color={'gray.500'}
+                  color={"gray.500"}
                   _placeholder={{
-                    color: 'gray.500',
+                    color: "gray.500",
                   }}
                 />
                 <Input
                   placeholder="Author"
-                  bg={'gray.100'}
+                  bg={"gray.100"}
                   border={0}
-                  color={'gray.500'}
+                  color={"gray.500"}
                   _placeholder={{
-                    color: 'gray.500',
+                    color: "gray.500",
                   }}
                 />
                 <Input
                   placeholder="Subject"
-                  bg={'gray.100'}
+                  bg={"gray.100"}
                   border={0}
-                  color={'gray.500'}
+                  color={"gray.500"}
                   _placeholder={{
-                    color: 'gray.500',
+                    color: "gray.500",
                   }}
                 />
                 <Input
                   placeholder="Branch"
-                  bg={'gray.100'}
+                  bg={"gray.100"}
                   border={0}
-                  color={'gray.500'}
+                  color={"gray.500"}
                   _placeholder={{
-                    color: 'gray.500',
+                    color: "gray.500",
                   }}
                 />
                 <Input
                   placeholder="Selling Price"
-                  bg={'gray.100'}
+                  bg={"gray.100"}
                   border={0}
-                  color={'gray.500'}
+                  color={"gray.500"}
                   _placeholder={{
-                    color: 'gray.500',
+                    color: "gray.500",
                   }}
                 />
                 <Input
                   placeholder="Maximum Retail Price (MRP)"
-                  bg={'gray.100'}
+                  bg={"gray.100"}
                   border={0}
-                  color={'gray.500'}
+                  color={"gray.500"}
                   _placeholder={{
-                    color: 'gray.500',
+                    color: "gray.500",
                   }}
                 />
                 <Input
                   placeholder="No. of pages"
-                  bg={'gray.100'}
+                  bg={"gray.100"}
                   border={0}
-                  color={'gray.500'}
+                  color={"gray.500"}
                   _placeholder={{
-                    color: 'gray.500',
+                    color: "gray.500",
                   }}
                 />
                 <Input
                   placeholder="Owner name"
-                  bg={'gray.100'}
+                  bg={"gray.100"}
                   border={0}
-                  color={'gray.500'}
+                  color={"gray.500"}
                   _placeholder={{
-                    color: 'gray.500',
+                    color: "gray.500",
                   }}
                 />
-                <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'}>
+                <Button
+                  fontFamily={"heading"}
+                  bg={"gray.200"}
+                  color={"gray.800"}
+                >
                   Upload book
                 </Button>
               </Stack>
               <Button
-                fontFamily={'heading'}
+                fontFamily={"heading"}
                 mt={8}
-                w={'full'}
+                w={"full"}
                 bgGradient="linear(to-r, red.400,pink.400)"
-                color={'white'}
+                color={"white"}
                 _hover={{
-                  bgGradient: 'linear(to-r, red.400,pink.400)',
-                  boxShadow: 'xl',
-                }}>
+                  bgGradient: "linear(to-r, red.400,pink.400)",
+                  boxShadow: "xl",
+                }}
+              >
                 Submit
               </Button>
             </Box>
@@ -248,12 +263,14 @@ export default function BookUpload() {
           </Stack>
         </Container>
         <Blur
-          position={'absolute'}
+          position={"absolute"}
           top={-10}
           left={-10}
-          style={{ filter: 'blur(70px)' }}
+          style={{filter: "blur(70px)"}}
         />
-      </Box>):<>You have to be logged in to access this page</>
+      </Box>
+    ) : (
+      <InfoPage message="You have to be logged in to access this page" />
     );
   }
   
