@@ -97,7 +97,7 @@ const confirmEmailController = async (req, res, next) => {
 
       const redirectUrl = `${
         config.FRONTEND_URL
-      }/verify/${"verification link invalid"}`;
+      }?m=${"verification link invalid"}`;
       res.redirect(redirectUrl);
     }
 
@@ -115,7 +115,7 @@ const confirmEmailController = async (req, res, next) => {
 
       const redirectUrl = `${
         config.FRONTEND_URL
-      }/verify/${"user not found"}`;
+      }?m=${"user not found"}`;
       res.redirect(redirectUrl);
     }
 
@@ -128,7 +128,7 @@ const confirmEmailController = async (req, res, next) => {
 
       const redirectUrl = `${
         config.FRONTEND_URL
-      }/verify/${"user has already verified"}`;
+      }?m=${"user has already verified"}`;
       res.redirect(redirectUrl);
     }
 
@@ -146,7 +146,9 @@ const confirmEmailController = async (req, res, next) => {
     //   message: "your account has been verified",
     //   data: "",
     // });
-    const redirectUrl = `${config.FRONTEND_URL}/verify/${'your account has been verified'}`;
+    const redirectUrl = `${
+      config.FRONTEND_URL
+    }?m=${"your account has been verified"}`;
     res.redirect(redirectUrl);
   } catch (err) {
     next();
