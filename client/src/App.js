@@ -4,7 +4,6 @@ import router from "./router/routes";
 import {RouterProvider} from "react-router-dom";
 import userContext from "./context/userContext";
 import {useState} from "react";
-
 function App() {
   const [user, setUser] = useState({token: null});
   return (
