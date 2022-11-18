@@ -2,6 +2,7 @@ import ProductCard from "./ProductCard";
 import React, { useState } from 'react';
 import "../styles/Products.css"
 import ImageCarousel from "./ImageCarousel";
+import Search from "../Search";
 
 
 const Products = () => {
@@ -11,6 +12,8 @@ const Products = () => {
         <div className="Heading">
             <h1>Top Deals!</h1>
         </div>
+
+        { <Search /> }
 
         <div className="Catalogue">
             <ProductCard name="AB" price="100$" user="sd"/>

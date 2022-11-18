@@ -97,7 +97,7 @@ const confirmEmailController = async (req, res, next) => {
 
       const redirectUrl = `${
         config.FRONTEND_URL
-      }/verify/${"verification link invalid"}`;
+      }?m=${"verification link invalid"}`;
       res.redirect(redirectUrl);
     }
 
@@ -115,7 +115,7 @@ const confirmEmailController = async (req, res, next) => {
 
       const redirectUrl = `${
         config.FRONTEND_URL
-      }/verify/${"user not found"}`;
+      }?m=${"user not found"}`;
       res.redirect(redirectUrl);
     }
 
@@ -128,7 +128,7 @@ const confirmEmailController = async (req, res, next) => {
 
       const redirectUrl = `${
         config.FRONTEND_URL
-      }/verify/${"user has already verified"}`;
+      }?m=${"user has already verified"}`;
       res.redirect(redirectUrl);
     }
 
@@ -146,7 +146,9 @@ const confirmEmailController = async (req, res, next) => {
     //   message: "your account has been verified",
     //   data: "",
     // });
-    const redirectUrl = `${config.FRONTEND_URL}/verify/${'your account has been verified'}`;
+    const redirectUrl = `${
+      config.FRONTEND_URL
+    }?m=${"your account has been verified"}`;
     res.redirect(redirectUrl);
   } catch (err) {
     next();
@@ -238,7 +240,7 @@ const loginController = async (req, res, next) => {
     }
 
     const payload = {
-      profile: alreadyUser,
+      //profile: alreadyUser,
       id: alreadyUser._id,
     };
     const token = jwt.sign(payload, config.JWT_ACTIVATE, {
@@ -348,6 +350,33 @@ const resetPasswordController = async (req, res, next) => {
   }
 };
 
+const userSignedInValidationController = async (req, res, next) => {
+  try{
+    const { token } = req.body;
+    console.log(token);
+    const tokenContent = await jwt.verify(token, config.JWT_ACTIVATE, (err, decoded) => {
+      return decoded;
+    });
+    console.log(tokenContent.id);
+
+    const user = await User.findById(tokenContent.id);
+    console.log(user);
+
+    if(!user){
+      res.status(404).json({
+        message: 'No such user found'
+      })
+    }
+
+    res.status(200).json({
+      message: 'User found'
+    });
+
+  }catch(err){
+    next();
+  }
+};
+
 export {
   signupController,
   confirmEmailController,
@@ -356,4 +385,5 @@ export {
   checkValidUserController,
   sendResetPasswordEmailController,
   resetPasswordController,
+  userSignedInValidationController
 };

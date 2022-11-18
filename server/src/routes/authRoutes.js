@@ -10,7 +10,8 @@ import {
     validateUserController,
     checkValidUserController,
     sendResetPasswordEmailController,
-    resetPasswordController
+    resetPasswordController,
+    userSignedInValidationController
 } from "../controllers/authController.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
@@ -93,5 +94,7 @@ route.post("/reset-password/:token",
     errorHandler,
     resetPasswordController
 )
+
+route.post('/verify-signin', errorHandler, userSignedInValidationController);
 
 export default route;
