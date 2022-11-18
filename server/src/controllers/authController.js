@@ -377,6 +377,38 @@ const userSignedInValidationController = async (req, res, next) => {
   }
 };
 
+const getUserDetails = async (req,res,next) =>{
+  try{
+    if(!req.userId){
+      console.log(req.userId)
+      res.status(400).json({
+        message:"No user found"
+      })
+    }
+    const user = await User.findById(req.userId)
+    if(!user){
+      res.status(400).json({
+        message:"No user found"
+      })
+    }
+    res.status(200).json({
+      name : user.name,
+      email : user.email,
+      username : user.userName
+    })
+  }
+  catch(err){
+    next();
+  }  
+};
+
+
+
+
+
+
+
+
 export {
   signupController,
   confirmEmailController,
@@ -385,5 +417,6 @@ export {
   checkValidUserController,
   sendResetPasswordEmailController,
   resetPasswordController,
-  userSignedInValidationController
+  userSignedInValidationController,
+  getUserDetails
 };
