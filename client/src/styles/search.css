@@ -1,0 +1,12 @@
+input,
+button {
+    font: inherit;
+}
+
+.search {
+    border-radius: 2em;
+    overflow: hidden;
+    font-size: 1px;
+    display: flex;
+    flex-flow: row nowrap;
+}
