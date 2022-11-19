@@ -1,19 +1,20 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import Footer from './components/Footer';
-import Products from './components/Products';
-import Navbar from './components/Navbar';
+import {ChakraProvider} from "@chakra-ui/react";
 
+import router from "./router/routes";
+import {RouterProvider} from "react-router-dom";
+import userContext from "./context/userContext";
+import {useState} from "react";
 
 function App() {
+  const [user, setUser] = useState({token: null});
   return (
     <>
-      <Navbar></Navbar>
-      <ChakraProvider>
-        <Products />
-        <Footer />
-      </ChakraProvider>
+      <userContext.Provider value={{user, setUser}}>
+        <ChakraProvider>
+          <RouterProvider router={router}></RouterProvider>
+        </ChakraProvider>
+      </userContext.Provider>
     </>
-
   );
 }
 

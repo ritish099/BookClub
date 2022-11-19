@@ -8,8 +8,8 @@ const __dirname = dirname(__filename);
 
 const ENV = process.env.NODE_ENV || "prod";
 
-import configDev from "./configDev.js";
-import configProd from "./configProd.js";
+import configDev from "./config.Dev.js";
+import configProd from "./config.Prod.js";
 
 let config = {};
 

@@ -10,7 +10,8 @@ import {
     validateUserController,
     checkValidUserController,
     sendResetPasswordEmailController,
-    resetPasswordController
+    resetPasswordController,
+    userSignedInValidationController
 } from "../controllers/authController.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
@@ -21,14 +22,14 @@ route.post("/signup",
             .isAlphanumeric()
             .isLength({ min: 3, max: 20 })
             .withMessage("minimum 3 characters and maximum 20 characters required"),
-        body("firstName")
+        body("name")
             .trim()
-            .isLength({ min: 3, max: 20 })
+            .isLength({ min: 3, max: 30 })
             .withMessage("minimum 3 characters and maximum 20 characters required"),
-        body("lastName")
-            .trim()
-            .isLength({ min: 3, max: 20 })
-            .withMessage("minimum 3 characters and maximum 20 characters required"),
+        // body("lastName")
+        //     .trim()
+        //     .isLength({ min: 3, max: 20 })
+        //     .withMessage("minimum 3 characters and maximum 20 characters required"),
         body("email")
             .trim()
             .normalizeEmail()
@@ -41,9 +42,9 @@ route.post("/signup",
         body("confirmPassword")
             .exists({ checkFalsy: true }).withMessage("You must type a confirmation password")
             .custom((value, { req }) => value === req.body.password).withMessage("The passwords do not match"),
-        body("location")
-            .isLength({ min: 3, max: 20 })
-            .withMessage("minimum 3 characters and maximum 20 characters required")
+        // body("location")
+        //     .isLength({ min: 3, max: 20 })
+        //     .withMessage("minimum 3 characters and maximum 20 characters required")
     ],
     errorHandler,
     signupController
@@ -93,5 +94,7 @@ route.post("/reset-password/:token",
     errorHandler,
     resetPasswordController
 )
+
+route.post('/verify-signin', errorHandler, userSignedInValidationController);
 
 export default route;

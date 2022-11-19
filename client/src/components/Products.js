@@ -1,26 +1,20 @@
 import ProductCard from "./ProductCard";
 import React, { useState } from 'react';
-import "./Products.css"
+import "../styles/Products.css"
 import ImageCarousel from "./ImageCarousel";
+import Search from "../Search";
 
 
 const Products = () => {
-
   const [Products,setProducts] = useState([]);
   return (
     <div className="BigDiv">
         <div className="Heading">
             <h1>Top Deals!</h1>
         </div>
-        <div className="Heading">
-            <h1>Top Deals!</h1>
-        </div>
-        <div className="Heading">
-            <h1>Top Deals!</h1>
-        </div>
-        <div className="Heading">
-            <h1>Top Deals!</h1>
-        </div>
+
+        { <Search /> }
+
         <div className="Catalogue">
             <ProductCard name="AB" price="100$" user="sd"/>
             <ProductCard name="AB" price="100$" user="sd"/>
@@ -37,4 +31,4 @@ const Products = () => {
   )
 }
 
-export default Products
+export default Products;

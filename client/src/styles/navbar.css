@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -13,6 +15,7 @@ header {
     align-items: center;
     justify-content: space-between;
     position: sticky;
+    z-index: 10000;
     top: 0;
 }
 
@@ -41,21 +44,19 @@ header .hamburger {
 header .nav-bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 70%;
+    justify-content: center;
     padding-right: 10px;
-    
 }
 
-header .nav-bar input {
+.nav-input {
     display: block;
     background: linear-gradient(#17142e, #17142e) padding-box,
         linear-gradient(45deg, purple, orange) border-box;
     border: 1.5px solid transparent;
     border-radius: 2.5rem;
     color: white;
-    font-weight: lighter;
-    font-size: 0.8rem;
+    font-weight: bolder;
+    font-size: 1rem;
     padding: 6px 10px;
     margin: auto 4px;
     width: 100%;
@@ -69,16 +70,19 @@ header .nav-bar button {
     border-radius: 2.5rem;
     color: white;
     font-weight: lighter;
-    font-size: 0.6rem;
+    font-size: 1rem;
     padding: 6px 10px;
     margin: auto 5px;
     cursor: pointer;
+    font-family: 'Poppins', sans-serif;
 }
 header .nav-bar button:hover{
     background-color: #fefefe;
 }
 
-
+.nav-btn{
+    font-size: 50px;
+}
 
 @media only screen and (max-width:850px) {
 

@@ -16,9 +16,10 @@ const configProd = {
     EMAIL: process.env.PROD_EMAIL,
     PASSWORD: process.env.PROD_PASSWORD,
     JWT_ACTIVATE: process.env.PROD_JWT_ACTIVATE,
-    EMAIL_API_KEY: process.env.EMAIL_API_KEY,
+    EMAIL_API_KEY: process.env.PROD_EMAIL_API_KEY,
     HOST: process.env.PROD_HOST,
-    SERVICE: process.env.PROD_SERVICE
+    SERVICE: process.env.PROD_SERVICE,
+    FRONTEND_URL: process.env.PROD_FRONTEND_URL,
 };
 
 export default configProd;

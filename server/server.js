@@ -28,7 +28,7 @@ mongoose
     })
     .catch((err) => console.log(err));
 
-const port = process.env.PORT || config.PORT || 8080;
+const port = config.PORT || 8080;
 const ENV = process.env.NODE_ENV || "prod";
 const server = app.listen(port, () => {
     console.log(

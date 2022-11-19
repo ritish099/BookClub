@@ -18,7 +18,8 @@ const configDev = {
     JWT_ACTIVATE: process.env.DEV_JWT_ACTIVATE,
     EMAIL_API_KEY: process.env.DEV_EMAIL_API_KEY,
     HOST: process.env.DEV_HOST,
-    SERVICE: process.env.DEV_SERVICE
+    SERVICE: process.env.DEV_SERVICE,
+    FRONTEND_URL: process.env.DEV_FRONTEND_URL
 };
 
 export default configDev;
