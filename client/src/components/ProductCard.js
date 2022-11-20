@@ -8,6 +8,7 @@ import {
   Icon,
   chakra,
   Tooltip,
+  Text
 } from "@chakra-ui/react";
 import {BsStar, BsStarFill, BsStarHalf} from "react-icons/bs";
 import {FiShoppingCart} from "react-icons/fi";
@@ -55,52 +56,54 @@ function Rating({rating, numReviews}: RatingProps) {
   );
 }
 
-function ProductAddToCart() {
+function ProductAddToCart({book}) {
   return (
-      <Box
-        className="box"
-        bg={useColorModeValue("white", "gray.800")}
-        maxW="sm"
-        borderWidth="1px"
-        rounded="lg"
-        shadow="lg"
-        position="relative"
-      >
-        {data.isNew && (
-          <Circle
-            size="10px"
-            position="absolute"
-            top={2}
-            right={2}
-            bg="red.200"
-          />
-        )}
-
-        <Image
-          src={data.imageURL}
-          alt={`Picture of ${data.name}`}
-          roundedTop="lg"
+    <Box
+      className="box"
+      bg={useColorModeValue("white", "gray.800")}
+      maxW="sm"
+      borderWidth="1px"
+      rounded="lg"
+      shadow="lg"
+      position="relative"
+    >
+      {data.isNew && (
+        <Circle
+          size="10px"
+          position="absolute"
+          top={2}
+          right={2}
+          bg="red.200"
         />
+      )}
 
-        <Box p="6">
-          <Box d="flex" alignItems="baseline">
-            {data.isNew && (
-              <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
-                New
-              </Badge>
-            )}
+      <Image
+        src={book.image}
+        alt={`Picture of ${book.bookName}`}
+        roundedTop="lg"
+        boxSize={"350px"}
+        fit={"fill"}
+      />
+
+      <Box p="6">
+        <Box d="flex" alignItems="baseline">
+          {data.isNew && (
+            <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
+              New
+            </Badge>
+          )}
+        </Box>
+        <Flex mt="1" justifyContent="space-between" alignContent="center">
+          <Box
+            fontSize="2xl"
+            fontWeight="semibold"
+            as="h4"
+            lineHeight="tight"
+            isTruncated
+          >
+            {book.bookName}
           </Box>
-          <Flex mt="1" justifyContent="space-between" alignContent="center">
-            <Box
-              fontSize="2xl"
-              fontWeight="semibold"
-              as="h4"
-              lineHeight="tight"
-              isTruncated
-            >
-              {data.name}
-            </Box>
-            <Tooltip
+          {/* <Tooltip
               label="Add to cart"
               bg="white"
               placement={"top"}
@@ -110,20 +113,38 @@ function ProductAddToCart() {
               <chakra.a href={"#"} display={"flex"}>
                 <Icon as={FiShoppingCart} h={7} w={7} alignSelf={"center"} />
               </chakra.a>
-            </Tooltip>
-          </Flex>
+            </Tooltip> */}
+        </Flex>
 
-          <Flex justifyContent="space-between" alignContent="center">
-            <Rating rating={data.rating} numReviews={data.numReviews} />
-            <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
-              <Box as="span" color={"gray.600"} fontSize="lg">
-                £
-              </Box>
-              {data.price.toFixed(2)}
+        <Flex justifyContent="space-between" alignContent="center">
+          {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
+          <Text fontSize="md" w={"300px"} fontWeight={"bold"} marginBottom={'5px'}>
+            {book.author}
+          </Text>
+        </Flex>
+
+        <Flex justifyContent="space-between" alignContent="center">
+          {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
+          <Text fontSize="md" w={"300px"} color={"gray.700"} marginBottom={'5px'}>
+            Uploaded By :
+            <Text fontSize="sm" fontWeight={"bold"} marginBottom={'10px'}>
+              {book.ownerName}
+            </Text>
+          </Text>
+        </Flex>
+
+        <Flex justifyContent="space-between" alignContent="center">
+          {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
+
+          <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
+            <Box as="span" color={"gray.600"} fontSize="lg">
+              ₹
             </Box>
-          </Flex>
-        </Box>
+            {book.price.toFixed(2)}
+          </Box>
+        </Flex>
       </Box>
+    </Box>
   );
 }
 
