@@ -33,7 +33,7 @@ const addBookController = async (req, res, next) => {
                 data: ""
             });
         }
-        console.log(req.userId)
+        //console.log(req.userId)
 
         const noOfPages = Number(book.noOfPages);
         const price = Number(book.price);
