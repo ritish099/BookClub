@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { body } from "express-validator";
 import auth from "../middleware/jwtAuth.js";
 
@@ -6,7 +6,8 @@ const route = express.Router();
 
 import {
     allBookController,
-    addBookController
+    addBookController,
+    getUserBooks
 } from "../controllers/bookController.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
@@ -24,5 +25,7 @@ route.post("/add",
         body("noOfPages").not().isEmpty().withMessage("invalid noOfPages")
 
     ], errorHandler, auth, addBookController);
+
+route.get("/user-books", errorHandler, auth, getUserBooks);
 
 export default route;

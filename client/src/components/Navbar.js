@@ -1,6 +1,7 @@
 import "../styles/navbar.css";
 import {Link} from "react-router-dom";
 
+
 export default function Navbar() {
   function ham() {
     const navBar = document.querySelector(".nav-bar");

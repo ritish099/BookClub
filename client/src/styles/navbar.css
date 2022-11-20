@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
-header {
+/* header {
     width: 100%;
     height: 70px;
     background-color: #17142e;
@@ -17,17 +17,17 @@ header {
     position: sticky;
     z-index: 10000;
     top: 0;
-}
+} */
 
-header .logo {
+ .logo {
     display: flex;
-    font-size: 28px;
+    font-size: 25px;
     font-weight: bold;
-    color: #fefefe;
-    margin: 0 45px;
+    margin-bottom: 10px 0;
+    padding-right: 10px;
 }
 
-header .logo span {
+.logo span {
     background: linear-gradient(purple, orange);
     background-clip: padding-box;
     -webkit-background-clip: text;

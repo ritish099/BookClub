@@ -14,11 +14,13 @@ import {
   FormHelperText,
 } from "@chakra-ui/react";
 
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import BookUploadSchema from "../schema/BookUploadSchema";
 import {Field, Form, Formik} from "formik";
 import bookUpload from "../utils/bookUpload";
 import getFromLocalStorage from '../utils/getFromLocalStorage';
+import verifySignIn from "../utils/verifySignIn";
+import InfoPage from "./InfoPage";
 
 export default function SignupCard() {
   const [uploadSuccess, setuploadSuccess] = useState({
@@ -28,6 +30,17 @@ export default function SignupCard() {
   const [uploadError, setuploadError] = useState({error: false, message: ""});
   const [bookImages, setbookImages] = useState('jj');
   const toast = useToast();
+
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+  useEffect(() => {
+    verifySignIn().then((res) => {
+      //console.log(res);
+      setisLoggedIn(res);
+    });
+  }, []);
+
+  const val1 = useColorModeValue("gray.50", "gray.800");
+  const val2 = useColorModeValue("white", "gray.700");
 
   const handleImageChange = async (e) => {
     await setbookImages(e.target.files[0]);
@@ -53,13 +66,8 @@ export default function SignupCard() {
     });
   }
 
-  return (
-    <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
-    >
+  return isLoggedIn ? (
+    <Flex minH={"100vh"} align={"center"} justify={"center"} bg={val1}>
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>
@@ -74,7 +82,7 @@ export default function SignupCard() {
           w={["90vw", "80vw", "60vw", "40vw", "30vw"]}
           alignSelf={"center"}
           rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
+          bg={val2}
           boxShadow={"lg"}
           //p={50}
           padding={30}
@@ -92,7 +100,13 @@ export default function SignupCard() {
               mrp: "",
             }}
             onSubmit={(values, actions) => {
-              bookUpload(values, bookImages, actions, setuploadSuccess, setuploadError);
+              bookUpload(
+                values,
+                bookImages,
+                actions,
+                setuploadSuccess,
+                setuploadError
+              );
             }}
           >
             {(props) => (
@@ -225,12 +239,15 @@ export default function SignupCard() {
                 </Stack>
 
                 <Stack py={3} px={6}>
-                  <input
-                    onInput={e => handleImageChange(e)}
-                    type="file"
-                    name="img"
-                    accept="image/*"
-                  />
+                  <FormControl isRequired>
+                    <FormLabel>Book Image</FormLabel>
+                    <input
+                      onInput={(e) => handleImageChange(e)}
+                      type="file"
+                      name="img"
+                      accept="image/*"
+                    />
+                  </FormControl>
                 </Stack>
 
                 <Stack align={"center"}>
@@ -249,5 +266,7 @@ export default function SignupCard() {
         </Box>
       </Stack>
     </Flex>
+  ) : (
+    <InfoPage message="You have to be logged in to access this page" />
   );
 }

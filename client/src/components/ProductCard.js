@@ -56,7 +56,7 @@ function Rating({rating, numReviews}: RatingProps) {
   );
 }
 
-function ProductAddToCart() {
+function ProductAddToCart({book}) {
   return (
     <Box
       className="box"
@@ -78,9 +78,11 @@ function ProductAddToCart() {
       )}
 
       <Image
-        src={data.imageURL}
-        alt={`Picture of ${data.name}`}
+        src={book.image}
+        alt={`Picture of ${book.bookName}`}
         roundedTop="lg"
+        boxSize={"350px"}
+        fit={"fill"}
       />
 
       <Box p="6">
@@ -99,7 +101,7 @@ function ProductAddToCart() {
             lineHeight="tight"
             isTruncated
           >
-            {data.name}
+            {book.bookName}
           </Box>
           {/* <Tooltip
               label="Add to cart"
@@ -116,23 +118,30 @@ function ProductAddToCart() {
 
         <Flex justifyContent="space-between" alignContent="center">
           {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
+          <Text fontSize="md" w={"300px"} fontWeight={"bold"} marginBottom={'5px'}>
+            {book.author}
+          </Text>
+        </Flex>
+
+        <Flex justifyContent="space-between" alignContent="center">
+          {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
+          <Text fontSize="md" w={"300px"} color={"gray.700"} marginBottom={'5px'}>
+            Uploaded By :
+            <Text fontSize="sm" fontWeight={"bold"} marginBottom={'10px'}>
+              {book.ownerName}
+            </Text>
+          </Text>
+        </Flex>
+
+        <Flex justifyContent="space-between" alignContent="center">
+          {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
 
           <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
             <Box as="span" color={"gray.600"} fontSize="lg">
-              £
+              ₹
             </Box>
-            {data.price.toFixed(2)}
+            {book.price.toFixed(2)}
           </Box>
-        </Flex>
-
-        <Flex justifyContent="space-between" alignContent="center">
-          {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
-          <Text fontSize="md">Brian W. Kernighan / Dennis Ritchie</Text>
-        </Flex>
-
-        <Flex justifyContent="space-between" alignContent="center">
-          {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
-          <Text fontSize="md">Uploaded By : UnderTakerGoodBoy</Text>
         </Flex>
       </Box>
     </Box>

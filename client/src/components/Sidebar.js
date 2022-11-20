@@ -43,7 +43,6 @@ import { useState, useEffect } from 'react';
 import verifySignIn from "../utils/verifySignIn";
 import getFromLocalStorage from "../utils/getFromLocalStorage";
 import userSignOut from "../utils/userSignOut";
-
 import userContext from "../context/userContext";
 
 interface LinkItemProps {
@@ -53,7 +52,7 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   {name: "Home", icon: FiHome, route: "/"},
-  {name: "Favourites", icon: FiStar, route: "/fav"},
+  // {name: "Favourites", icon: FiStar, route: "/fav"},
   {name: "Upload", icon: MdSell, route: "/upload"},
   {name: "Profile", icon: CgProfile, route: "/profile"},
 ];
@@ -118,7 +117,16 @@ const SidebarContent = ({onClose, ...rest}: SidebarProps) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
+          <div className="logo">
+            <img
+              className="image"
+              src="https://i.ibb.co/tBj00Cx/BookClub.png"
+              alt="Book Club"
+              width="40"
+              height="40"
+            ></img>
+            Book<span>Club</span>
+          </div>
         </Text>
         <CloseButton display={{base: "flex", md: "none"}} onClick={onClose} />
       </Flex>
@@ -211,7 +219,16 @@ const MobileNav = ({onOpen, ...rest}: MobileProps) => {
         fontFamily="monospace"
         fontWeight="bold"
       >
-        Logo
+        <div className="logo">
+          <img
+            className="image"
+            src="https://i.ibb.co/tBj00Cx/BookClub.png"
+            alt="Book Club"
+            width="40"
+            height="40"
+          ></img>
+          Book<span>Club</span>
+        </div>
       </Text>
 
       {user.token ? (

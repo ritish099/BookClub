@@ -70,7 +70,39 @@ const addBookController = async (req, res, next) => {
     }
 }
 
+const getUserBooks = async (req, res, next) => {
+    try{
+        if(!req.userId){
+            return res.status(403).json({
+              status: false,
+              message: "unauthorized access",
+              data: "",
+            });
+        }
+
+        const user = User.findById(req.userId);
+
+        if(!user){
+            return res.status(403).json({
+              status: false,
+              message: "unauthorized access",
+              data: "",
+            });
+        }
+
+        console.log(user.postedBooks);
+
+        return res.status(200).json({
+          books: user.postedBooks
+        });
+
+    }catch(err){
+        next();
+    }
+}
+
 export {
     allBookController,
-    addBookController
+    addBookController,
+    getUserBooks
 };
