@@ -11,6 +11,8 @@ A website where we aim to connect students who are willing to sell their old boo
 
 **Server:** Node, Express, JWT, Joi, Mongoose, Nodemailer
 
+**Database:** MongoDB
+
 
 ## Environment Variables
 
