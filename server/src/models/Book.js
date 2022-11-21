@@ -49,6 +49,12 @@ const BookSchema = new Schema({
         type: String,
         required: true
     },
+    image: {
+        type: String,
+    },
+    imageType: {
+        type: String
+    },
     edition: {
         type: String,
     },
