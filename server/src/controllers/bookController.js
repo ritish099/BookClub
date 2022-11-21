@@ -90,10 +90,18 @@ const getUserBooks = async (req, res, next) => {
             });
         }
 
-        console.log(user.postedBooks);
+        const allBooks = await Book.find();
+        const userBooks = [];
+        allBooks.forEach(book => {
+            if(book.owner.toString() === req.userId){
+                userBooks.push(book);
+            }
+        })
+
+        //console.log(userBooks);
 
         return res.status(200).json({
-          books: user.postedBooks
+          books: userBooks
         });
 
     }catch(err){

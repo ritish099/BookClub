@@ -13,7 +13,7 @@ const getUserBooks = (setBooks) => {
     })
     .then((res) => {
       console.log(res);
-      //setBooks(res.data);
+      setBooks(res.data.books);
     })
     .catch((err) => {
       console.log(err);
