@@ -140,7 +140,7 @@ function ProductAddToCart({book}) {
             <Box as="span" color={"gray.600"} fontSize="lg">
               ₹
             </Box>
-            {book.price.toFixed(2)}
+            {book.price ? book.price.toFixed(2) : 0}
           </Box>
         </Flex>
       </Box>

@@ -4,6 +4,7 @@ import InfoPage from "./InfoPage";
 import SocialProfileSimple from "./ProfileData";
 import ProductCard from '../components/ProductCard';
 import getUserBooks from "../utils/getUserBooks";
+import { Text } from "@chakra-ui/react";
 
 const Profile = () => {
   const [isLoggedIn, setisLoggedIn] = useState(false);
@@ -21,6 +22,11 @@ const Profile = () => {
   return isLoggedIn ? (
     <div>
       <SocialProfileSimple />
+      <div className="Heading">
+        <Text marginBottom={'10px'}>
+          Your Books
+        </Text>
+      </div>
       <div className="Catalogue">
         {Books.map((book) => (
           <ProductCard id={book._id} book={book} />
