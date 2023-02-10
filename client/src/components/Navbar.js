@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 
 
 export default function Navbar() {
+  console.log(process.env.PUBLIC_URL);
   function ham() {
     const navBar = document.querySelector(".nav-bar");
     navBar.classList.toggle("active");
@@ -13,7 +14,7 @@ export default function Navbar() {
       <div className="logo">
         <img
           className="image"
-          src="https://i.ibb.co/tBj00Cx/BookClub.png"
+          src={process.env.PUBLIC_URL + "BookClub.png"}
           alt="Book Club"
           width="40"
           height="40"

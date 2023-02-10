@@ -4,6 +4,7 @@ import User from "../models/User.js";
 
 const allBookController = async (req, res, next) => {
     try {
+        console.log("request received");
         const books = await Book.find();
         if (books.length) {
             return res.status(200).json({

@@ -120,7 +120,7 @@ const SidebarContent = ({onClose, ...rest}: SidebarProps) => {
           <div className="logo">
             <img
               className="image"
-              src="https://i.ibb.co/tBj00Cx/BookClub.png"
+              src={process.env.PUBLIC_URL + "/BookClub.png"}
               alt="Book Club"
               width="40"
               height="40"
@@ -222,7 +222,7 @@ const MobileNav = ({onOpen, ...rest}: MobileProps) => {
         <div className="logo">
           <img
             className="image"
-            src="https://i.ibb.co/tBj00Cx/BookClub.png"
+            src={process.env.PUBLIC_URL + "/BookClub.png"}
             alt="Book Club"
             width="40"
             height="40"
