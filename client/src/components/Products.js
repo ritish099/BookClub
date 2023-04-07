@@ -4,7 +4,7 @@ import "../styles/Products.css";
 import ImageCarousel from "./ImageCarousel";
 import Search from "../Search";
 import getAllBooks from "../utils/getAllBooks";
-import {Input} from "@chakra-ui/react";
+import {Input, Text} from "@chakra-ui/react";
 import Fuse from "fuse.js";
 
 const Products = () => {
@@ -32,6 +32,10 @@ const Products = () => {
     <div className="BigDiv">
       <div className="Heading">{/* <h1>Top Deals!</h1> */}</div>
 
+      <div className="Heading">
+        <Text marginBottom={"10px"}>Books for You</Text>
+      </div>
+
       <Input
         value={search}
         onChange={(e) => {
@@ -43,26 +47,12 @@ const Products = () => {
       />
 
       <div className="Catalogue">
-        {/* <ProductCard name="AB" price="100$" user="sd"/>
-            <ProductCard name="AB" price="100$" user="sd"/>
-            <ProductCard name="AB" price="100$" user="sd"/>
-            <ProductCard name="AB" price="100$" user="sd"/>
-            <ProductCard name="AB" price="100$" user="sd"/>
-            <ProductCard name="AB" price="100$" user="sd"/>
-            <ProductCard name="AB" price="100$" user="sd"/>
-            <ProductCard name="AB" price="100$" user="sd"/> */}
-        {/* {searchResult.map((book) => (
-          <ProductCard id={book._id} book={book} />
-        ))} */}
-
         {!searchResult.length
           ? Books.map((book) => <ProductCard id={book._id} book={book} />)
           : searchResult.map((book) => (
               <ProductCard id={book.item._id} book={book.item} />
             ))}
       </div>
-      {/* <ImageCarousel Heading="Bestsellers in Books" />
-        <ImageCarousel Heading="Bestsellers in Instruments" /> */}
     </div>
   );
 };

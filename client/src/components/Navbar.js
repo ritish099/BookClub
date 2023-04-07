@@ -16,8 +16,8 @@ export default function Navbar() {
           className="image"
           src={process.env.PUBLIC_URL + "BookClub.png"}
           alt="Book Club"
-          width="40"
-          height="40"
+          width="30"
+          height="30"
         ></img>
         Book<span>Club</span>
       </div>
