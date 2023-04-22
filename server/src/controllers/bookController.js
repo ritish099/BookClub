@@ -4,6 +4,7 @@ import User from "../models/User.js";
 
 const allBookController = async (req, res, next) => {
     try {
+        console.log("request received");
         const books = await Book.find();
         if (books.length) {
             return res.status(200).json({
@@ -33,7 +34,7 @@ const addBookController = async (req, res, next) => {
                 data: ""
             });
         }
-        console.log(req.userId)
+        //console.log(req.userId)
 
         const noOfPages = Number(book.noOfPages);
         const price = Number(book.price);
@@ -70,7 +71,47 @@ const addBookController = async (req, res, next) => {
     }
 }
 
+const getUserBooks = async (req, res, next) => {
+    try{
+        if(!req.userId){
+            return res.status(403).json({
+              status: false,
+              message: "unauthorized access",
+              data: "",
+            });
+        }
+
+        const user = User.findById(req.userId);
+
+        if(!user){
+            return res.status(403).json({
+              status: false,
+              message: "unauthorized access",
+              data: "",
+            });
+        }
+
+        const allBooks = await Book.find();
+        const userBooks = [];
+        allBooks.forEach(book => {
+            if(book.owner.toString() === req.userId){
+                userBooks.push(book);
+            }
+        })
+
+        //console.log(userBooks);
+
+        return res.status(200).json({
+          books: userBooks
+        });
+
+    }catch(err){
+        next();
+    }
+}
+
 export {
     allBookController,
-    addBookController
+    addBookController,
+    getUserBooks
 };

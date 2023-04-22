@@ -9,7 +9,9 @@ import resetPasswordSuccessEmail from "../utils/resetPasswordSuccessEmail.js";
 
 const signupController = async (req, res, next) => {
   try {
+    console.log("hello");
     const {userName, name, email, password, location} = req.body;
+    console.log(userName, name, email);
 
     const existingUser = await User.findOne({email: email});
     if (existingUser) {
@@ -59,14 +61,18 @@ const signupController = async (req, res, next) => {
     const subject = "bookclub email verification";
     const userId = newUser._id;
     const url =
-      "http://" +
-      req.headers.host +
+      "https://" +
+      config.FRONTEND_URL +
       "/auth" +
       "/verify-email/" +
       userId +
       "/" +
       token;
-    await verifyEmail(email, subject, url);
+
+    const newurl = `${
+      config.FRONTEND_URL
+    }?m=${"request verify"}&id=${userId}&token=${token}`;
+    await verifyEmail(email, subject, newurl);
 
     return res.status(200).json({
       status: true,
@@ -89,16 +95,11 @@ const confirmEmailController = async (req, res, next) => {
     const verifyUserId = req.params.id;
 
     if (!verifyEmailToken || !verifyUserId) {
-      // return res.status(400).json({
-      //   status: false,
-      //   message: "verification link invalid",
-      //   data: "",
-      // });
-
-      const redirectUrl = `${
-        config.FRONTEND_URL
-      }?m=${"verification link invalid"}`;
-      res.redirect(redirectUrl);
+      return res.status(200).json({
+        status: false,
+        message: "verification link invalid",
+        data: "",
+      });
     }
 
     const existingUser = await User.findOne({
@@ -107,29 +108,19 @@ const confirmEmailController = async (req, res, next) => {
     });
 
     if (!existingUser) {
-      // return res.status(400).json({
-      //   status: false,
-      //   message: "user not found",
-      //   data: "",
-      // });
-
-      const redirectUrl = `${
-        config.FRONTEND_URL
-      }?m=${"user not found"}`;
-      res.redirect(redirectUrl);
+      return res.status(200).json({
+        status: false,
+        message: "user not found",
+        data: "",
+      });
     }
 
     if (existingUser.isVerified) {
-      // return res.status(400).json({
-      //   status: true,
-      //   message: "user has already verified",
-      //   data: "",
-      // });
-
-      const redirectUrl = `${
-        config.FRONTEND_URL
-      }?m=${"user has already verified"}`;
-      res.redirect(redirectUrl);
+      return res.status(200).json({
+        status: true,
+        message: "user has already verified",
+        data: "",
+      });
     }
 
     if (!existingUser.isVerified) {
@@ -141,15 +132,11 @@ const confirmEmailController = async (req, res, next) => {
     existingUser.verifyEmailTokenExpires = "";
     await existingUser.save();
 
-    // return res.status(200).json({
-    //   status: true,
-    //   message: "your account has been verified",
-    //   data: "",
-    // });
-    const redirectUrl = `${
-      config.FRONTEND_URL
-    }?m=${"your account has been verified"}`;
-    res.redirect(redirectUrl);
+    return res.status(200).json({
+      status: true,
+      message: "your account has been verified",
+      data: "",
+    });
   } catch (err) {
     next();
   }
@@ -351,28 +338,55 @@ const resetPasswordController = async (req, res, next) => {
 };
 
 const userSignedInValidationController = async (req, res, next) => {
-  try{
-    const { token } = req.body;
+  try {
+    const {token} = req.body;
     console.log(token);
-    const tokenContent = await jwt.verify(token, config.JWT_ACTIVATE, (err, decoded) => {
-      return decoded;
-    });
+    const tokenContent = await jwt.verify(
+      token,
+      config.JWT_ACTIVATE,
+      (err, decoded) => {
+        return decoded;
+      }
+    );
     console.log(tokenContent.id);
 
     const user = await User.findById(tokenContent.id);
     console.log(user);
 
-    if(!user){
+    if (!user) {
       res.status(404).json({
-        message: 'No such user found'
-      })
+        message: "No such user found",
+      });
     }
 
     res.status(200).json({
-      message: 'User found'
+      message: "User found",
     });
+  } catch (err) {
+    next();
+  }
+};
 
-  }catch(err){
+const getUserDetails = async (req, res, next) => {
+  try {
+    if (!req.userId) {
+      console.log(req.userId);
+      res.status(400).json({
+        message: "No user found",
+      });
+    }
+    const user = await User.findById(req.userId);
+    if (!user) {
+      res.status(400).json({
+        message: "No user found",
+      });
+    }
+    res.status(200).json({
+      name: user.name,
+      email: user.email,
+      username: user.userName,
+    });
+  } catch (err) {
     next();
   }
 };
@@ -385,5 +399,6 @@ export {
   checkValidUserController,
   sendResetPasswordEmailController,
   resetPasswordController,
-  userSignedInValidationController
+  userSignedInValidationController,
+  getUserDetails,
 };
