@@ -8,6 +8,7 @@ import Favorites from "../components/Favorites";
 import EmailVerified from '../components/EmailVerified';
 import Profile from "../components/Profile";
 import BookUpload from "../components/BookUpload";
+import Messenger from "../pages/Messenger/Messenger";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,11 @@ const router = createBrowserRouter([
     path: "/upload",
     element: <SidebarWithHeader children={<BookUpload />} />,
     errorElement: <Error />
+  },
+  {
+    path: "/messenger",
+    element: <Messenger/>,
+    errorElement: <Error />,
   }
 ]);
 

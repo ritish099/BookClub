@@ -18,6 +18,8 @@ const __dirname = dirname(__filename);
 import testApi from "./src/routes/testRoute.js";
 import authApi from "./src/routes/authRoutes.js";
 import bookApi from "./src/routes/bookRoutes.js";
+import conversationApi from "./src/routes/conversationRoute.js";
+import messagesApi from "./src/routes/messageRoute.js";
 
 // app and middleware
 const app = express();
@@ -74,6 +76,8 @@ app.use(limiter);
 app.use("/test", testApi);
 app.use("/auth", authApi);
 app.use("/book", bookApi);
+app.use("/conversations", conversationApi);
+app.use("/messages", messagesApi);
 
 // error handling middleware
 app.use(globalErrorHandler);
@@ -82,6 +86,60 @@ app.use(globalErrorHandler);
 app.use((req, res, next) => {
     res.status(404).json({
         message: "resource not found",
+    });
+});
+
+
+//import { createServer } from "http";
+import { Server } from "socket.io";
+
+//const httpServer = createServer();
+
+const io = new Server(8900, {
+    cors: {
+        origin: "http://localhost:3000",
+    },
+});
+
+let users = [];
+
+const addUser = (userId, socketId) => {
+    !users.some((user) => user.userId === userId) &&
+        users.push({ userId, socketId });
+};
+
+const removeUser = (socketId) => {
+    users = users.filter((user) => user.socketId !== socketId);
+};
+
+const getUser = (userId) => {
+    return users.find((user) => user.userId === userId);
+};
+
+io.on("connection", (socket) => {
+    //when ceonnect
+    console.log("a user connected.");
+
+    //take userId and socketId from user
+    socket.on("addUser", (userId) => {
+        addUser(userId, socket.id);
+        io.emit("getUsers", users);
+    });
+
+    //send and get message
+    socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+        const user = getUser(receiverId);
+        io.to(user.socketId).emit("getMessage", {
+            senderId,
+            text,
+        });
+    });
+
+    //when disconnect
+    socket.on("disconnect", () => {
+        console.log("a user disconnected!");
+        removeUser(socket.id);
+        io.emit("getUsers", users);
     });
 });
 
