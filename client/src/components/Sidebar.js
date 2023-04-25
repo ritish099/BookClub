@@ -44,6 +44,7 @@ import verifySignIn from "../utils/verifySignIn";
 import getFromLocalStorage from "../utils/getFromLocalStorage";
 import userSignOut from "../utils/userSignOut";
 import userContext from "../context/userContext";
+import "../styles/navbar.css";
 
 interface LinkItemProps {
   name: string;
@@ -122,8 +123,8 @@ const SidebarContent = ({onClose, ...rest}: SidebarProps) => {
               className="image"
               src={process.env.PUBLIC_URL + "/BookClub.png"}
               alt="Book Club"
-              width="40"
-              height="40"
+              width="30"
+              height="30"
             ></img>
             Book<span>Club</span>
           </div>
@@ -224,8 +225,8 @@ const MobileNav = ({onOpen, ...rest}: MobileProps) => {
             className="image"
             src={process.env.PUBLIC_URL + "/BookClub.png"}
             alt="Book Club"
-            width="40"
-            height="40"
+            width="20"
+            height="20"
           ></img>
           Book<span>Club</span>
         </div>
