@@ -109,9 +109,30 @@ const getUserBooks = async (req, res, next) => {
         next();
     }
 }
+const getBookById = async (req, res, next) => {
+    try {
+        const book = await Book.find({"_id": req.params.bookId});
+        if (book.length) {
+            return res.status(200).json({
+                status: true,
+                message: "book details",
+                data: book
+            });
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: "no book found",
+                data: ""
+            });
+        }
+    }catch(err){
+        next();
+    }
+ }
 
 export {
     allBookController,
     addBookController,
-    getUserBooks
+    getUserBooks,
+    getBookById
 };
