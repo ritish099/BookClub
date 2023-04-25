@@ -9,13 +9,6 @@ import {
   Icon,
   chakra,
   Tooltip,
-  Button,
-  ButtonGroup,
-  Divider,
-  CardBody,
-  Stack,
-  Heading,
-  CardFooter,
   Text
 } from "@chakra-ui/react";
 import {BsStar, BsStarFill, BsStarHalf} from "react-icons/bs";
@@ -66,65 +59,84 @@ function Rating({rating, numReviews}: RatingProps) {
 
 function ProductAddToCart({book}) {
   return (
-    <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke">
-      <CardBody>
-        <Image
-          src={book.image}
-          alt={book.bookName}
-          minW={300}
-          maxHeight={200}
-          borderRadius="lg"
+    <Box
+      className="box"
+      bg={useColorModeValue("white", "gray.800")}
+      maxW="sm"
+      borderWidth="1px"
+      rounded="lg"
+      shadow="lg"
+      position="relative"
+    >
+      {data.isNew && (
+        <Circle
+          size="10px"
+          position="absolute"
+          top={2}
+          right={2}
+          bg="red.200"
         />
-        <Stack mt="6" spacing="3">
-          <Heading size="md">{book.bookName}</Heading>
+      )}
 
-          <Flex justifyContent="space-between" alignContent="center">
-            <Text
-              fontSize="md"
-              w={"300px"}
-              fontWeight={"bold"}
-              marginBottom={"5px"}
+      <Image
+        src={data.imageURL}
+        alt={`Picture of ${data.name}`}
+        roundedTop="lg"
+      />
+
+      <Box p="6">
+        <Box d="flex" alignItems="baseline">
+          {data.isNew && (
+            <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
+              New
+            </Badge>
+          )}
+        </Box>
+        <Flex mt="1" justifyContent="space-between" alignContent="center">
+          <Box
+            fontSize="2xl"
+            fontWeight="semibold"
+            as="h4"
+            lineHeight="tight"
+            isTruncated
+          >
+            {data.name}
+          </Box>
+          {/* <Tooltip
+              label="Add to cart"
+              bg="white"
+              placement={"top"}
+              color={"gray.800"}
+              fontSize={"1.2em"}
             >
-              {book.author}
-            </Text>
-          </Flex>
+              <chakra.a href={"#"} display={"flex"}>
+                <Icon as={FiShoppingCart} h={7} w={7} alignSelf={"center"} />
+              </chakra.a>
+            </Tooltip> */}
+        </Flex>
 
-          <Flex justifyContent="space-between" alignContent="center">
-            <Text
-              fontSize="md"
-              w={"300px"}
-              color={"gray.700"}
-              marginBottom={"5px"}
-            >
-              Uploaded By :
-              <Text fontSize="sm" fontWeight={"bold"} marginBottom={"10px"}>
-                {book.ownerName}
-              </Text>
-            </Text>
-          </Flex>
+        <Flex justifyContent="space-between" alignContent="center">
+          {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
 
-          <Flex justifyContent="space-between" alignContent="center">
-            <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
-              <Box as="span" color={"gray.600"} fontSize="lg">
-                ₹
-              </Box>
-              {book.price ? book.price.toFixed(2) : 0}
+          <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
+            <Box as="span" color={"gray.600"} fontSize="lg">
+              £
             </Box>
-          </Flex>
-        </Stack>
-      </CardBody>
-      <Divider />
-      <CardFooter>
-        <ButtonGroup spacing="2">
-          <Button variant="solid" colorScheme="blue">
-            Buy now
-          </Button>
-          <Button variant="ghost" colorScheme="blue">
-            Add to cart
-          </Button>
-        </ButtonGroup>
-      </CardFooter>
-    </Card>
+            {data.price.toFixed(2)}
+          </Box>
+        </Flex>
+
+        <Flex justifyContent="space-between" alignContent="center">
+          {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
+          <Text fontSize="md">Brian W. Kernighan / Dennis Ritchie</Text>
+        </Flex>
+
+        <Flex justifyContent="space-between" alignContent="center">
+          {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
+          <Text fontSize="md">Uploaded By : UnderTakerGoodBoy</Text>
+        </Flex>
+      </Box>
+    </Box>
   );
 }
 

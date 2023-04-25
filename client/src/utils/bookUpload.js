@@ -54,5 +54,3 @@ const bookUpload = async (data, image, actions, setSuccess, setError) => {
 };
 
 export default bookUpload;
-
-export default bookUpload;
