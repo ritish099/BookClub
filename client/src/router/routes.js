@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-    errorElement: <Error />,
+    // errorElement: <Error />,
   },
   {
     path: "/verify/:message",

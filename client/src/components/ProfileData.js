@@ -21,6 +21,7 @@ import {
     return (
       <Center py={6}>
         <Box
+          marginBottom={'30px'}
           maxW={'320px'}
           w={'full'}
           bg={useColorModeValue('white', 'gray.900')}
