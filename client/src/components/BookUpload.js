@@ -21,6 +21,7 @@ import bookUpload from "../utils/bookUpload";
 import getFromLocalStorage from '../utils/getFromLocalStorage';
 import verifySignIn from "../utils/verifySignIn";
 import InfoPage from "./InfoPage";
+import ChatButton from "./IconButton";
 
 export default function SignupCard() {
   const [uploadSuccess, setuploadSuccess] = useState({
@@ -265,8 +266,12 @@ export default function SignupCard() {
           </Formik>
         </Box>
       </Stack>
+      <ChatButton />
     </Flex>
   ) : (
-    <InfoPage message="You have to be logged in to access this page" />
+    <>
+      <InfoPage message="You have to be logged in to access this page" />
+      <ChatButton />
+    </>
   );
 }

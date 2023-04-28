@@ -11,6 +11,7 @@ import { fileURLToPath } from "url";
 import path, { dirname } from "node:path";
 
 import { globalErrorHandler } from "./src/utils/errorHandler.js";
+import Message from "./src/models/Message.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -67,7 +68,7 @@ app.use(compression());
 
 // limit requests from same api
 const limiter = rateLimit({
-    max: 100,
+    max: 10000,
     windowMs: 60 * 60 * 1000,
     message: "Too many requests from this IP, please try again in an hour!",
 });
@@ -104,8 +105,10 @@ const io = new Server(8900, {
 let users = [];
 
 const addUser = (userId, socketId) => {
+    console.log(users);
     !users.some((user) => user.userId === userId) &&
         users.push({ userId, socketId });
+    console.log(users);
 };
 
 const removeUser = (socketId) => {
@@ -123,16 +126,19 @@ io.on("connection", (socket) => {
     //take userId and socketId from user
     socket.on("addUser", (userId) => {
         addUser(userId, socket.id);
-        io.emit("getUsers", users);
+        //io.emit("getUsers", users);
     });
 
     //send and get message
-    socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-        const user = getUser(receiverId);
+    socket.on("sendMessage", ({senderId, receiverId, text, conversationId}) => {
+      const user = getUser(receiverId);
+
+      if (user) {
         io.to(user.socketId).emit("getMessage", {
-            senderId,
-            text,
+          senderId,
+          text,
         });
+      }
     });
 
     //when disconnect

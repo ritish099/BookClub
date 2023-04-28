@@ -16,10 +16,13 @@ import {
   Stack,
   Heading,
   CardFooter,
+  useToast,
   Text
 } from "@chakra-ui/react";
+import axios from "axios";
 import {BsStar, BsStarFill, BsStarHalf} from "react-icons/bs";
 import {FiShoppingCart} from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const data = {
   isNew: true,
@@ -65,6 +68,41 @@ function Rating({rating, numReviews}: RatingProps) {
 }
 
 function ProductAddToCart({book}) {
+  const toast = useToast();
+  const navigate = useNavigate();
+
+  async function handleChatWithSeller(sellerId){
+    const userId = localStorage.getItem('id');
+    if(!userId){
+       toast({
+         title: "Please login to chat",
+         status: "error",
+         position: "bottom-left",
+         duration: 9000,
+         isClosable: true,
+       });
+       return;
+    }
+
+    const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}conversations/find/${userId}/${sellerId}`;
+    const res = await axios.get(url);
+
+    if(!res.data){
+      const url2 = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}conversations`;
+      
+      const res = await axios.post(url2, {
+        senderId: userId,
+        receiverId: sellerId
+      });
+
+      navigate("/messenger");
+      console.log(res);
+    }else{
+      console.log('gg');
+      navigate("/messenger");
+    }
+  }
+
   return (
     <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke">
       <CardBody>
@@ -116,8 +154,10 @@ function ProductAddToCart({book}) {
       <Divider />
       <CardFooter>
         <ButtonGroup spacing="2">
-          <Button variant="solid" colorScheme="blue">
-            Buy now
+          <Button variant="solid" colorScheme="blue" onClick={() => {
+            handleChatWithSeller(book.owner);
+          }}>
+            Chat With Seller
           </Button>
           <Button variant="ghost" colorScheme="blue">
             Add to cart

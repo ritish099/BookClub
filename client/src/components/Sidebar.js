@@ -36,6 +36,7 @@ import {
 } from "react-icons/fi";
 import {CgProfile} from "react-icons/cg";
 import {MdSell} from "react-icons/md";
+import { BsAlarm } from "react-icons/bs";
 import {IconType} from "react-icons";
 import {ReactText} from "react";
 import { Link as RouterLink, Router, useNavigate } from "react-router-dom";
@@ -44,6 +45,7 @@ import verifySignIn from "../utils/verifySignIn";
 import getFromLocalStorage from "../utils/getFromLocalStorage";
 import userSignOut from "../utils/userSignOut";
 import userContext from "../context/userContext";
+import {BsFillChatFill, BsFillChatDotsFill} from "react-icons/bs";
 
 interface LinkItemProps {
   name: string;
@@ -55,6 +57,7 @@ const LinkItems: Array<LinkItemProps> = [
   // {name: "Favourites", icon: FiStar, route: "/fav"},
   {name: "Upload", icon: MdSell, route: "/upload"},
   {name: "Profile", icon: CgProfile, route: "/profile"},
+  {name: "My Chats", icon: BsFillChatDotsFill, route: "/messenger"},
 ];
 
 export default function SidebarWithHeader({children}: {children: ReactNode}) {

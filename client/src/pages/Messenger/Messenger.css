@@ -1,3 +1,5 @@
+
+
 .messenger {
     height: calc(100vh - 70px);
     display: flex;
@@ -16,6 +18,7 @@
 
 .chatBox {
     flex: 5.5;
+    height: 95%;
 }
 
 .chatBoxWrapper {

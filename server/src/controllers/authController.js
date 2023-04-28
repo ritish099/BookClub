@@ -242,6 +242,7 @@ const loginController = async (req, res, next) => {
           name: alreadyUser.name,
           email: alreadyUser.email,
           id: alreadyUser._id,
+          userName: alreadyUser.userName,
         },
         token,
       },
@@ -391,6 +392,34 @@ const getUserDetails = async (req, res, next) => {
   }
 };
 
+const getDetailsFromId = async (req, res, next) => {
+  try {
+    const id = req.params.userId;
+    if (!id) {
+      res.status(400).json({
+        message: "No user with this id found",
+      });
+      return;
+    }
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      res.status(400).json({
+        message: "No user found",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      name: user.name,
+      userName: user.userName,
+    });
+  } catch (err) {
+    next();
+  }
+};
+
 export {
   signupController,
   confirmEmailController,
@@ -401,4 +430,5 @@ export {
   resetPasswordController,
   userSignedInValidationController,
   getUserDetails,
+  getDetailsFromId,
 };

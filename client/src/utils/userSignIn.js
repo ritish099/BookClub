@@ -12,7 +12,7 @@ const userSignIn = (data, actions, setSignInSuccess, setSignInError, navigate) =
       actions.setSubmitting(false);
       setSignInSuccess({success: true, message: ""});
       setSignInError({error: false, message: ""});
-      saveToLocalStorage(res.data.data.profile.name, res.data.data.token);
+      saveToLocalStorage(res.data.data.profile.name, res.data.data.token, res.data.data.profile.id, res.data.data.profile.userName, res.data.data.profile.email);
       navigate("/profile")
     })
     .catch((err) => {

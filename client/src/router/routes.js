@@ -48,7 +48,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/messenger",
-    element: <Messenger/>,
+    element: <SidebarWithHeader children={<Messenger />} />,
     errorElement: <Error />,
   }
 ]);

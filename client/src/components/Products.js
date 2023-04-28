@@ -6,6 +6,7 @@ import Search from "../Search";
 import getAllBooks from "../utils/getAllBooks";
 import {Input, Text} from "@chakra-ui/react";
 import Fuse from "fuse.js";
+import ChatButton from "./IconButton";
 
 const Products = () => {
   const [searchResult, setsearchResult] = useState([]);
@@ -53,6 +54,8 @@ const Products = () => {
               <ProductCard id={book.item._id} book={book.item} />
             ))}
       </div>
+
+      <ChatButton />
     </div>
   );
 };
