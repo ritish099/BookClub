@@ -45,7 +45,12 @@ import verifySignIn from "../utils/verifySignIn";
 import getFromLocalStorage from "../utils/getFromLocalStorage";
 import userSignOut from "../utils/userSignOut";
 import userContext from "../context/userContext";
-import {BsFillChatFill, BsFillChatDotsFill} from "react-icons/bs";
+import {
+  BsFillChatDotsFill,
+  BsBookFill,
+  BsFillCloudDownloadFill,
+} from "react-icons/bs";
+import {TbNotebook} from "react-icons/tb";
 
 interface LinkItemProps {
   name: string;
@@ -55,9 +60,11 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   {name: "Home", icon: FiHome, route: "/"},
   // {name: "Favourites", icon: FiStar, route: "/fav"},
-  {name: "Upload", icon: MdSell, route: "/upload"},
+  {name: "Upload Books", icon: BsBookFill, route: "/upload"},
+  {name: "Upload Notes", icon: TbNotebook, route: "/notes-upload"},
   {name: "Profile", icon: CgProfile, route: "/profile"},
   {name: "My Chats", icon: BsFillChatDotsFill, route: "/messenger"},
+  {name: "Download Notes", icon: BsFillCloudDownloadFill, route: "/notes-download"},
 ];
 
 export default function SidebarWithHeader({children}: {children: ReactNode}) {

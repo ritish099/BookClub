@@ -21,6 +21,7 @@ import authApi from "./src/routes/authRoutes.js";
 import bookApi from "./src/routes/bookRoutes.js";
 import conversationApi from "./src/routes/conversationRoute.js";
 import messagesApi from "./src/routes/messageRoute.js";
+import notesApi from "./src/routes/noteRoutes.js";
 
 // app and middleware
 const app = express();
@@ -79,6 +80,7 @@ app.use("/auth", authApi);
 app.use("/book", bookApi);
 app.use("/conversations", conversationApi);
 app.use("/messages", messagesApi);
+app.use("/notes", notesApi);
 
 // error handling middleware
 app.use(globalErrorHandler);
@@ -89,7 +91,6 @@ app.use((req, res, next) => {
         message: "resource not found",
     });
 });
-
 
 //import { createServer } from "http";
 import { Server } from "socket.io";
@@ -105,10 +106,8 @@ const io = new Server(8900, {
 let users = [];
 
 const addUser = (userId, socketId) => {
-    console.log(users);
     !users.some((user) => user.userId === userId) &&
         users.push({ userId, socketId });
-    console.log(users);
 };
 
 const removeUser = (socketId) => {
@@ -121,7 +120,7 @@ const getUser = (userId) => {
 
 io.on("connection", (socket) => {
     //when ceonnect
-    console.log("a user connected.");
+    console.log("a user connected.", socket.id);
 
     //take userId and socketId from user
     socket.on("addUser", (userId) => {
@@ -141,11 +140,16 @@ io.on("connection", (socket) => {
       }
     });
 
+    socket.on("close", () => {
+        console.log("closed");
+        socket.disconnect(0);
+    });
+
     //when disconnect
     socket.on("disconnect", () => {
-        console.log("a user disconnected!");
+        console.log("a user disconnected!", socket.id);
         removeUser(socket.id);
-        io.emit("getUsers", users);
+        //io.emit("getUsers", users);
     });
 });
 

@@ -9,7 +9,7 @@ import axios from "axios";
 import {io} from "socket.io-client";
 import verifySignIn from "../../utils/verifySignIn";
 import InfoPage from "../../components/InfoPage";
-import getUserDetails from "../../utils/getUserDetails";
+import { useLocation } from "react-router-dom";
 
 export default function Messenger() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
@@ -19,7 +19,6 @@ export default function Messenger() {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const socket = useRef();
   //const {user} = useContext(AuthContext);
   const [userId, setUserId] = useState(localStorage.getItem("id"));
   // const [name, setName] = useState(null);
@@ -28,6 +27,17 @@ export default function Messenger() {
   // const [email, setEmail] = useState(null);
 
   const scrollRef = useRef();
+  const socket = useRef(io("ws://localhost:8900"));
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log("Component loaded bebs");
+    console.log("NDSIHDIJSIDJIS", location);
+  }, []);
+
+  useEffect(() => {
+    console.log("changed location...");
+  }, [location.pathname])
 
   //to make sure if a user is logged in
   useEffect(() => {
@@ -46,23 +56,30 @@ export default function Messenger() {
     fetchConversations();
   }, []);
 
+  function incomingMessage(data){
+    console.log(data);
+    console.log(arrivalMessage);
+
+    console.log(setArrivalMessage);
+
+    setArrivalMessage({
+      sender: data.senderId,
+      text: data.text,
+      createdAt: Date.now(),
+    });
+  }
+
   //setting up socket connection
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
+    //socket.current = io("ws://localhost:8900");
     socket.current.on("getMessage", (data) => {
-      setArrivalMessage({
-        sender: data.senderId,
-        text: data.text,
-        createdAt: Date.now(),
-      });
+      incomingMessage(data);
     });
   }, []);
 
   useEffect(() => {
-    arrivalMessage &&
-      currentChat?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev) => [...prev, arrivalMessage]);
-  }, [arrivalMessage, currentChat]);
+    setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage]);
 
   useEffect(() => {
     socket.current.emit("addUser", userId);

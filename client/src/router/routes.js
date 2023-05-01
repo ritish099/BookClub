@@ -9,6 +9,8 @@ import EmailVerified from '../components/EmailVerified';
 import Profile from "../components/Profile";
 import BookUpload from "../components/BookUpload";
 import Messenger from "../pages/Messenger/Messenger";
+import NotesUpload from "../components/NotesUpload";
+import NotesDownload from "../components/NotesDownload";
 
 const router = createBrowserRouter([
   {
@@ -44,13 +46,23 @@ const router = createBrowserRouter([
   {
     path: "/upload",
     element: <SidebarWithHeader children={<BookUpload />} />,
-    errorElement: <Error />
+    errorElement: <Error />,
   },
   {
     path: "/messenger",
     element: <SidebarWithHeader children={<Messenger />} />,
     errorElement: <Error />,
-  }
+  },
+  {
+    path: "/notes-upload",
+    element: <SidebarWithHeader children={<NotesUpload />} />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/notes-download",
+    element: <SidebarWithHeader children={<NotesDownload />} />,
+    errorElement: <Error />,
+  },
 ]);
 
 export default router;
