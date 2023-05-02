@@ -112,6 +112,7 @@ const getUserBooks = async (req, res, next) => {
 const getBookById = async (req, res, next) => {
     try {
         const book = await Book.find({"_id": req.params.bookId});
+        console.log(book,'HELLO')
         if (book.length) {
             return res.status(200).json({
                 status: true,

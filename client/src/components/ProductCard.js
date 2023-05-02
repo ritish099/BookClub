@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import {BsStar, BsStarFill, BsStarHalf} from "react-icons/bs";
 import {FiShoppingCart} from "react-icons/fi";
-
+import { useNavigate } from "react-router-dom";
 const data = {
   isNew: true,
   imageURL:
@@ -65,8 +65,11 @@ function Rating({rating, numReviews}: RatingProps) {
 }
 
 function ProductAddToCart({book}) {
+  const navigate = useNavigate()
   return (
-    <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke">
+    <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke" onClick={()=>{
+      navigate(`/detail/${book._id}`)
+    }}>
       <CardBody>
         <Image
           src={book.image}
