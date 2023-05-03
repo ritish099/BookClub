@@ -54,7 +54,21 @@ export default function NotesCard({note}) {
             _focus={{
               bg: "green.500",
             }}
-            onClick={() => {}}
+            onClick={() => {
+              //this trick will generate a temp <a /> tag
+              var link = document.createElement("a");
+              link.href =
+                note.file;
+
+              //Set properties as you wise
+              link.download = note.notesTitle;
+              link.target = "blank";
+
+              //this part will append the anchor tag and remove it after automatic click
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }}
           >
             Download
           </Button>
