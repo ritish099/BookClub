@@ -23,7 +23,7 @@ import axios from "axios";
 import {BsStar, BsStarFill, BsStarHalf} from "react-icons/bs";
 import {FiShoppingCart} from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
+ 
 const data = {
   isNew: true,
   imageURL:
@@ -33,12 +33,12 @@ const data = {
   rating: 4.2,
   numReviews: 34,
 };
-
+ 
 interface RatingProps {
   rating: number;
   numReviews: number;
 }
-
+ 
 function Rating({rating, numReviews}: RatingProps) {
   return (
     <Flex className="review-box">
@@ -66,11 +66,11 @@ function Rating({rating, numReviews}: RatingProps) {
     </Flex>
   );
 }
-
+ 
 function ProductAddToCart({book}) {
   const toast = useToast();
   const navigate = useNavigate();
-
+ 
   async function handleChatWithSeller(sellerId){
     const userId = localStorage.getItem('id');
     if(!userId){
@@ -83,10 +83,10 @@ function ProductAddToCart({book}) {
        });
        return;
     }
-
+ 
     const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}conversations/find/${userId}/${sellerId}`;
     const res = await axios.get(url);
-
+ 
     if(!res.data){
       const url2 = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}conversations`;
       
@@ -94,7 +94,7 @@ function ProductAddToCart({book}) {
         senderId: userId,
         receiverId: sellerId
       });
-
+ 
       navigate("/messenger");
       console.log(res);
     }else{
@@ -102,7 +102,7 @@ function ProductAddToCart({book}) {
       navigate("/messenger");
     }
   }
-
+ 
   return (
     <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke">
       <CardBody>
@@ -115,7 +115,7 @@ function ProductAddToCart({book}) {
         />
         <Stack mt="6" spacing="3">
           <Heading size="md">{book.bookName}</Heading>
-
+ 
           <Flex justifyContent="space-between" alignContent="center">
             <Text
               fontSize="md"
@@ -126,7 +126,7 @@ function ProductAddToCart({book}) {
               {book.author}
             </Text>
           </Flex>
-
+ 
           <Flex justifyContent="space-between" alignContent="center">
             <Text
               fontSize="md"
@@ -140,7 +140,7 @@ function ProductAddToCart({book}) {
               </Text>
             </Text>
           </Flex>
-
+ 
           <Flex justifyContent="space-between" alignContent="center">
             <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
               <Box as="span" color={"gray.600"} fontSize="lg">
@@ -167,5 +167,5 @@ function ProductAddToCart({book}) {
     </Card>
   );
 }
-
+ 
 export default ProductAddToCart;
