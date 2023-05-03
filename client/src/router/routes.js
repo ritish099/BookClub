@@ -50,7 +50,7 @@ const router = createBrowserRouter([
     errorElement: <Error />
   },
   {
-  path: "/detail/:id",
+    path: "/detail/:id",
     element: <SidebarWithHeader children={<DetailPage />} />,
     errorElement: <Error />,
   },

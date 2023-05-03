@@ -1,4 +1,4 @@
-{/*import {
+import {
     Flex,
     Circle,
     Card,
@@ -105,5 +105,5 @@
     );
   }
   
-export default ProductDetailsPage;*/}
+export default ProductDetailsPage;
   

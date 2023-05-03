@@ -104,7 +104,9 @@ function ProductAddToCart({book}) {
   }
  
   return (
-    <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke">
+    <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke" onClick={() => {
+      navigate(`/detail/${book._id}`)
+    }}>
       <CardBody>
         <Image
           src={book.image}
