@@ -12,24 +12,25 @@ import {
   useColorModeValue,
   FormErrorMessage,
   FormHelperText,
+  Select
 } from "@chakra-ui/react";
 
 import {useState, useEffect} from "react";
-import BookUploadSchema from "../schema/BookUploadSchema";
 import {Field, Form, Formik} from "formik";
-import bookUpload from "../utils/bookUpload";
-import getFromLocalStorage from '../utils/getFromLocalStorage';
+import getFromLocalStorage from "../utils/getFromLocalStorage";
 import verifySignIn from "../utils/verifySignIn";
 import InfoPage from "./InfoPage";
 import ChatButton from "./IconButton";
+import notesUpload from "../utils/notesUpload";
+import NotesUploadSchema from "../schema/NotesUploadSchema";
 
-export default function SignupCard() {
+export default function NotesUpload() {
   const [uploadSuccess, setuploadSuccess] = useState({
     success: false,
     message: "",
   });
   const [uploadError, setuploadError] = useState({error: false, message: ""});
-  const [bookImages, setbookImages] = useState('jj');
+  const [notesDoc, setnotesDoc] = useState();
   const toast = useToast();
 
   const [isLoggedIn, setisLoggedIn] = useState(false);
@@ -44,12 +45,12 @@ export default function SignupCard() {
   const val2 = useColorModeValue("white", "gray.700");
 
   const handleImageChange = async (e) => {
-    await setbookImages(e.target.files[0]);
-  }
+    await setnotesDoc(e.target.files[0]);
+  };
 
   if (uploadSuccess.success) {
     toast({
-      title: "Book uploaded successfully",
+      title: "Notes uploaded successfully",
       status: "success",
       position: "bottom-left",
       duration: 9000,
@@ -72,7 +73,7 @@ export default function SignupCard() {
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>
-            Upload your book
+            Upload your Notes
           </Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
             {/* to enjoy all of our cool features ✌️ */}
@@ -89,39 +90,39 @@ export default function SignupCard() {
           padding={30}
         >
           <Formik
-            validationSchema={BookUploadSchema}
+            validationSchema={NotesUploadSchema}
             initialValues={{
               ownerName: getFromLocalStorage("name"),
-              bookName: "",
+              notesTitle: "",
               subject: "",
               branch: "",
-              author: "",
-              noOfPages: "",
-              price: "",
-              mrp: "",
+              semester: "",
             }}
             onSubmit={(values, actions) => {
-              bookUpload(
+              notesUpload(
                 values,
-                bookImages,
+                notesDoc,
                 actions,
                 setuploadSuccess,
-                setuploadError
+                setuploadError,
               );
             }}
           >
             {(props) => (
               <Form autoComplete="false">
                 <Stack py={3} px={6}>
-                  <Field name="bookName">
+                  <Field name="notesTitle">
                     {({field, form}) => (
-                      <FormControl isInvalid={form.errors.bookName} isRequired>
-                        <FormLabel>Book Name</FormLabel>
-                        <Input {...field} placeholder="Book Name" />
+                      <FormControl
+                        isInvalid={form.errors.notesTitle}
+                        isRequired
+                      >
+                        <FormLabel>Notes Title</FormLabel>
+                        <Input {...field} placeholder="Notes Title" />
 
-                        {form.errors.bookName ? (
+                        {form.errors.notesTitle ? (
                           <FormErrorMessage w={150}>
-                            {form.errors.bookName}
+                            {form.errors.notesTitle}
                           </FormErrorMessage>
                         ) : (
                           <FormHelperText w={150}></FormHelperText>
@@ -168,68 +169,24 @@ export default function SignupCard() {
                 </Stack>
 
                 <Stack py={3} px={6}>
-                  <Field name="author">
+                  <Field name="semester">
                     {({field, form}) => (
-                      <FormControl isInvalid={form.errors.author} isRequired>
-                        <FormLabel>Author</FormLabel>
-                        <Input {...field} placeholder="Author" />
-                        {form.errors.author ? (
-                          <FormErrorMessage w={150}>
-                            {form.errors.author}
-                          </FormErrorMessage>
-                        ) : (
-                          <FormHelperText w={150}></FormHelperText>
-                        )}
-                      </FormControl>
-                    )}
-                  </Field>
-                </Stack>
+                      <FormControl isInvalid={form.errors.semester} isRequired>
+                        <FormLabel>Semester</FormLabel>
+                        <Select {...field} placeholder="Select Semester">
+                          <option value="semester1">Semester 1</option>
+                          <option value="semester2">Semester 2</option>
+                          <option value="semester3">Semester 3</option>
+                          <option value="semester4">Semester 4</option>
+                          <option value="semester5">Semester 5</option>
+                          <option value="semester6">Semester 6</option>
+                          <option value="semester7">Semester 7</option>
+                          <option value="semester8">Semester 8</option>
+                        </Select>
 
-                <Stack py={3} px={6}>
-                  <Field name="noOfPages">
-                    {({field, form}) => (
-                      <FormControl isInvalid={form.errors.noOfPages} isRequired>
-                        <FormLabel>No. of Pages</FormLabel>
-                        <Input {...field} placeholder="No. of pages" />
-                        {form.errors.noOfPages ? (
+                        {form.errors.semester ? (
                           <FormErrorMessage w={150}>
-                            {form.errors.noOfPages}
-                          </FormErrorMessage>
-                        ) : (
-                          <FormHelperText w={150}></FormHelperText>
-                        )}
-                      </FormControl>
-                    )}
-                  </Field>
-                </Stack>
-
-                <Stack py={3} px={6}>
-                  <Field name="price">
-                    {({field, form}) => (
-                      <FormControl isInvalid={form.errors.price} isRequired>
-                        <FormLabel>Price</FormLabel>
-                        <Input {...field} type="number" placeholder="Price" />
-                        {form.errors.price ? (
-                          <FormErrorMessage w={150}>
-                            {form.errors.price}
-                          </FormErrorMessage>
-                        ) : (
-                          <FormHelperText w={150}></FormHelperText>
-                        )}
-                      </FormControl>
-                    )}
-                  </Field>
-                </Stack>
-
-                <Stack py={3} px={6}>
-                  <Field name="mrp">
-                    {({field, form}) => (
-                      <FormControl isInvalid={form.errors.mrp} isRequired>
-                        <FormLabel>MRP</FormLabel>
-                        <Input {...field} type="number" placeholder="MRP." />
-                        {form.errors.mrp ? (
-                          <FormErrorMessage w={150}>
-                            {form.errors.mrp}
+                            {form.errors.semester}
                           </FormErrorMessage>
                         ) : (
                           <FormHelperText w={150}></FormHelperText>
@@ -241,12 +198,12 @@ export default function SignupCard() {
 
                 <Stack py={3} px={6}>
                   <FormControl isRequired>
-                    <FormLabel>Book Image</FormLabel>
+                    <FormLabel>Upload pdf</FormLabel>
                     <input
                       onInput={(e) => handleImageChange(e)}
                       type="file"
-                      name="img"
-                      accept="image/*"
+                      name="notesFile"
+                      accept="application/pdf"
                     />
                   </FormControl>
                 </Stack>
@@ -258,7 +215,7 @@ export default function SignupCard() {
                     isLoading={props.isSubmitting}
                     type="submit"
                   >
-                    Submit Book
+                    Upload
                   </Button>
                 </Stack>
               </Form>

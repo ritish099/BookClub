@@ -50,6 +50,12 @@ const UserSchema = new Schema({
       ref: "Book",
     },
   ],
+  postedNotes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Notes",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now(),
