@@ -10,6 +10,7 @@ import mongoSanitize from "express-mongo-sanitize";
 import { fileURLToPath } from "url";
 import path, { dirname } from "node:path";
 import config from "./config/config.js";
+import http from 'http';
 
 import { globalErrorHandler } from "./src/utils/errorHandler.js";
 import Message from "./src/models/Message.js";
@@ -26,6 +27,7 @@ import notesApi from "./src/routes/noteRoutes.js";
 
 // app and middleware
 const app = express();
+const server = http.createServer(app);
 app.use(cors());
 
 app.use(helmet());
@@ -98,7 +100,7 @@ import { Server } from "socket.io";
 
 //const httpServer = createServer();
 
-const io = new Server(config.SOCKET_PORT, {
+const io = new Server(server, {
     cors: {
         origin: [
             config.FRONTEND_URL,
@@ -157,4 +159,4 @@ io.on("connection", (socket) => {
     });
 });
 
-export default app;
+export default server;
