@@ -16,11 +16,14 @@ import {
   Stack,
   Heading,
   CardFooter,
+  useToast,
   Text
 } from "@chakra-ui/react";
+import axios from "axios";
 import {BsStar, BsStarFill, BsStarHalf} from "react-icons/bs";
 import {FiShoppingCart} from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+ 
 const data = {
   isNew: true,
   imageURL:
@@ -30,12 +33,12 @@ const data = {
   rating: 4.2,
   numReviews: 34,
 };
-
+ 
 interface RatingProps {
   rating: number;
   numReviews: number;
 }
-
+ 
 function Rating({rating, numReviews}: RatingProps) {
   return (
     <Flex className="review-box">
@@ -63,13 +66,45 @@ function Rating({rating, numReviews}: RatingProps) {
     </Flex>
   );
 }
-
+ 
 function ProductAddToCart({book}) {
-  const navigate = useNavigate()
+  const toast = useToast();
+  const navigate = useNavigate();
+ 
+  async function handleChatWithSeller(sellerId){
+    const userId = localStorage.getItem('id');
+    if(!userId){
+       toast({
+         title: "Please login to chat",
+         status: "error",
+         position: "bottom-left",
+         duration: 9000,
+         isClosable: true,
+       });
+       return;
+    }
+ 
+    const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}conversations/find/${userId}/${sellerId}`;
+    const res = await axios.get(url);
+ 
+    if(!res.data){
+      const url2 = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}conversations`;
+      
+      const res = await axios.post(url2, {
+        senderId: userId,
+        receiverId: sellerId
+      });
+ 
+      navigate("/messenger");
+      console.log(res);
+    }else{
+      console.log('gg');
+      navigate("/messenger");
+    }
+  }
+ 
   return (
-    <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke" onClick={()=>{
-      navigate(`/detail/${book._id}`)
-    }}>
+    <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke">
       <CardBody>
         <Image
           src={book.image}
@@ -80,7 +115,7 @@ function ProductAddToCart({book}) {
         />
         <Stack mt="6" spacing="3">
           <Heading size="md">{book.bookName}</Heading>
-
+ 
           <Flex justifyContent="space-between" alignContent="center">
             <Text
               fontSize="md"
@@ -91,7 +126,7 @@ function ProductAddToCart({book}) {
               {book.author}
             </Text>
           </Flex>
-
+ 
           <Flex justifyContent="space-between" alignContent="center">
             <Text
               fontSize="md"
@@ -105,7 +140,7 @@ function ProductAddToCart({book}) {
               </Text>
             </Text>
           </Flex>
-
+ 
           <Flex justifyContent="space-between" alignContent="center">
             <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
               <Box as="span" color={"gray.600"} fontSize="lg">
@@ -119,8 +154,10 @@ function ProductAddToCart({book}) {
       <Divider />
       <CardFooter>
         <ButtonGroup spacing="2">
-          <Button variant="solid" colorScheme="blue">
-            Buy now
+          <Button variant="solid" colorScheme="blue" onClick={() => {
+            handleChatWithSeller(book.owner);
+          }}>
+            Chat With Seller
           </Button>
           <Button variant="ghost" colorScheme="blue">
             Add to cart
@@ -130,5 +167,5 @@ function ProductAddToCart({book}) {
     </Card>
   );
 }
-
+ 
 export default ProductAddToCart;

@@ -9,9 +9,7 @@ import resetPasswordSuccessEmail from "../utils/resetPasswordSuccessEmail.js";
 
 const signupController = async (req, res, next) => {
   try {
-    console.log("hello");
     const {userName, name, email, password, location} = req.body;
-    console.log(userName, name, email);
 
     const existingUser = await User.findOne({email: email});
     if (existingUser) {
@@ -242,6 +240,7 @@ const loginController = async (req, res, next) => {
           name: alreadyUser.name,
           email: alreadyUser.email,
           id: alreadyUser._id,
+          userName: alreadyUser.userName,
         },
         token,
       },
@@ -340,7 +339,6 @@ const resetPasswordController = async (req, res, next) => {
 const userSignedInValidationController = async (req, res, next) => {
   try {
     const {token} = req.body;
-    console.log(token);
     const tokenContent = await jwt.verify(
       token,
       config.JWT_ACTIVATE,
@@ -348,10 +346,8 @@ const userSignedInValidationController = async (req, res, next) => {
         return decoded;
       }
     );
-    console.log(tokenContent.id);
 
     const user = await User.findById(tokenContent.id);
-    console.log(user);
 
     if (!user) {
       res.status(404).json({
@@ -370,7 +366,6 @@ const userSignedInValidationController = async (req, res, next) => {
 const getUserDetails = async (req, res, next) => {
   try {
     if (!req.userId) {
-      console.log(req.userId);
       res.status(400).json({
         message: "No user found",
       });
@@ -391,6 +386,34 @@ const getUserDetails = async (req, res, next) => {
   }
 };
 
+const getDetailsFromId = async (req, res, next) => {
+  try {
+    const id = req.params.userId;
+    if (!id) {
+      res.status(400).json({
+        message: "No user with this id found",
+      });
+      return;
+    }
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      res.status(400).json({
+        message: "No user found",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      name: user.name,
+      userName: user.userName,
+    });
+  } catch (err) {
+    next();
+  }
+};
+
 export {
   signupController,
   confirmEmailController,
@@ -401,4 +424,5 @@ export {
   resetPasswordController,
   userSignedInValidationController,
   getUserDetails,
+  getDetailsFromId,
 };
