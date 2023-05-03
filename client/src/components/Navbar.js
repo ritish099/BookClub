@@ -1,6 +1,5 @@
 import "../styles/navbar.css";
-import {Link} from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   console.log(process.env.PUBLIC_URL);
@@ -11,7 +10,7 @@ export default function Navbar() {
 
   return (
     <header>
-      <div className="logo">
+      {/*<div className="logo">
         <img
           className="image"
           src={process.env.PUBLIC_URL + "BookClub.png"}
@@ -20,7 +19,7 @@ export default function Navbar() {
           height="30"
         ></img>
         Book<span>Club</span>
-      </div>
+  </div>*/}
 
       <div className="hamburger" onClick={ham}>
         <div className="line"></div>

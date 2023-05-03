@@ -7,7 +7,8 @@ const route = express.Router();
 import {
     allBookController,
     addBookController,
-    getUserBooks
+    getUserBooks,
+    getBookById
 } from "../controllers/bookController.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
@@ -27,5 +28,7 @@ route.post("/add",
     ], errorHandler, auth, addBookController);
 
 route.get("/user-books", errorHandler, auth, getUserBooks);
+
+route.get("/:bookId", errorHandler, getBookById);
 
 export default route;
