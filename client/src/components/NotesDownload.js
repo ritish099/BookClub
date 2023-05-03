@@ -17,7 +17,7 @@ const NotesDownload = () => {
   }, []);
 
   useEffect(() => {
-    setDisplayNotes(allNotes.filter(ele => ele.semester === semester))
+    setDisplayNotes(allNotes.length ? allNotes.filter(ele => ele.semester === semester) : [])
   }, [semester])
 
   return (
@@ -48,8 +48,8 @@ const NotesDownload = () => {
       </Select>
 
       <div className="Catalogue">
-        {displayNotes.length ? (
-          displayNotes.map((note) => <NotesCard note={note} />)
+        {displayNotes?.length ? (
+          displayNotes?.map((note) => <NotesCard note={note} />)
         ) : (
           <Text marginBottom={"10px"}>No notes found for this semester</Text>
         )}

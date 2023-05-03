@@ -9,6 +9,7 @@ import hpp from "hpp";
 import mongoSanitize from "express-mongo-sanitize";
 import { fileURLToPath } from "url";
 import path, { dirname } from "node:path";
+import config from "./config/config.js";
 
 import { globalErrorHandler } from "./src/utils/errorHandler.js";
 import Message from "./src/models/Message.js";
@@ -97,9 +98,9 @@ import { Server } from "socket.io";
 
 //const httpServer = createServer();
 
-const io = new Server(8900, {
+const io = new Server(config.SOCKET_PORT, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: config.FRONTEND_URL,
     },
 });
 

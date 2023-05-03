@@ -26,14 +26,16 @@ export default function Messenger() {
   // const [userName, setUserName] = useState(null);
   // const [email, setEmail] = useState(null);
 
+  const url = `${process.env.REACT_APP_WEB_SOCKET_URL}`;
+
   const scrollRef = useRef();
-  const socket = useRef(io("ws://localhost:8900"));
+  const socket = useRef(io(url));
   const location = useLocation();
 
-  useEffect(() => {
-    console.log("Component loaded bebs");
-    console.log("NDSIHDIJSIDJIS", location);
-  }, []);
+  // useEffect(() => {
+  //   console.log("Component loaded");
+  //   console.log("hello", location);
+  // }, []);
 
   useEffect(() => {
     console.log("changed location...");

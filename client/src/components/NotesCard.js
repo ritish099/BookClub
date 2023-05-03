@@ -22,22 +22,22 @@ export default function NotesCard({note}) {
         <Box bg={useColorModeValue("gray.50", "gray.900")} px={6} py={10}>
           <List spacing={3}>
             <Heading fontSize={"2xl"} fontFamily={"body"}>
-              {note.notesTitle}
+              {note?.notesTitle}
             </Heading>
             <Text fontWeight={600} color={"gray.500"} mb={4}>
-              {note.ownerName}
+              {note?.ownerName}
             </Text>
             <Text fontWeight={600} mb={4}>
               <Text fontWeight={600} color={"gray.500"}>
                 {"Branch: "}
               </Text>
-              {note.branch}
+              {note?.branch}
             </Text>
             <Text fontWeight={600} mb={4}>
               <Text fontWeight={600} color={"gray.500"}>
                 {"Subject: "}
               </Text>
-              {note.subject}
+              {note?.subject}
             </Text>
           </List>
 

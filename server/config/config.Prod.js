@@ -20,6 +20,7 @@ const configProd = {
     HOST: process.env.PROD_HOST,
     SERVICE: process.env.PROD_SERVICE,
     FRONTEND_URL: process.env.PROD_FRONTEND_URL,
+    SOCKET_PORT: process.env.PROD_SOCKET_PORT
 };
 
 export default configProd;

@@ -19,7 +19,8 @@ const configDev = {
     EMAIL_API_KEY: process.env.DEV_EMAIL_API_KEY,
     HOST: process.env.DEV_HOST,
     SERVICE: process.env.DEV_SERVICE,
-    FRONTEND_URL: process.env.DEV_FRONTEND_URL
+    FRONTEND_URL: process.env.DEV_FRONTEND_URL,
+    SOCKET_PORT: process.env.DEV_SOCKET_PORT
 };
 
 export default configDev;
