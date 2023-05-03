@@ -100,7 +100,10 @@ import { Server } from "socket.io";
 
 const io = new Server(config.SOCKET_PORT, {
     cors: {
-        origin: config.FRONTEND_URL,
+        origin: [
+            config.FRONTEND_URL,
+            "https://bookclub-d193.onrender.com/"
+        ],
     },
 });
 
