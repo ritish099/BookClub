@@ -3,6 +3,7 @@ import "../styles/productDetails.css";
 import { useState , useEffect } from "react";
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
+import { Text } from "@chakra-ui/react";
 
 const ProductPage = () => {
     const [book, setBook] = useState();
@@ -41,14 +42,12 @@ const ProductPage = () => {
           </div>
 
           <div className="box">
-            <div className="row">
-              <p>{details?.bookName}</p>
-              <h2>By: {details?.author}</h2>
-            </div>
+            <Text fontSize={"2xl"}>{details?.bookName}</Text>
+            <h2> by <span className="author">{details?.author}</span> </h2>
 
-            <p>Branch: {details?.branch}</p>
-            <p>Uploaded by: {details?.ownerName}</p>
-            <p>Price: ${details?.price}</p>
+            <p> <b>Branch: </b> {details?.branch}</p>
+            <p> <b>Uploaded by: </b> {details?.ownerName}</p>
+            <p className="price"> ${details?.price}</p>
 
             <button className="cart">Add to cart</button>
           </div>

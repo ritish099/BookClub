@@ -83,6 +83,15 @@
     padding: 10px 25px;
     margin-top: 15px;
   }
+
+  .author{
+    color: grey;
+  }
+
+  .price{
+    font-weight: bold;
+    font-size: 30px;
+  }
   
   @media (max-width: 500px){
     .thumb{

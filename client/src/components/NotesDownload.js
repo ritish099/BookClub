@@ -17,6 +17,10 @@ const NotesDownload = () => {
   }, []);
 
   useEffect(() => {
+    if(semester.length === 0) {
+      setDisplayNotes(allNotes);
+      return;
+    }
     setDisplayNotes(allNotes.length ? allNotes.filter(ele => ele.semester === semester) : [])
   }, [semester])
 
