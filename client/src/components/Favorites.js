@@ -1,4 +1,4 @@
-import ProductCard from './ProductCard';
+import ProductCard from './ProductCardHome';
 import '../styles/Products.css';
 
 const Favorites = () => {

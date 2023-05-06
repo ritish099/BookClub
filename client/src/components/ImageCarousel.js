@@ -2,7 +2,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 import React from "react";
-import ProductCard from "./ProductCard";
+import ProductCard from "./ProductCardHome";
 import "../styles/Products.css";
 
 const ImageCarousel = ({Heading}) => {

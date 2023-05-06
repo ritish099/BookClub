@@ -1,4 +1,4 @@
-import ProductCard from "./ProductCard";
+import ProductCard from "./ProductCardHome";
 import React, {useState, useEffect} from "react";
 import "../styles/Products.css";
 import ImageCarousel from "./ImageCarousel";

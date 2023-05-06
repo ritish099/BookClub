@@ -23,7 +23,6 @@ import axios from "axios";
 import {BsStar, BsStarFill, BsStarHalf} from "react-icons/bs";
 import {FiShoppingCart} from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
- 
 const data = {
   isNew: true,
   imageURL:
@@ -107,13 +106,13 @@ function ProductAddToCart({book}) {
     <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke" onClick={() => {
       navigate(`/detail/${book._id}`)
     }}>
-      <CardBody>
-        <Image
+      <CardBody className="CardBody">
+        <Image className="img"
           src={book.image}
           alt={book.bookName}
-          minW={300}
-          maxHeight={200}
-          borderRadius="lg"
+          minW={[100,200,300]}
+          maxHeight={[125,150,200]} 
+          borderRadius="lg"         
         />
         <Stack mt="6" spacing="3">
           <Heading size="md">{book.bookName}</Heading>
@@ -155,13 +154,13 @@ function ProductAddToCart({book}) {
       </CardBody>
       <Divider />
       <CardFooter>
-        <ButtonGroup spacing="2">
-          <Button variant="solid" colorScheme="blue" onClick={() => {
+        <ButtonGroup spacing={[7,2,2]}>
+          <Button className="Button1" size={['sm','md','lg']} variant="solid" colorScheme="blue" onClick={() => {
             handleChatWithSeller(book.owner);
           }}>
             Chat With Seller
           </Button>
-          <Button variant="ghost" colorScheme="blue">
+          <Button className="Button2" size={['sm','md','lg']} variant="ghost" colorScheme="blue">
             Add to cart
           </Button>
         </ButtonGroup>
