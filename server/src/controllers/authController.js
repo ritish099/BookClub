@@ -380,6 +380,8 @@ const getUserDetails = async (req, res, next) => {
       name: user.name,
       email: user.email,
       username: user.userName,
+      image: user.image,
+      about: user.about
     });
   } catch (err) {
     next();
@@ -414,6 +416,22 @@ const getDetailsFromId = async (req, res, next) => {
   }
 };
 
+const updateUserDetails = async (req, res, next) => {
+  try{
+    console.log(req.body);
+    const id = req.params.userId;
+    console.log(id);
+
+    const updatedUser = await User.findByIdAndUpdate(id, req.body, {new: true});
+
+    res.status(200).json({
+      message: "User updated successfully"
+    })
+  }catch(err){
+    next();
+  }
+}
+
 export {
   signupController,
   confirmEmailController,
@@ -425,4 +443,5 @@ export {
   userSignedInValidationController,
   getUserDetails,
   getDetailsFromId,
+  updateUserDetails,
 };

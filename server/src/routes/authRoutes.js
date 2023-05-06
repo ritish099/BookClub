@@ -13,7 +13,8 @@ import {
     resetPasswordController,
     userSignedInValidationController,
     getUserDetails,
-    getDetailsFromId
+    getDetailsFromId,
+    updateUserDetails
 } from "../controllers/authController.js";
 import { errorHandler } from "../utils/errorHandler.js";
 import jwtAuth from "../middleware/jwtAuth.js";
@@ -101,5 +102,6 @@ route.post("/reset-password/:token",
 route.post('/verify-signin', errorHandler, userSignedInValidationController);
 route.get('/user-details',errorHandler,jwtAuth,getUserDetails);
 route.get('/:userId', errorHandler, getDetailsFromId);
+route.post('/update-user/:userId', errorHandler, updateUserDetails);
 
 export default route;

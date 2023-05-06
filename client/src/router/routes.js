@@ -12,6 +12,7 @@ import Messenger from "../pages/Messenger/Messenger";
 import NotesUpload from "../components/NotesUpload";
 import NotesDownload from "../components/NotesDownload";
 import ProductPage from "../components/ProductPage";
+import UpdateProfile from "../components/UpdateProfile";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,11 @@ const router = createBrowserRouter([
   {
     path: "/notes-download",
     element: <SidebarWithHeader children={<NotesDownload />} />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/update-profile",
+    element: <SidebarWithHeader children={<UpdateProfile />} />,
     errorElement: <Error />,
   },
 ]);
