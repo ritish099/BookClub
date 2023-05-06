@@ -26,7 +26,7 @@ import {useState, useEffect} from "react";
 import verifySignIn from "../utils/verifySignIn";
 import getUserBooks from "../utils/getUserBooks";
 import InfoPage from "./InfoPage";
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../components/ProductCardProfile";
 import {Text} from "@chakra-ui/react";
 import ChatButton from "./IconButton";
 
@@ -85,12 +85,12 @@ export default function EditButton() {
                     alt="Generic placeholder image"
                     className="mt-4 mb-2 img-thumbnail"
                     fluid
-                    style={{width: "150px", zIndex: "1"}}
+                    style={{width: "150px", zIndex: "1",minHeight: "145px",maxHeight: "160px"}}
                   />
                   <MDBBtn
                     outline
                     color="dark"
-                    style={{height: "36px", overflow: "visible"}}
+                    style={{height: "50px", overflow: "visible"}}
                     onClick={() => {
                       navigate("/update-profile");
                     }}
