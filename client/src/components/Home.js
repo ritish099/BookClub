@@ -1,4 +1,4 @@
-import FooterSudeshna from "./FooterSudeshna";
+import Footer from "./Footer";
 import Products from "./Products";
 import verifyEmail from "../utils/verifyEmail";
 import SidebarWithHeader from "./Sidebar";
@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <>
       <SidebarWithHeader children={<Products />} />
-      <FooterSudeshna></FooterSudeshna>
+      <Footer></Footer>
     </>
   );
 };
