@@ -13,7 +13,7 @@ import NotesUpload from "../components/NotesUpload";
 import NotesDownload from "../components/NotesDownload";
 import ProductPage from "../components/ProductPage";
 import UpdateProfile from "../components/UpdateProfile";
-
+import {Cart} from "../components/Cart";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -73,6 +73,11 @@ const router = createBrowserRouter([
   {
     path: "/update-profile",
     element: <SidebarWithHeader children={<UpdateProfile />} />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/cart",
+    element: <SidebarWithHeader children={<Cart />} />,
     errorElement: <Error />,
   },
 ]);

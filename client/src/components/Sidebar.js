@@ -36,11 +36,11 @@ import {
 } from "react-icons/fi";
 import {CgProfile} from "react-icons/cg";
 import {MdSell} from "react-icons/md";
-import { BsAlarm } from "react-icons/bs";
+import {BsAlarm} from "react-icons/bs";
 import {IconType} from "react-icons";
 import {ReactText} from "react";
-import { Link as RouterLink, Router, useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import {Link as RouterLink, Router, useNavigate} from "react-router-dom";
+import {useState, useEffect} from "react";
 import verifySignIn from "../utils/verifySignIn";
 import getFromLocalStorage from "../utils/getFromLocalStorage";
 import userSignOut from "../utils/userSignOut";
@@ -49,9 +49,10 @@ import {
   BsFillChatDotsFill,
   BsBookFill,
   BsFillCloudDownloadFill,
+  BsCartCheck,
 } from "react-icons/bs";
 import {TbNotebook} from "react-icons/tb";
- 
+
 interface LinkItemProps {
   name: string;
   icon: IconType;
@@ -64,23 +65,31 @@ const LinkItems: Array<LinkItemProps> = [
   {name: "Upload Notes", icon: TbNotebook, route: "/notes-upload"},
   {name: "Profile", icon: CgProfile, route: "/profile"},
   {name: "My Chats", icon: BsFillChatDotsFill, route: "/messenger"},
-  {name: "Download Notes", icon: BsFillCloudDownloadFill, route: "/notes-download"},
+  {
+    name: "Download Notes",
+    icon: BsFillCloudDownloadFill,
+    route: "/notes-download",
+  },
+  {name: "My Cart", icon: BsCartCheck, route: "/cart"},
 ];
- 
+
 export default function SidebarWithHeader({children}: {children: ReactNode}) {
   const {isOpen, onOpen, onClose} = useDisclosure();
   const {user, setUser} = useContext(userContext);
- 
+
   useEffect(() => {
     const isLoggedIn = verifySignIn();
     console.log(isLoggedIn);
-    if(isLoggedIn){
-      setUser({token: getFromLocalStorage('token'), name: getFromLocalStorage('name')});
-    }else{
+    if (isLoggedIn) {
+      setUser({
+        token: getFromLocalStorage("token"),
+        name: getFromLocalStorage("name"),
+      });
+    } else {
       setUser({token: null, name: null});
     }
   }, []);
- 
+
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent
@@ -108,11 +117,11 @@ export default function SidebarWithHeader({children}: {children: ReactNode}) {
     </Box>
   );
 }
- 
+
 interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
- 
+
 const SidebarContent = ({onClose, ...rest}: SidebarProps) => {
   return (
     <Box
@@ -150,7 +159,7 @@ const SidebarContent = ({onClose, ...rest}: SidebarProps) => {
     </Box>
   );
 };
- 
+
 interface NavItemProps extends FlexProps {
   icon: IconType;
   children: ReactText;
@@ -190,19 +199,19 @@ const NavItem = ({icon, children, ...rest}: NavItemProps) => {
     </Link>
   );
 };
- 
+
 interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({onOpen, ...rest}: MobileProps) => {
   const {user, setUser} = useContext(userContext);
   const navigate = useNavigate();
- 
+
   const signOut = () => {
     userSignOut(setUser);
-    navigate('/');
-  }
- 
+    navigate("/");
+  };
+
   return (
     <Flex
       ml={{base: 0, md: 60}}
@@ -222,7 +231,7 @@ const MobileNav = ({onOpen, ...rest}: MobileProps) => {
         aria-label="open menu"
         icon={<FiMenu />}
       />
- 
+
       <Text
         display={{base: "flex", md: "none"}}
         fontSize="2xl"
@@ -240,7 +249,7 @@ const MobileNav = ({onOpen, ...rest}: MobileProps) => {
           Book<span>Club</span>
         </div>
       </Text>
- 
+
       {user.token ? (
         <HStack spacing={{base: "0", md: "6"}}>
           <Flex alignItems={"center"}>
@@ -290,7 +299,7 @@ const MobileNav = ({onOpen, ...rest}: MobileProps) => {
               Sign Up
             </Button>
           </RouterLink>
- 
+
           <RouterLink to="/signin">
             <Button colorScheme="teal" variant="outline">
               Sign in

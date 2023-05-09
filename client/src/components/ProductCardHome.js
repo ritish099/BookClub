@@ -17,12 +17,13 @@ import {
   Heading,
   CardFooter,
   useToast,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
 import {BsStar, BsStarFill, BsStarHalf} from "react-icons/bs";
 import {FiShoppingCart} from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import addBookToCart from "../utils/addBookToCart";
 const data = {
   isNew: true,
   imageURL:
@@ -32,12 +33,12 @@ const data = {
   rating: 4.2,
   numReviews: 34,
 };
- 
+
 interface RatingProps {
   rating: number;
   numReviews: number;
 }
- 
+
 function Rating({rating, numReviews}: RatingProps) {
   return (
     <Flex className="review-box">
@@ -65,58 +66,62 @@ function Rating({rating, numReviews}: RatingProps) {
     </Flex>
   );
 }
- 
+
 function ProductAddToCart({book}) {
   const toast = useToast();
   const navigate = useNavigate();
- 
-  async function handleChatWithSeller(sellerId){
-    const userId = localStorage.getItem('id');
-    if(!userId){
-       toast({
-         title: "Please login to chat",
-         status: "error",
-         position: "bottom-left",
-         duration: 9000,
-         isClosable: true,
-       });
-       return;
+
+  async function handleChatWithSeller(sellerId) {
+    const userId = localStorage.getItem("id");
+    if (!userId) {
+      toast({
+        title: "Please login to chat",
+        status: "error",
+        position: "bottom-left",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
     }
- 
+
     const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}conversations/find/${userId}/${sellerId}`;
     const res = await axios.get(url);
- 
-    if(!res.data){
+
+    if (!res.data) {
       const url2 = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}conversations`;
-      
+
       const res = await axios.post(url2, {
         senderId: userId,
-        receiverId: sellerId
+        receiverId: sellerId,
       });
- 
+
       navigate("/messenger");
       console.log(res);
-    }else{
-      console.log('gg');
+    } else {
+      console.log("gg");
       navigate("/messenger");
     }
   }
- 
+
   return (
-    <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke" onClick={() => {
-      navigate(`/detail/${book._id}`)
-    }}>
-      <CardBody className="CardBody">
-        <Image className="img"
+    <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke">
+      <CardBody
+        className="CardBody"
+        onClick={() => {
+          navigate(`/detail/${book._id}`);
+        }}
+      >
+        <Image
+          className="img"
           src={book.image}
           alt={book.bookName}
-          minW={[100,200,300]}
-          maxHeight={[125,150,200]} 
-          borderRadius="lg"         
+          minW={[100, 200, 300]}
+          maxHeight={[125, 150, 200]}
+          borderRadius="lg"
         />
         <Stack mt="6" spacing="3">
           <Heading size="md">{book.bookName}</Heading>
- 
+
           <Flex justifyContent="space-between" alignContent="center">
             <Text
               fontSize="md"
@@ -127,7 +132,7 @@ function ProductAddToCart({book}) {
               {book.author}
             </Text>
           </Flex>
- 
+
           <Flex justifyContent="space-between" alignContent="center">
             <Text
               fontSize="md"
@@ -141,7 +146,7 @@ function ProductAddToCart({book}) {
               </Text>
             </Text>
           </Flex>
- 
+
           <Flex justifyContent="space-between" alignContent="center">
             <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>
               <Box as="span" color={"gray.600"} fontSize="lg">
@@ -154,13 +159,27 @@ function ProductAddToCart({book}) {
       </CardBody>
       <Divider />
       <CardFooter>
-        <ButtonGroup spacing={[7,2,2]}>
-          <Button className="Button1" size={['sm','md','lg']} variant="solid" colorScheme="blue" onClick={() => {
-            handleChatWithSeller(book.owner);
-          }}>
+        <ButtonGroup spacing={[7, 2, 2]}>
+          <Button
+            className="Button1"
+            size={["sm", "md", "lg"]}
+            variant="solid"
+            colorScheme="blue"
+            onClick={() => {
+              handleChatWithSeller(book.owner);
+            }}
+          >
             Chat With Seller
           </Button>
-          <Button className="Button2" size={['sm','md','lg']} variant="ghost" colorScheme="blue">
+          <Button
+            className="Button2"
+            size={["sm", "md", "lg"]}
+            variant="ghost"
+            colorScheme="blue"
+            onClick={() => {
+              addBookToCart(book._id, toast);
+            }}
+          >
             Add to cart
           </Button>
         </ButtonGroup>
@@ -168,5 +187,5 @@ function ProductAddToCart({book}) {
     </Card>
   );
 }
- 
+
 export default ProductAddToCart;

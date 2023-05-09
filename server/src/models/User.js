@@ -60,6 +60,12 @@ const UserSchema = new Schema({
       ref: "Notes",
     },
   ],
+  Cart: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now(),

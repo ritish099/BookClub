@@ -381,7 +381,7 @@ const getUserDetails = async (req, res, next) => {
       email: user.email,
       username: user.userName,
       image: user.image,
-      about: user.about
+      about: user.about,
     });
   } catch (err) {
     next();
@@ -417,7 +417,7 @@ const getDetailsFromId = async (req, res, next) => {
 };
 
 const updateUserDetails = async (req, res, next) => {
-  try{
+  try {
     console.log(req.body);
     const id = req.params.userId;
     console.log(id);
@@ -425,12 +425,51 @@ const updateUserDetails = async (req, res, next) => {
     const updatedUser = await User.findByIdAndUpdate(id, req.body, {new: true});
 
     res.status(200).json({
-      message: "User updated successfully"
-    })
-  }catch(err){
+      message: "User updated successfully",
+    });
+  } catch (err) {
     next();
   }
-}
+};
+
+const addBookToCart = async (req, res, next) => {
+  try {
+    console.log("Cart");
+    const id = req.params.userId;
+    const user = await User.findById(id);
+    console.log(user.Cart);
+
+    if (!user.Cart.includes(req.body.bookId)) user.Cart.push(req.body.bookId);
+
+    console.log(user.Cart);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {Cart: user.Cart},
+      {new: true}
+    );
+
+    res.status(200).json({
+      message: "User Cart updated successfully",
+    });
+  } catch (err) {
+    next();
+  }
+};
+
+const getAllCartBooks = async (req, res, next) => {
+  try {
+    const id = req.params.userId;
+    const user = await User.findById(id);
+    console.log(user.Cart);
+
+    res.status(200).json({
+      data: user.Cart
+    });
+  } catch (err) {
+    next();
+  }
+};
 
 export {
   signupController,
@@ -444,4 +483,6 @@ export {
   getUserDetails,
   getDetailsFromId,
   updateUserDetails,
+  addBookToCart,
+  getAllCartBooks,
 };
