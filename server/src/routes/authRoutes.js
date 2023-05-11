@@ -17,6 +17,7 @@ import {
   updateUserDetails,
   addBookToCart,
   getAllCartBooks,
+  removeBookFromCart
 } from "../controllers/authController.js";
 import {errorHandler} from "../utils/errorHandler.js";
 import jwtAuth from "../middleware/jwtAuth.js";
@@ -117,5 +118,6 @@ route.get("/:userId", errorHandler, getDetailsFromId);
 route.post("/update-user/:userId", errorHandler, updateUserDetails);
 route.post("/addCart/:userId", errorHandler, addBookToCart);
 route.get("/get-cart/:userId", errorHandler, getAllCartBooks);
+route.post("/bookDel/:userId",errorHandler, removeBookFromCart);
 
 export default route;

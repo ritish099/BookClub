@@ -457,6 +457,33 @@ const addBookToCart = async (req, res, next) => {
   }
 };
 
+const removeBookFromCart = async (req, res, next) => {
+  try {
+    console.log(req.body.bookId);
+    const id = req.params.userId;
+    const user = await User.findById(id);
+    console.log();
+
+    user.Cart=user.Cart.filter(()=>{
+      return bookId!=req.body.bookId;
+    })
+
+    console.log(user.Cart);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {Cart: user.Cart},
+      {new: true}
+    );
+
+    res.status(200).json({
+      message: "User Cart updated successfully",
+    });
+  } catch (err) {
+    next();
+  }
+};
+
 const getAllCartBooks = async (req, res, next) => {
   try {
     const id = req.params.userId;
@@ -472,6 +499,7 @@ const getAllCartBooks = async (req, res, next) => {
 };
 
 export {
+  removeBookFromCart,
   signupController,
   confirmEmailController,
   loginController,
