@@ -5,8 +5,7 @@ import {
 } from "@chakra-ui/react";
 import {PriceTag} from "./PriceTag";
 import {CartProductMeta} from "./CartProductMeta";
-
-export const CartItem = (book) => {
+export const CartItem = ({book,onClickDelete}) => {
   return (
     <Flex
       direction={{
@@ -35,7 +34,9 @@ export const CartItem = (book) => {
         <PriceTag price={book.price} currency={"INR"} />
         <CloseButton
           aria-label={`Delete ${book.bookName} from cart`}
-          // onClick={onClickDelete}
+          onClick={()=>{
+            onClickDelete(book._id)
+          }}
         />
       </Flex>
 

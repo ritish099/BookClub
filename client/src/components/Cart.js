@@ -7,10 +7,10 @@ import {
   Stack,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
-import {CartItem} from "./CartItem";
-import {CartOrderSummary} from "./CartOrderSummary";
+import { CartItem } from "./CartItem";
+import { CartOrderSummary } from "./CartOrderSummary";
 import verifySignIn from "../utils/verifySignIn";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import InfoPage from "./InfoPage";
 import axios from "axios";
 import getFromLocalStorage from "../utils/getFromLocalStorage";
@@ -19,13 +19,33 @@ export const Cart = () => {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [bookDetails, setBookDetails] = useState([]);
 
+  const onClickDelete = (bookId) => {
+    console.log("inside onclickdelete");
+    setBookDetails(
+      bookDetails.filter((item) => {
+        return bookId != item._id;
+      })
+    );
+    const userId = localStorage.getItem("id");
+    const data = {bookId:bookId};
+    const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}auth/bookDel/${userId}`;
+    axios
+      .post(url,data)
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     verifySignIn().then((res) => {
       //console.log(res);
       setisLoggedIn(res);
     });
   }, []);
-
+  
   useEffect(() => {
     const id = localStorage.getItem("id");
 
@@ -36,7 +56,6 @@ export const Cart = () => {
     const userId = localStorage.getItem("id");
     const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}auth/get-cart/${userId}`;
     const token = getFromLocalStorage("token");
-
     //API call to get all book ID
     axios
       .get(url, {
@@ -45,7 +64,6 @@ export const Cart = () => {
         },
       })
       .then((res) => {
-
         //API call to get book details using id
         const arr = res.data.data;
 
@@ -59,8 +77,8 @@ export const Cart = () => {
               },
             })
             .then((res) => {
-                console.log(res.data.data[0]);
-              setBookDetails((oldVal) => [...oldVal, res.data.data[0]])
+              console.log(res.data.data[0]);
+              setBookDetails((oldVal) => [...oldVal, res.data.data[0]]);
             })
             .catch((err) => {
               console.log(err);
@@ -116,7 +134,11 @@ export const Cart = () => {
 
           <Stack spacing="6">
             {bookDetails.map((item) => (
-              <CartItem key={item._id} {...item}/>
+              <CartItem
+                key={item._id}
+                onClickDelete={onClickDelete}
+                book={item}
+              />
             ))}
           </Stack>
         </Stack>
