@@ -459,20 +459,16 @@ const addBookToCart = async (req, res, next) => {
 
 const removeBookFromCart = async (req, res, next) => {
   try {
-    console.log(req.body.bookId);
     const id = req.params.userId;
     const user = await User.findById(id);
-    console.log();
 
-    user.Cart=user.Cart.filter(()=>{
-      return bookId!=req.body.bookId;
-    })
-
-    console.log(user.Cart);
+    const newCart = user.Cart.filter((item) => {
+      return !item.equals(req.body.bookId);
+    });
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
-      {Cart: user.Cart},
+      {Cart: newCart},
       {new: true}
     );
 

@@ -14,21 +14,31 @@ import { useState, useEffect } from "react";
 import InfoPage from "./InfoPage";
 import axios from "axios";
 import getFromLocalStorage from "../utils/getFromLocalStorage";
+import { useNavigate } from "react-router-dom";
 
 export const Cart = () => {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [bookDetails, setBookDetails] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  const navigate = useNavigate();
 
   const onClickDelete = (bookId) => {
     console.log("inside onclickdelete");
+    bookDetails.forEach(item => {
+      if(item._id === bookId){
+        setTotal((val) => val - item.price);
+      }
+    })
+
     setBookDetails(
       bookDetails.filter((item) => {
-        return bookId != item._id;
+        return bookId !== item._id;
       })
     );
     const userId = localStorage.getItem("id");
-    const data = {bookId:bookId};
-    const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}auth/bookDel/${userId}`;
+    const data = {bookId};
+    const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}auth/remove-cart/${userId}`;
     axios
       .post(url,data)
       .then((res) => {
@@ -79,6 +89,8 @@ export const Cart = () => {
             .then((res) => {
               console.log(res.data.data[0]);
               setBookDetails((oldVal) => [...oldVal, res.data.data[0]]);
+              console.log(res.data.data[0].price);
+              setTotal((val) => val + res.data.data[0].price);
             })
             .catch((err) => {
               console.log(err);
@@ -144,10 +156,12 @@ export const Cart = () => {
         </Stack>
 
         <Flex direction="column" align="center" flex="1">
-          <CartOrderSummary />
+          <CartOrderSummary total={total} />
           <HStack mt="6" fontWeight="semibold">
             <p>or</p>
-            <Link color={mode("blue.500", "blue.200")}>Continue shopping</Link>
+            <Link color={mode("blue.500", "blue.200")} onClick={() => {
+              navigate("/");
+            }}> Continue shopping </Link>
           </HStack>
         </Flex>
       </Stack>

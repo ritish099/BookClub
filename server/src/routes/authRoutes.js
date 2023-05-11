@@ -118,6 +118,6 @@ route.get("/:userId", errorHandler, getDetailsFromId);
 route.post("/update-user/:userId", errorHandler, updateUserDetails);
 route.post("/addCart/:userId", errorHandler, addBookToCart);
 route.get("/get-cart/:userId", errorHandler, getAllCartBooks);
-route.post("/bookDel/:userId",errorHandler, removeBookFromCart);
+route.post("/remove-cart/:userId",errorHandler, removeBookFromCart);
 
 export default route;

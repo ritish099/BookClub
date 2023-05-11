@@ -21,7 +21,7 @@ const OrderSummaryItem = (props) => {
   );
 };
 
-export const CartOrderSummary = () => {
+export const CartOrderSummary = ({total}) => {
   return (
     <Stack
       bgColor={"white"}
@@ -31,26 +31,26 @@ export const CartOrderSummary = () => {
       padding="8"
       width="full"
     >
-      <Heading size="md">Order Summary</Heading>
+      <Heading size="md">Total Amount</Heading>
 
       <Stack spacing="6">
-        <OrderSummaryItem label="Subtotal" value={formatPrice(597)} />
-        <OrderSummaryItem label="Shipping + Tax">
+        {/* <OrderSummaryItem label="Subtotal" value={formatPrice(597)} /> */}
+        {/* <OrderSummaryItem label="Shipping + Tax">
           <Link href="#" textDecor="underline">
             Calculate shipping
           </Link>
-        </OrderSummaryItem>
-        <OrderSummaryItem label="Coupon Code">
+        </OrderSummaryItem> */}
+        {/* <OrderSummaryItem label="Coupon Code">
           <Link href="#" textDecor="underline">
             Add coupon code
           </Link>
-        </OrderSummaryItem>
+        </OrderSummaryItem> */}
         <Flex justify="space-between">
           <Text fontSize="lg" fontWeight="semibold">
             Total
           </Text>
           <Text fontSize="xl" fontWeight="extrabold">
-            {formatPrice(597)}
+            {formatPrice(total)}
           </Text>
         </Flex>
       </Stack>
