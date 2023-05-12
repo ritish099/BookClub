@@ -410,6 +410,7 @@ const getDetailsFromId = async (req, res, next) => {
     res.status(200).json({
       name: user.name,
       userName: user.userName,
+      image: user.image,
     });
   } catch (err) {
     next();

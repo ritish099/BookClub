@@ -1,30 +1,36 @@
 import React, {useState, useEffect} from "react";
 import "../styles/Products.css";
-import NotesCard from './NotesCard';
+import NotesCard from "./NotesCard";
 import {Select, Text} from "@chakra-ui/react";
 import getAllNotes from "../utils/getAllNotes";
+import Loader from "./Loader";
 
 const NotesDownload = () => {
   const [allNotes, setAllNotes] = useState([]);
-  const [semester, setSemester] = useState('');
+  const [semester, setSemester] = useState("");
   const [displayNotes, setDisplayNotes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getData() {
-      await getAllNotes(setAllNotes, setDisplayNotes);
+      await getAllNotes(setAllNotes, setDisplayNotes, setIsLoading);
     }
     getData();
   }, []);
 
   useEffect(() => {
-    if(semester.length === 0) {
+    if (semester.length === 0) {
       setDisplayNotes(allNotes);
       return;
     }
-    setDisplayNotes(allNotes.length ? allNotes.filter(ele => ele.semester === semester) : [])
-  }, [semester])
+    setDisplayNotes(
+      allNotes.length ? allNotes.filter((ele) => ele.semester === semester) : []
+    );
+  }, [semester]);
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className="BigDiv">
       <div className="Heading">
         <Text marginBottom={"10px"}>Download notes</Text>

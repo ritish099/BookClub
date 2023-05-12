@@ -12,7 +12,7 @@ import {
   useColorModeValue,
   FormErrorMessage,
   FormHelperText,
-  Select
+  Select,
 } from "@chakra-ui/react";
 
 import {useState, useEffect} from "react";
@@ -23,6 +23,7 @@ import InfoPage from "./InfoPage";
 import ChatButton from "./IconButton";
 import notesUpload from "../utils/notesUpload";
 import NotesUploadSchema from "../schema/NotesUploadSchema";
+import Loader from "./Loader";
 
 export default function NotesUpload() {
   const [uploadSuccess, setuploadSuccess] = useState({
@@ -31,6 +32,7 @@ export default function NotesUpload() {
   });
   const [uploadError, setuploadError] = useState({error: false, message: ""});
   const [notesDoc, setnotesDoc] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const toast = useToast();
 
   const [isLoggedIn, setisLoggedIn] = useState(false);
@@ -38,6 +40,7 @@ export default function NotesUpload() {
     verifySignIn().then((res) => {
       //console.log(res);
       setisLoggedIn(res);
+      setIsLoading(false);
     });
   }, []);
 
@@ -68,7 +71,9 @@ export default function NotesUpload() {
     });
   }
 
-  return isLoggedIn ? (
+  return isLoading ? (
+    <Loader />
+  ) : isLoggedIn ? (
     <Flex minH={"100vh"} align={"center"} justify={"center"} bg={val1}>
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
@@ -104,7 +109,7 @@ export default function NotesUpload() {
                 notesDoc,
                 actions,
                 setuploadSuccess,
-                setuploadError,
+                setuploadError
               );
             }}
           >

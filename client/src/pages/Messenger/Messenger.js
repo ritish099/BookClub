@@ -9,7 +9,8 @@ import axios from "axios";
 import {io} from "socket.io-client";
 import verifySignIn from "../../utils/verifySignIn";
 import InfoPage from "../../components/InfoPage";
-import { useLocation } from "react-router-dom";
+import {useLocation} from "react-router-dom";
+import Loader from "../../components/Loader";
 
 export default function Messenger() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
@@ -21,6 +22,7 @@ export default function Messenger() {
   const [onlineUsers, setOnlineUsers] = useState([]);
   //const {user} = useContext(AuthContext);
   const [userId, setUserId] = useState(localStorage.getItem("id"));
+  const [isLoading, setIsLoading] = useState(true);
   // const [name, setName] = useState(null);
   // const [token, setToken] = useState(null);
   // const [userName, setUserName] = useState(null);
@@ -39,12 +41,13 @@ export default function Messenger() {
 
   useEffect(() => {
     console.log("changed location...");
-  }, [location.pathname])
+  }, [location.pathname]);
 
   //to make sure if a user is logged in
   useEffect(() => {
     verifySignIn().then((res) => {
       setisLoggedIn(res);
+      setIsLoading(false);
     });
   }, []);
 
@@ -58,7 +61,7 @@ export default function Messenger() {
     fetchConversations();
   }, []);
 
-  function incomingMessage(data){
+  function incomingMessage(data) {
     console.log(data);
     console.log(arrivalMessage);
 
@@ -127,15 +130,13 @@ export default function Messenger() {
       conversationId: currentChat._id,
     };
 
-    const receiverId = currentChat.members.find(
-      (member) => member !== userId
-    );
+    const receiverId = currentChat.members.find((member) => member !== userId);
 
     socket.current.emit("sendMessage", {
       senderId: userId,
       receiverId,
       text: newMessage,
-      conversationId: currentChat._id
+      conversationId: currentChat._id,
     });
 
     try {
@@ -152,7 +153,9 @@ export default function Messenger() {
     scrollRef.current?.scrollIntoView({behavior: "smooth"});
   }, [messages]);
 
-  return isLoggedIn ? (
+  return isLoading ? (
+    <Loader />
+  ) : isLoggedIn ? (
     <div className="messenger">
       <div className="chatMenu">
         <div className="chatMenuWrapper">

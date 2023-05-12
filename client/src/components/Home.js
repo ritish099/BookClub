@@ -27,7 +27,6 @@ const Home = () => {
   return (
     <>
       <SidebarWithHeader children={<Products />} />
-      <Footer></Footer>
     </>
   );
 };

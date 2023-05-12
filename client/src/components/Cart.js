@@ -7,29 +7,30 @@ import {
   Stack,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
-import { CartItem } from "./CartItem";
-import { CartOrderSummary } from "./CartOrderSummary";
+import {CartItem} from "./CartItem";
+import {CartOrderSummary} from "./CartOrderSummary";
 import verifySignIn from "../utils/verifySignIn";
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import InfoPage from "./InfoPage";
 import axios from "axios";
 import getFromLocalStorage from "../utils/getFromLocalStorage";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import Loader from "./Loader";
 
 export const Cart = () => {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [bookDetails, setBookDetails] = useState([]);
   const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
   const onClickDelete = (bookId) => {
-    console.log("inside onclickdelete");
-    bookDetails.forEach(item => {
-      if(item._id === bookId){
+    bookDetails.forEach((item) => {
+      if (item._id === bookId) {
         setTotal((val) => val - item.price);
       }
-    })
+    });
 
     setBookDetails(
       bookDetails.filter((item) => {
@@ -40,9 +41,9 @@ export const Cart = () => {
     const data = {bookId};
     const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}auth/remove-cart/${userId}`;
     axios
-      .post(url,data)
+      .post(url, data)
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -53,9 +54,12 @@ export const Cart = () => {
     verifySignIn().then((res) => {
       //console.log(res);
       setisLoggedIn(res);
+      if(!res){
+        setIsLoading(false);
+      }
     });
   }, []);
-  
+
   useEffect(() => {
     const id = localStorage.getItem("id");
 
@@ -96,13 +100,16 @@ export const Cart = () => {
               console.log(err);
             });
         });
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log("err", err);
       });
   }, []);
 
-  return isLoggedIn ? (
+  return isLoading ? (
+    <Loader />
+  ) : isLoggedIn ? (
     <Box
       maxW={{
         base: "3xl",
@@ -159,9 +166,15 @@ export const Cart = () => {
           <CartOrderSummary total={total} />
           <HStack mt="6" fontWeight="semibold">
             <p>or</p>
-            <Link color={mode("blue.500", "blue.200")} onClick={() => {
-              navigate("/");
-            }}> Continue shopping </Link>
+            <Link
+              color={mode("blue.500", "blue.200")}
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              {" "}
+              Continue shopping{" "}
+            </Link>
           </HStack>
         </Flex>
       </Stack>

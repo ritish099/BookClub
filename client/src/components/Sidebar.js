@@ -52,6 +52,8 @@ import {
   BsCartCheck,
 } from "react-icons/bs";
 import {TbNotebook} from "react-icons/tb";
+import axios from "axios";
+import Footer from "./Footer";
 
 interface LinkItemProps {
   name: string;
@@ -113,6 +115,7 @@ export default function SidebarWithHeader({children}: {children: ReactNode}) {
       <MobileNav onOpen={onOpen} />
       <Box ml={{base: 0, md: 60}} p="4">
         {children}
+        <Footer />
       </Box>
     </Box>
   );
@@ -205,7 +208,16 @@ interface MobileProps extends FlexProps {
 }
 const MobileNav = ({onOpen, ...rest}: MobileProps) => {
   const {user, setUser} = useContext(userContext);
+  const [userImage, setUserImage] = useState();
   const navigate = useNavigate();
+
+  useEffect(() => {
+      const id = localStorage.getItem("id");
+      const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}auth/${id}`;
+      axios.get(url).then(res => {
+        setUserImage(res.data.image);
+      })
+    }, []);
 
   const signOut = () => {
     userSignOut(setUser);
@@ -264,7 +276,7 @@ const MobileNav = ({onOpen, ...rest}: MobileProps) => {
                   <Avatar
                     size={"sm"}
                     src={
-                      "https://images.unsplash.com/photo-1544502062-f82887f03d1c?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                      userImage
                     }
                   />
                   <VStack

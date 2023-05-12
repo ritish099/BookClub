@@ -44,12 +44,14 @@ import {
 } from "mdb-react-ui-kit";
 import {useNavigate} from "react-router-dom";
 import getUserDetails from "../utils/getUserDetails";
+import Loader from "./Loader";
 
 export default function EditButton() {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [Books, setBooks] = useState([]);
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const sampleImage =
     "https://images.unsplash.com/photo-1544502062-f82887f03d1c?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ";
@@ -58,6 +60,7 @@ export default function EditButton() {
     verifySignIn().then((res) => {
       //console.log(res);
       setisLoggedIn(res);
+      setIsLoading(false);
     });
     getUserBooks(setBooks);
   }, []);
@@ -66,7 +69,9 @@ export default function EditButton() {
     getUserDetails(setUser);
   }, []);
 
-  return isLoggedIn ? (
+  return isLoading ? (
+    <Loader />
+  ) : isLoggedIn ? (
     <div className="gradient-custom-2">
       <MDBContainer className="py-5 h-100" style={{width: "100%"}}>
         <MDBRow className="justify-content-center align-items-center h-100">
@@ -85,7 +90,12 @@ export default function EditButton() {
                     alt="Generic placeholder image"
                     className="mt-4 mb-2 img-thumbnail"
                     fluid
-                    style={{width: "150px", zIndex: "1",minHeight: "145px",maxHeight: "160px"}}
+                    style={{
+                      width: "150px",
+                      zIndex: "1",
+                      minHeight: "145px",
+                      maxHeight: "160px",
+                    }}
                   />
                   <MDBBtn
                     outline
@@ -99,7 +109,9 @@ export default function EditButton() {
                   </MDBBtn>
                 </div>
                 <div className="ms-3" style={{marginTop: "130px"}}>
-                  <MDBTypography tag="h5">{localStorage.getItem("name")}</MDBTypography>
+                  <MDBTypography tag="h5">
+                    {localStorage.getItem("name")}
+                  </MDBTypography>
                   <MDBCardText>@{localStorage.getItem("userName")}</MDBCardText>
                 </div>
               </div>
@@ -126,9 +138,7 @@ export default function EditButton() {
                 <div className="mb-5">
                   <p className="lead fw-normal mb-1">About</p>
                   <div className="p-4" style={{backgroundColor: "#f8f9fa"}}>
-                    {
-                      user?.about
-                    }
+                    {user?.about}
                   </div>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-4">

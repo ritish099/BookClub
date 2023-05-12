@@ -18,10 +18,11 @@ import {useState, useEffect} from "react";
 import BookUploadSchema from "../schema/BookUploadSchema";
 import {Field, Form, Formik} from "formik";
 import bookUpload from "../utils/bookUpload";
-import getFromLocalStorage from '../utils/getFromLocalStorage';
+import getFromLocalStorage from "../utils/getFromLocalStorage";
 import verifySignIn from "../utils/verifySignIn";
 import InfoPage from "./InfoPage";
 import ChatButton from "./IconButton";
+import Loader from "./Loader";
 
 export default function SignupCard() {
   const [uploadSuccess, setuploadSuccess] = useState({
@@ -29,7 +30,8 @@ export default function SignupCard() {
     message: "",
   });
   const [uploadError, setuploadError] = useState({error: false, message: ""});
-  const [bookImages, setbookImages] = useState('jj');
+  const [bookImages, setbookImages] = useState("jj");
+  const [isLoading, setIsLoading] = useState(true);
   const toast = useToast();
 
   const [isLoggedIn, setisLoggedIn] = useState(false);
@@ -37,6 +39,7 @@ export default function SignupCard() {
     verifySignIn().then((res) => {
       //console.log(res);
       setisLoggedIn(res);
+      setIsLoading(false);
     });
   }, []);
 
@@ -45,7 +48,7 @@ export default function SignupCard() {
 
   const handleImageChange = async (e) => {
     await setbookImages(e.target.files[0]);
-  }
+  };
 
   if (uploadSuccess.success) {
     toast({
@@ -67,7 +70,9 @@ export default function SignupCard() {
     });
   }
 
-  return isLoggedIn ? (
+  return isLoading ? (
+    <Loader />
+  ) : isLoggedIn ? (
     <Flex minH={"100vh"} align={"center"} justify={"center"} bg={val1}>
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>

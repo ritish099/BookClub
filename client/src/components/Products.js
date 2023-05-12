@@ -7,15 +7,17 @@ import getAllBooks from "../utils/getAllBooks";
 import {Input, Text} from "@chakra-ui/react";
 import Fuse from "fuse.js";
 import ChatButton from "./IconButton";
+import Loader from "./Loader";
 
 const Products = () => {
   const [searchResult, setsearchResult] = useState([]);
   const [Books, setBooks] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getData() {
-      await getAllBooks(setBooks);
+      await getAllBooks(setBooks, setIsLoading);
     }
     getData();
   }, []);
@@ -29,7 +31,7 @@ const Products = () => {
     console.log(fuse.search(search));
   }, [search]);
 
-  return (
+  return !isLoading ? (
     <div className="BigDiv">
       <div className="Heading">{/* <h1>Top Deals!</h1> */}</div>
 
@@ -49,7 +51,7 @@ const Products = () => {
 
       <div className="Catalogue">
         {!searchResult.length
-          ? Books.map((book) => <ProductCard id={book._id} book={book} />)
+          ? Books.map((book) => <ProductCard key={book._id} id={book._id} book={book} />)
           : searchResult.map((book) => (
               <ProductCard id={book.item._id} book={book.item} />
             ))}
@@ -57,6 +59,8 @@ const Products = () => {
 
       <ChatButton />
     </div>
+  ) : (
+    <Loader />
   );
 };
 

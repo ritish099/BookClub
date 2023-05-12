@@ -10,7 +10,7 @@ import {
 
 export default function NotesCard({note}) {
   return (
-    <Center py={6}>
+    <Center py={6} margin={"10px"}>
       <Box
         minW={"300px"}
         w={"full"}

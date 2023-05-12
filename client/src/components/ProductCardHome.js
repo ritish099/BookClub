@@ -104,7 +104,7 @@ function ProductAddToCart({book}) {
   }
 
   return (
-    <Card maxW="sm" marginBottom={"50"} backgroundColor="whitesmoke">
+    <Card maxW="sm" margin={"15px"} marginBottom={"50"} backgroundColor="whitesmoke">
       <CardBody
         className="CardBody"
         onClick={() => {
