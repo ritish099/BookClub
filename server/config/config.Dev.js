@@ -20,7 +20,9 @@ const configDev = {
     HOST: process.env.DEV_HOST,
     SERVICE: process.env.DEV_SERVICE,
     FRONTEND_URL: process.env.DEV_FRONTEND_URL,
-    SOCKET_PORT: process.env.DEV_SOCKET_PORT
+    SOCKET_PORT: process.env.DEV_SOCKET_PORT,
+    RAZORPAY_API_KEY: process.env.DEV_RAZORPAY_API_KEY,
+    RAZORPAY_API_SECRET: process.env.DEV_RAZORPAY_API_SECRET
 };
 
 export default configDev;

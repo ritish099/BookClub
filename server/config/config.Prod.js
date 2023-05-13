@@ -20,7 +20,9 @@ const configProd = {
     HOST: process.env.PROD_HOST,
     SERVICE: process.env.PROD_SERVICE,
     FRONTEND_URL: process.env.PROD_FRONTEND_URL,
-    SOCKET_PORT: process.env.PROD_SOCKET_PORT
+    SOCKET_PORT: process.env.PROD_SOCKET_PORT,
+    RAZORPAY_API_KEY: process.env.PROD_RAZORPAY_API_KEY,
+    RAZORPAY_API_SECRET: process.env.PROD_RAZORPAY_API_SECRET
 };
 
 export default configProd;

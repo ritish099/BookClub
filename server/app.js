@@ -11,6 +11,7 @@ import { fileURLToPath } from "url";
 import path, { dirname } from "node:path";
 import config from "./config/config.js";
 import http from 'http';
+import Razorpay from "razorpay";
 
 import { globalErrorHandler } from "./src/utils/errorHandler.js";
 import Message from "./src/models/Message.js";
@@ -24,6 +25,7 @@ import bookApi from "./src/routes/bookRoutes.js";
 import conversationApi from "./src/routes/conversationRoute.js";
 import messagesApi from "./src/routes/messageRoute.js";
 import notesApi from "./src/routes/noteRoutes.js";
+import paymentApi from "./src/routes/paymentRoute.js";
 
 // app and middleware
 const app = express();
@@ -84,6 +86,11 @@ app.use("/book", bookApi);
 app.use("/conversations", conversationApi);
 app.use("/messages", messagesApi);
 app.use("/notes", notesApi);
+app.use("/payment", paymentApi);
+
+app.get("/payment/getkey", (req, res) =>
+    res.status(200).json({ key: config.RAZORPAY_API_KEY })
+);
 
 // error handling middleware
 app.use(globalErrorHandler);
@@ -135,15 +142,15 @@ io.on("connection", (socket) => {
     });
 
     //send and get message
-    socket.on("sendMessage", ({senderId, receiverId, text, conversationId}) => {
-      const user = getUser(receiverId);
+    socket.on("sendMessage", ({ senderId, receiverId, text, conversationId }) => {
+        const user = getUser(receiverId);
 
-      if (user) {
-        io.to(user.socketId).emit("getMessage", {
-          senderId,
-          text,
-        });
-      }
+        if (user) {
+            io.to(user.socketId).emit("getMessage", {
+                senderId,
+                text,
+            });
+        }
     });
 
     socket.on("close", () => {
@@ -157,6 +164,11 @@ io.on("connection", (socket) => {
         removeUser(socket.id);
         //io.emit("getUsers", users);
     });
+});
+
+export const instance = new Razorpay({
+    key_id: config.RAZORPAY_API_KEY,
+    key_secret: config.RAZORPAY_API_SECRET,
 });
 
 export default server;
