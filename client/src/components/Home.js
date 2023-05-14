@@ -13,11 +13,19 @@ const Home = () => {
   useEffect(() => {
     async function verifyUserEmail() {
       const message = searchParams.get("m");
+      const paymentMessage = searchParams.get("payment");
+
       if (message) {
         const id = searchParams.get("id");
         const token = searchParams.get("token");
         const res = await verifyEmail(id, token);
         navigate(`/verify/${res}`);
+      }
+
+      if (paymentMessage === "payment-success") {
+        navigate("/success");
+      } else if (paymentMessage === "payment-failure") {
+        //do later
       }
     }
 

@@ -24,6 +24,7 @@ import bookApi from "./src/routes/bookRoutes.js";
 import conversationApi from "./src/routes/conversationRoute.js";
 import messagesApi from "./src/routes/messageRoute.js";
 import notesApi from "./src/routes/noteRoutes.js";
+import paymentApi from "./src/routes/paymentRoutes.js";
 
 // app and middleware
 const app = express();
@@ -84,6 +85,7 @@ app.use("/book", bookApi);
 app.use("/conversations", conversationApi);
 app.use("/messages", messagesApi);
 app.use("/notes", notesApi);
+app.use("/payment", paymentApi);
 
 // error handling middleware
 app.use(globalErrorHandler);

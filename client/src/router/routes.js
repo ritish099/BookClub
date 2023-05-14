@@ -14,6 +14,7 @@ import NotesDownload from "../components/NotesDownload";
 import ProductPage from "../components/ProductPage";
 import UpdateProfile from "../components/UpdateProfile";
 import {Cart} from "../components/Cart";
+import PaymentSuccess from "../components/PaymentSuccess";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -78,6 +79,11 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <SidebarWithHeader children={<Cart />} />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/success",
+    element: <PaymentSuccess />,
     errorElement: <Error />,
   },
 ]);

@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import {FaArrowRight} from "react-icons/fa";
 import {formatPrice} from "./PriceTag";
+import axios from "axios";
 const OrderSummaryItem = (props) => {
   const {label, value, children} = props;
   return (
@@ -22,6 +23,21 @@ const OrderSummaryItem = (props) => {
 };
 
 export const CartOrderSummary = ({total}) => {
+  function handlePayment() {
+    const url = `${process.env.REACT_APP_SERVER_BASE_URL_DEV}payment/create-checkout-session`;
+    axios
+      .post(url, {
+        total: total
+      })
+      .then((res) => {
+        console.log(res.data.url);
+        window.location.replace(res.data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <Stack
       bgColor={"white"}
@@ -34,17 +50,6 @@ export const CartOrderSummary = ({total}) => {
       <Heading size="md">Total Amount</Heading>
 
       <Stack spacing="6">
-        {/* <OrderSummaryItem label="Subtotal" value={formatPrice(597)} /> */}
-        {/* <OrderSummaryItem label="Shipping + Tax">
-          <Link href="#" textDecor="underline">
-            Calculate shipping
-          </Link>
-        </OrderSummaryItem> */}
-        {/* <OrderSummaryItem label="Coupon Code">
-          <Link href="#" textDecor="underline">
-            Add coupon code
-          </Link>
-        </OrderSummaryItem> */}
         <Flex justify="space-between">
           <Text fontSize="lg" fontWeight="semibold">
             Total
@@ -59,6 +64,7 @@ export const CartOrderSummary = ({total}) => {
         size="lg"
         fontSize="md"
         rightIcon={<FaArrowRight />}
+        onClick={handlePayment}
       >
         Checkout
       </Button>
