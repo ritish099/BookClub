@@ -115,7 +115,7 @@ export default function SidebarWithHeader({children}: {children: ReactNode}) {
       <MobileNav onOpen={onOpen} />
       <Box ml={{base: 0, md: 60}} p="4">
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </Box>
     </Box>
   );
