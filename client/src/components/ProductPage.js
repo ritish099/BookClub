@@ -53,7 +53,7 @@ const ProductPage = () => {
               {" "}
               <b>Uploaded by: </b> {details?.ownerName}
             </p>
-            <p className="price"> ${details?.price}</p>
+            <p className="price"> ₹{details?.price}</p>
 
             <Button
               mt={4}
