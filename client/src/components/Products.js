@@ -35,9 +35,9 @@ const Products = () => {
     <div className="BigDiv">
       <div className="Heading">{/* <h1>Top Deals!</h1> */}</div>
 
-      <div className="Heading">
+      {/* <div className="Heading">
         <Text marginBottom={"10px"}>Books for You</Text>
-      </div>
+      </div> */}
 
       <Input
         value={search}
